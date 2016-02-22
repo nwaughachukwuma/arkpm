@@ -6,3 +6,5 @@ Homestead.json
 _ide_helper*.php
 composer.lock
 /config/jwt.php
+
+public/js/app.js.map

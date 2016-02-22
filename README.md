@@ -1,20 +1,31 @@
-## vue-starter Backend API (Laravel-based)
+## Ark Project Management
 
-This application will serve as the companion app to another project called vue-starter. It is meant to be a small demo of a Laravel API, using Dingo and JWT for authentication.
+This application is current under development. It is is no way ready for testing yet.
 
+I spent a long time looking for a modern, open source, web based project management system only to find a lot of "freemium" projects or opensource projects which have now been closed. ArkPM is my attempt to build something from scratch which implements the features of the other projects out there.
+
+The system is buit using VueJS for the frontend and laravel for the backend so will run nicely on any LAMP stack. I used the following starter pack which saved me a lot of time in the initial set up:
 [vue-starter Frontend App](https://github.com/layer7be/vue-starter)
+
+##Features
+
+* Single Page Application (SPA)
+* Full API as the site is driven from laravel
+* TODO: Tasks, Projects, and clients
+* TODO: Time Tracking - log against a Task, Project or Client
+* TODO: Kanban View of tasks by status
+* TODO: Customisable statuses per project (Icebox, Development etc)
+* TODO: Milestones (Tag anything as a milestone)
+* TODO: Reports for tasks closed and time tracked.
 
 ## Installation
 
-### Step 1: Clone the repo
-```
-git clone https://github.com/layer7be/vue-starter-laravel-api
-```
+This is not ready yet. Get in touch if you would like to help out and I can add you to the project.
 
-### Step 2: Prerequisites
+update your .env file to connect to a database of your choice. I use mysql but you can edit that config/databases.php.
+
 ```
 composer install
-touch database/database.sqlite
 php artisan migrate
 php artisan db:seed
 php artisan key:generate
@@ -22,9 +33,12 @@ php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServicePro
 php artisan jwt:secret
 ```
 
-### Step 3: Serve
+In resources/assets/js/config you will find configuration files for the various environments you may have. By default, the "development" environment file will be loaded. You just need to make sure the URL points to your API endpoint. This allows you to use a different endpoint or URL than the one the website is sat on. If you want to load another configuration, you need to export the environment variable APP_ENV to be what you want to want the configuration to be. To do so easily you can precede the command gulp (or gulp watch) from the next step with APP_ENV=production if you want to build for production.
+
 ```
-php artisan serve
+npm install
+gulp    (or APP_ENV=production gulp)
+
 ```
 
 ### Note about Apache
