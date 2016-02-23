@@ -1,4 +1,10 @@
 <?php
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+
 $api = app('Dingo\Api\Routing\Router');
 
 // Version 1 of our API
