@@ -36,11 +36,9 @@
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
-      <div id="app"></div>
-
-      <script id="login" type="x-template">
-          @include('login');
-      </script>
+      <div id="app">
+        
+      </div>
 
     </div><!-- ./wrapper -->
 

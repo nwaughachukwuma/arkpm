@@ -7,7 +7,10 @@ module.exports = {
     })
 
     this.$on('userHasLoggedIn', function (user) {
+      console.log('caught');
+      console.log(this.authenticated);
       this.setLogin(user)
+      console.log(this.authenticated);
     })
 
     // The app has just been initialized, check if we can get the user data with an already existing token
