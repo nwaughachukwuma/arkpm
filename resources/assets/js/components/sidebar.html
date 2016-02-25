@@ -31,8 +31,13 @@
     <ul class="sidebar-menu">
       <li class="header">HEADER</li>
       <!-- Optionally, you can add icons to the links -->
-      <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-      <li>
+      <li v-link="{ path: '/dashboard', activeClass: 'active' }">
+        <a v-link="{ path: '/dashboard', activeClass: 'active' }">
+          <i class="fa fa fa-dashboard"></i> 
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li v-link="{path: '/dogs', activeClass: 'active'}">
         <a v-link="{ path: '/dogs' }" v-if="$root.authenticated">
           <i class="fa fa-link"></i> 
           <span>Dogs</span>

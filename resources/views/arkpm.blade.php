@@ -38,6 +38,10 @@
 
       <div id="app"></div>
 
+      <script id="login" type="x-template">
+          @include('login');
+      </script>
+
     </div><!-- ./wrapper -->
 
     <!-- REQUIRED JS SCRIPTS -->
