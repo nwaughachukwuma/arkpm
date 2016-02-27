@@ -1,37 +1,73 @@
-<div class="panel-heading">
-    Sign in to your account
-</div>
-<div class="panel-body">
-    <form class="form-horizontal" role="form">
 
-		<div id="alerts" v-if="messages.length > 0">
-			<div v-for="message in messages" class="alert alert-{{ message.type }} alert-dismissible" role="alert">
-				{{ message.message }}
-			</div>
-		</div>
 
-		<div class="form-group">
-			<label class="col-md-4 control-label">E-Mail Address</label>
-			<div class="col-md-6">
-				<input type="email" class="form-control" v-model="user.email">
-			</div>
-		</div>
 
-		<div class="form-group">
-			<label class="col-md-4 control-label">Password</label>
-			<div class="col-md-6">
-				<input type="password" class="form-control" v-model="user.password">
-			</div>
-		</div>
 
-		<div class="form-group">
-			<div class="col-md-6 col-md-offset-4">
-				<button type="submit" class="btn btn-primary" v-on:click="attempt">
-					<i class="fa fa-btn fa-sign-in"></i>Login
-				</button>
+<!-- iCheck -->
+<link rel="stylesheet" href="/assets/plugins/iCheck/square/blue.css">
 
-				<a class="btn btn-link" v-link="{ path: '/auth/forgot' }">Forgot Your Password?</a>
-			</div>
-		</div>
-	</form>
+
+
+<div class="hold-transition login-page">
+    <div class="login-box">
+      <div class="login-logo">
+        <a href="../../index2.html"><b>Ark</b>PM</a>
+      </div><!-- /.login-logo -->
+      <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+        <form action="../../index2.html" method="post">
+
+        <div id="alerts" v-if="messages.length > 0">
+            <div v-for="message in messages" class="alert alert-{{ message.type }} alert-dismissible" role="alert">
+                {{ message.message }}
+            </div>
+        </div>
+
+
+        <div class="form-group has-feedback">
+            <input type="email" class="form-control" placeholder="Email" v-model="user.email">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+
+
+          <div class="form-group has-feedback">
+            <input type="password" class="form-control" placeholder="Password" v-model="user.password">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-8">
+              
+            </div><!-- /.col -->
+            <div class="col-xs-4">
+                <button type="submit" class="btn btn-primary btn-block btn-flat" v-on:click="attempt">
+                    Sign In
+                </button>
+            </div><!-- /.col -->
+          </div>
+        </form>
+
+        <div class="social-auth-links text-center">
+          <p>- OR -</p>
+          <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using Facebook</a>
+          <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using Google+</a>
+        </div><!-- /.social-auth-links -->
+
+        <a v-link="{ path: '/auth/forgot' }">I forgot my password</a><br>
+        <a href="register.html" class="text-center">Register a new membership</a>
+
+      </div><!-- /.login-box-body -->
+    </div><!-- /.login-box -->
+
+
+    <!-- iCheck -->
+    <script src="/assets/plugins/iCheck/icheck.min.js"></script>
+    <script>
+      $(function () {
+        $('input').iCheck({
+          checkboxClass: 'icheckbox_square-blue',
+          radioClass: 'iradio_square-blue',
+          increaseArea: '20%' // optional
+        });
+      });
+    </script>
 </div>

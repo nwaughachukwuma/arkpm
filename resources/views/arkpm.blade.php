@@ -14,16 +14,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset("assets/dist/css/AdminLTE.min.css") }}">
-    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
-          page. However, you can choose any other skin. Make sure you
-          apply the skin class to the body tag so the changes take effect.
-    -->
-    <link rel="stylesheet" href="{{ asset("assets/dist/css/skins/skin-blue.min.css") }}">
-
+    
     <!-- Ark Project Managemet compiled CSS -->
-    <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/arkpm.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ asset("assets/dist/css/skins/skin-blue.min.css") }}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,7 +28,7 @@
     <![endif]-->
   </head>
 
-  <body class="hold-transition skin-blue sidebar-mini">
+  <body class="sidebar-mini">
     <div class="wrapper">
 
       <div id="app">

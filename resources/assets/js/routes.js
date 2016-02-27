@@ -38,6 +38,21 @@ module.exports = {
           }
         }
       },
+      '/pm': {
+        component: require('./compiled/pages/pm.vue'),
+        auth: true,
+        subRoutes: {
+          '/dashboard': {
+            component: require('./compiled/pages/pm/dashboard.vue')
+          },
+          '/clients': {
+            component: require('./compiled/pages/pm/clients.vue')
+          },
+          '/tracking': {
+            component: require('./compiled/pages/pm/tracking.vue')
+          }
+        }
+      },
       '/dogs': {
         component: require('./compiled/pages/dogs.vue'),
         auth: true,
@@ -62,8 +77,9 @@ module.exports = {
     })
 
     router.alias({
-      '': '/home',
-      '/auth': '/auth/login'
+      '' : '/pm',
+      '/auth': '/auth/login',
+      '/pm': '/pm/dashboard'
     })
 
     router.beforeEach(function (transition) {
@@ -76,7 +92,7 @@ module.exports = {
       }
       if (transition.to.guest) {
         if (token) {
-          transition.redirect('/')
+          transition.redirect('/pm/dashboard')
         }
       }
       transition.next()
