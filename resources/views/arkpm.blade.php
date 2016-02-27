@@ -28,7 +28,7 @@
     <![endif]-->
   </head>
 
-  <body class="sidebar-mini">
+  <body class="">
     <div class="wrapper">
 
       <div id="app">
@@ -44,11 +44,11 @@
     <!-- Bootstrap 3.3.5 -->
     <script src="{{ asset("assets/bootstrap/js/bootstrap.min.js") }}"></script>
     <!-- AdminLTE App -->
-    <script src="{{ asset("assets/dist/js/app.min.js") }}"></script>
+    <!-- NOW MIXED <script src="{{ asset("assets/dist/js/app.min.js") }}"></script> -->
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <!-- Ark Project Management Compiled Javascript -->
-    <script src="/js/app.js"></script>
+    <script src="/js/all.js"></script>
 
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the

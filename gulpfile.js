@@ -25,12 +25,13 @@ elixir(function (mix) {
     .styles([
         "theme.css",
       ],'public/css/arkpm.css' ,'public/css')
-    .remove([ 'public/css/theme.*'])
     .vuemaker([
        'resources/assets/js/components/**/*.+(js|css|html)',
        'resources/assets/js/app.+(js|css|html)'
      ], 'resources/assets/js/compiled')
-    .browserify('bootstrap.js', 'public/js/app.js')
+    .browserify('bootstrap.js', 'resources/assets/js/transit.js')
+    .scripts(['theme.js','transit.js'] )
+    .remove([ 'public/css/theme.*', 'resources/assets/js/transit.*'])
 })
 
 
