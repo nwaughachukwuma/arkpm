@@ -35,6 +35,15 @@ php artisan jwt:secret
 
 In resources/assets/js/config you will find configuration files for the various environments you may have. By default, the "development" environment file will be loaded. You just need to make sure the URL points to your API endpoint. This allows you to use a different endpoint or URL than the one the website is sat on. If you want to load another configuration, you need to export the environment variable APP_ENV to be what you want to want the configuration to be. To do so easily you can precede the command gulp (or gulp watch) from the next step with APP_ENV=production if you want to build for production.
 
+* If you are installing the node modules yourself so you can upgrade them, then make sure your Node Version is greater than 3.0.0 by typing 'node -v'. If it isn;t then you can use the following to upgrade it.
+```
+matt@silverark:$ npm -v
+1.3.10
+matt@silverark:$ sudo npm install -g npm
+matt@silverark:$ npm -v
+3.7.3
+```
+
 ```
 npm install
 gulp    (or APP_ENV=production gulp)

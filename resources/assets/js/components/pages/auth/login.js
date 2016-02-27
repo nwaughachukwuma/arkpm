@@ -31,7 +31,7 @@ module.exports = {
       client({ path: '/users/me' }).then(
         function (response) {
           that.$dispatch('userHasLoggedIn', response.entity.user)
-          that.$route.router.go('/auth/profile')
+          that.$route.router.go('/pm')
         },
         function (response) {
           console.log(response)

@@ -1,7 +1,7 @@
 module.exports = {
-  data: function () {
-    return {
-      navTitle: 'Vue.js'
+    data: function () {
+        return {
+          navTitle: 'Vue.js'
+        }
     }
-  }
 }

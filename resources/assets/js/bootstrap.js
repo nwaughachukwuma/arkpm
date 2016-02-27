@@ -35,9 +35,12 @@ window.client = rest.wrap(pathPrefix, { prefix: config.api.base_url })
 // Bootstrap the app
 Vue.component('header-component', require('./compiled/header.vue'))
 Vue.component('sidebar-component', require('./compiled/sidebar.vue'))
+Vue.component('sidebarright-component', require('./compiled/sidebarright.vue'))
 Vue.component('nav-component', require('./compiled/nav.vue'))
 Vue.component('footer-component', require('./compiled/footer.vue'))
 Vue.component('login-component', require('./compiled/login.vue'))
+Vue.component('maintemplate-component', require('./compiled/maintemplate.vue'))
+
 const App = Vue.extend(require('./compiled/app.vue'))
 router.start(App, '#app')
 window.router = router

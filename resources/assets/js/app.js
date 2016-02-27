@@ -7,7 +7,9 @@ module.exports = {
     })
 
     this.$on('userHasLoggedIn', function (user) {
+
       this.setLogin(user)
+      
     })
 
     // The app has just been initialized, check if we can get the user data with an already existing token
@@ -52,7 +54,7 @@ module.exports = {
       this.token = null
       this.authenticated = false
       localStorage.removeItem('jwt-token')
-      if (this.$route.auth) this.$route.router.go('/auth/login')
+      if (this.$route.auth) this.$route.router.go('/pm/dashboard')
     }
   }
 
