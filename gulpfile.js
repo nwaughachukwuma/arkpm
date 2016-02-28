@@ -30,7 +30,7 @@ elixir(function (mix) {
        'resources/assets/js/app.+(js|css|html)'
      ], 'resources/assets/js/compiled')
     .browserify('bootstrap.js', 'resources/assets/js/transit.js')
-    .scripts(['theme.js','transit.js'] )
+    .scripts(['theme.js','transit.js', '../bower/moment/moment.js'] )
     .remove([ 'public/css/theme.*', 'resources/assets/js/transit.*'])
 })
 

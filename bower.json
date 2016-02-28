@@ -1,0 +1,30 @@
+{
+  "name": "ArkPM",
+  "description": "Ark Project Management",
+  "main": "",
+  "authors": [
+    "Matthew Nelson"
+  ],
+  "license": "GNU GPL 3",
+  "keywords": [
+    "Project",
+    "Management"
+  ],
+  "homepage": "https://github.com/silverark/arkpm",
+  "moduleType": [
+    "es6",
+    "globals",
+    "node"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "^2.11.2"
+  }
+}

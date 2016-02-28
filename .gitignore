@@ -8,3 +8,4 @@ composer.lock
 /config/jwt.php
 
 public/js/app.js.map
+resources/assets/bower

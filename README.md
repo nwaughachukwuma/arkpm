@@ -46,6 +46,7 @@ matt@silverark:$ npm -v
 
 ```
 npm install
+bower install
 gulp    (or APP_ENV=production gulp)
 
 ```
