@@ -32,6 +32,7 @@ window.client = rest.wrap(pathPrefix, { prefix: config.api.base_url })
                     .wrap(errorCode, { code: 400 })
                     .wrap(jwtAuth);
 
+
 // Bootstrap the app
 Vue.component('header-component', require('./compiled/header.vue'))
 Vue.component('sidebar-component', require('./compiled/sidebar.vue'))
@@ -40,6 +41,9 @@ Vue.component('nav-component', require('./compiled/nav.vue'))
 Vue.component('footer-component', require('./compiled/footer.vue'))
 Vue.component('login-component', require('./compiled/login.vue'))
 Vue.component('maintemplate-component', require('./compiled/maintemplate.vue'))
+
+//Services
+window.timetracker = require('./services/timetracker');
 
 const App = Vue.extend(require('./compiled/app.vue'))
 router.start(App, '#app')

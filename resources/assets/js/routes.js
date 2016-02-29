@@ -25,7 +25,7 @@ module.exports = {
         }
       },
       '/home': {
-        component: require('./compiled/pages/home.vue'),
+        component: require('./compiled/pages/pm.vue'),
         subRoutes: {
           '/': {
             component: require('./compiled/pages/home/home.vue')
