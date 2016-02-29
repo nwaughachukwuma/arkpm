@@ -18712,13 +18712,13 @@ Vue.component('login-component', require('./compiled/login.vue'));
 Vue.component('maintemplate-component', require('./compiled/maintemplate.vue'));
 
 //Services
-window.timetracker = require('./services/timetracker');
+//window.timetracker = require('./services/timetracker');
 
 var App = Vue.extend(require('./compiled/app.vue'));
 router.start(App, '#app');
 window.router = router;
 
-},{"./compiled/app.vue":116,"./compiled/footer.vue":117,"./compiled/header.vue":118,"./compiled/login.vue":119,"./compiled/maintemplate.vue":120,"./compiled/nav.vue":121,"./compiled/sidebar.vue":140,"./compiled/sidebarright.vue":141,"./config":143,"./interceptors/jwtAuth":146,"./routes":147,"./services/timetracker":148,"rest":3,"rest/interceptor":7,"rest/interceptor/defaultRequest":8,"rest/interceptor/errorCode":9,"rest/interceptor/mime":10,"rest/interceptor/pathPrefix":11,"vue":94,"vue-router":28}],116:[function(require,module,exports){
+},{"./compiled/app.vue":116,"./compiled/footer.vue":117,"./compiled/header.vue":118,"./compiled/login.vue":119,"./compiled/maintemplate.vue":120,"./compiled/nav.vue":121,"./compiled/sidebar.vue":140,"./compiled/sidebarright.vue":141,"./config":143,"./interceptors/jwtAuth":146,"./routes":147,"rest":3,"rest/interceptor":7,"rest/interceptor/defaultRequest":8,"rest/interceptor/errorCode":9,"rest/interceptor/mime":10,"rest/interceptor/pathPrefix":11,"vue":94,"vue-router":28}],116:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -18736,6 +18736,7 @@ module.exports = {
 
     // The app has just been initialized, check if we can get the user data with an already existing token
     var token = localStorage.getItem('jwt-token');
+    console.log("token in app.js: " + token);
     if (token !== null && token !== 'undefined') {
       var that = this;
       client({ path: '/users/me' }).then(function (response) {
@@ -18765,6 +18766,8 @@ module.exports = {
       this.user = user;
       this.authenticated = true;
       this.token = localStorage.getItem('jwt-token');
+
+      console.log("set login called:" + this.token);
     },
 
     destroyLogin: function destroyLogin(user) {
@@ -18774,6 +18777,8 @@ module.exports = {
       this.authenticated = false;
       localStorage.removeItem('jwt-token');
       if (this.$route.auth) this.$route.router.go('/pm/dashboard');
+
+      console.log("destroy login called:" + this.token);
     }
   }
 
@@ -18784,7 +18789,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/app.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/app.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18811,7 +18816,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/footer.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/footer.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18834,7 +18839,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/header.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/header.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18851,7 +18856,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/login.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/login.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18868,7 +18873,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/maintemplate.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/maintemplate.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18891,7 +18896,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/nav.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/nav.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18905,7 +18910,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/404.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/404.vue"
   module.hot.dispose(function () {
     require("vueify-insert-css").cache["\n.title {\n    color: #999;\n    font-weight: 100;\n    font-family: 'Lato', Helvetica, sans-serif;\n    font-size: 60px;\n    margin-bottom: 40px;\n    text-align: center;\n    margin-top: 20%;\n}\n.title a {\n    display: block;\n    margin-top: 20px;\n}\n.title a:hover {\n    text-decoration: none;\n}"] = false
     document.head.removeChild(__vueify_style__)
@@ -18922,7 +18927,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/auth.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18981,7 +18986,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/login.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/auth/login.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19009,7 +19014,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/logout.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/auth/logout.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19022,7 +19027,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/profile.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/auth/profile.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19079,7 +19084,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/register.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/auth/register.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19092,7 +19097,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/dogs.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19139,7 +19144,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs/create.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/dogs/create.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19201,7 +19206,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs/index.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/dogs/index.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19272,7 +19277,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs/show.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/dogs/show.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19285,7 +19290,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/home/about.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/home/about.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19298,7 +19303,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/home/home.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/home/home.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19311,7 +19316,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/home/welcome.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/home/welcome.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19328,7 +19333,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/pm.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19341,7 +19346,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/clients.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/pm/clients.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19354,7 +19359,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/dashboard.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/pm/dashboard.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19365,8 +19370,7 @@ if (module.hot) {(function () {  module.hot.accept()
 "use strict";
 
 module.exports = {
-    mixins: [timetracker],
-    ready: function ready() {}
+   ready: function ready() {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-heading\">\n\tAbout us\n</div>\n<div class=\"panel-body\">\n\tThis is a sample webpage that authenticates against a Laravel API and gets the obligatory dogs. A new page here\n</div>"
@@ -19374,7 +19378,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/tracking.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/pm/tracking.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19387,7 +19391,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/terms.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/terms.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19404,7 +19408,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/sidebar.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/sidebar.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19417,7 +19421,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/sidebarright.vue"
+  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/sidebarright.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19536,6 +19540,7 @@ module.exports = config;
 				var token, headers;
 
 				token = localStorage.getItem('jwt-token');
+				console.log("making request" + token);
 				headers = _request.headers || (_request.headers = {});
 
 				if (token !== null && token !== 'undefined') {
@@ -19550,8 +19555,11 @@ module.exports = config;
 				}
 				if (_response.headers && _response.headers.Authorization) {
 					localStorage.setItem('jwt-token', _response.headers.Authorization);
+					console.log('response headers returned authorization:' + _response.headers.Authorization);
 				}
 				if (_response.entity && _response.entity.token && _response.entity.token.length > 10) {
+					console.log("setting token");
+					console.log(_response.entity.token);
 					localStorage.setItem('jwt-token', 'Bearer ' + _response.entity.token);
 				}
 				return _response;
@@ -19669,36 +19677,7 @@ module.exports = {
   }
 };
 
-},{"./compiled/pages/404.vue":122,"./compiled/pages/auth.vue":123,"./compiled/pages/auth/login.vue":124,"./compiled/pages/auth/logout.vue":125,"./compiled/pages/auth/profile.vue":126,"./compiled/pages/auth/register.vue":127,"./compiled/pages/dogs.vue":128,"./compiled/pages/dogs/create.vue":129,"./compiled/pages/dogs/index.vue":130,"./compiled/pages/dogs/show.vue":131,"./compiled/pages/home/about.vue":132,"./compiled/pages/home/home.vue":133,"./compiled/pages/home/welcome.vue":134,"./compiled/pages/pm.vue":135,"./compiled/pages/pm/clients.vue":136,"./compiled/pages/pm/dashboard.vue":137,"./compiled/pages/pm/tracking.vue":138,"./compiled/pages/terms.vue":139}],148:[function(require,module,exports){
-'use strict';
-
-/**
-* VueJS mixin to control timeTracking across the app
-*
-* Usage:
-*
-* new Vue({
-* mixin: [timeTracker],
-*
-*/
-
-window.timetracker = {
-    created: function created() {
-        this.hello();
-    },
-    ready: function ready() {
-        this.hello();
-    },
-    methods: {
-        hello: function hello() {
-            console.log('hello from mixin!');
-        }
-    }
-};
-
-console.log('called');
-
-},{}]},{},[115])
+},{"./compiled/pages/404.vue":122,"./compiled/pages/auth.vue":123,"./compiled/pages/auth/login.vue":124,"./compiled/pages/auth/logout.vue":125,"./compiled/pages/auth/profile.vue":126,"./compiled/pages/auth/register.vue":127,"./compiled/pages/dogs.vue":128,"./compiled/pages/dogs/create.vue":129,"./compiled/pages/dogs/index.vue":130,"./compiled/pages/dogs/show.vue":131,"./compiled/pages/home/about.vue":132,"./compiled/pages/home/home.vue":133,"./compiled/pages/home/welcome.vue":134,"./compiled/pages/pm.vue":135,"./compiled/pages/pm/clients.vue":136,"./compiled/pages/pm/dashboard.vue":137,"./compiled/pages/pm/tracking.vue":138,"./compiled/pages/terms.vue":139}]},{},[115])
 
 
 //# sourceMappingURL=transit.js.map

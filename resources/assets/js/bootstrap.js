@@ -43,7 +43,7 @@ Vue.component('login-component', require('./compiled/login.vue'))
 Vue.component('maintemplate-component', require('./compiled/maintemplate.vue'))
 
 //Services
-window.timetracker = require('./services/timetracker');
+//window.timetracker = require('./services/timetracker');
 
 const App = Vue.extend(require('./compiled/app.vue'))
 router.start(App, '#app')

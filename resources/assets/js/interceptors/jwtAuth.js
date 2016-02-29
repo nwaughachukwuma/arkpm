@@ -20,6 +20,7 @@
 				var token, headers;
 
 				token = localStorage.getItem('jwt-token');
+                console.log("making request" + token);
 				headers = request.headers || (request.headers = {});
 
 				if ( token !== null && token !== 'undefined') {
@@ -34,8 +35,11 @@
 				}
 				if (response.headers && response.headers.Authorization) {
 					localStorage.setItem('jwt-token', response.headers.Authorization)
+                    console.log('response headers returned authorization:' + response.headers.Authorization)
 				}
 				if (response.entity && response.entity.token && response.entity.token.length > 10) {
+                    console.log("setting token");
+                    console.log(response.entity.token);
 					localStorage.setItem('jwt-token', 'Bearer ' + response.entity.token);
 				}
 				return response;
