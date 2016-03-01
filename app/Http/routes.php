@@ -30,6 +30,14 @@ $api->version('v1', function ($api) {
 			$api->delete('dogs/{id}', 'DogsController@destroy');
 			$api->put('dogs/{id}', 'DogsController@update');
 
+			$api->get('clients', 'ClientsController@index');
+			$api->post('clients', 'ClientsController@store');
+			$api->get('clients/{id}', 'ClientsController@show');
+			$api->delete('clients/{id}', 'ClientsController@destroy');
+			$api->put('clients/{id}', 'ClientsController@update');
+
+
+
 		});
 
 	});

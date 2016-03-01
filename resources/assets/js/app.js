@@ -14,7 +14,7 @@ module.exports = {
 
     // The app has just been initialized, check if we can get the user data with an already existing token
     var token = localStorage.getItem('jwt-token')
-      console.log("token in app.js: " + token)
+      
     if (token !== null && token !== 'undefined') {
       var that = this
       client({ path: '/users/me' }).then(
@@ -47,9 +47,6 @@ module.exports = {
       this.user = user
       this.authenticated = true
       this.token = localStorage.getItem('jwt-token')
-
-        console.log("set login called:" + this.token);
-
     },
 
     destroyLogin: function (user) {
@@ -59,9 +56,6 @@ module.exports = {
       this.authenticated = false
       localStorage.removeItem('jwt-token')
       if (this.$route.auth) this.$route.router.go('/pm/dashboard')
-
-
-        console.log("destroy login called:" + this.token);
     }
   }
 

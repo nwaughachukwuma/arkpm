@@ -18736,7 +18736,7 @@ module.exports = {
 
     // The app has just been initialized, check if we can get the user data with an already existing token
     var token = localStorage.getItem('jwt-token');
-    console.log("token in app.js: " + token);
+
     if (token !== null && token !== 'undefined') {
       var that = this;
       client({ path: '/users/me' }).then(function (response) {
@@ -18766,8 +18766,6 @@ module.exports = {
       this.user = user;
       this.authenticated = true;
       this.token = localStorage.getItem('jwt-token');
-
-      console.log("set login called:" + this.token);
     },
 
     destroyLogin: function destroyLogin(user) {
@@ -18777,8 +18775,6 @@ module.exports = {
       this.authenticated = false;
       localStorage.removeItem('jwt-token');
       if (this.$route.auth) this.$route.router.go('/pm/dashboard');
-
-      console.log("destroy login called:" + this.token);
     }
   }
 
@@ -18789,7 +18785,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/app.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/app.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18816,7 +18812,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/footer.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/footer.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18839,7 +18835,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/header.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/header.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18856,7 +18852,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/login.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/login.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18873,7 +18869,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/maintemplate.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/maintemplate.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18896,7 +18892,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/nav.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/nav.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18910,7 +18906,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/404.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/404.vue"
   module.hot.dispose(function () {
     require("vueify-insert-css").cache["\n.title {\n    color: #999;\n    font-weight: 100;\n    font-family: 'Lato', Helvetica, sans-serif;\n    font-size: 60px;\n    margin-bottom: 40px;\n    text-align: center;\n    margin-top: 20%;\n}\n.title a {\n    display: block;\n    margin-top: 20px;\n}\n.title a:hover {\n    text-decoration: none;\n}"] = false
     document.head.removeChild(__vueify_style__)
@@ -18927,7 +18923,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/auth.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -18986,7 +18982,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/auth/login.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/login.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19014,7 +19010,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/auth/logout.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/logout.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19027,7 +19023,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/auth/profile.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/profile.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19084,7 +19080,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/auth/register.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/register.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19097,7 +19093,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/dogs.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19144,7 +19140,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/dogs/create.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs/create.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19206,7 +19202,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/dogs/index.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs/index.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19277,7 +19273,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/dogs/show.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs/show.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19290,7 +19286,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/home/about.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/home/about.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19303,7 +19299,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/home/home.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/home/home.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19316,7 +19312,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/home/welcome.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/home/welcome.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19333,7 +19329,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/pm.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19341,12 +19337,61 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":94,"vue-hot-reload-api":27}],136:[function(require,module,exports){
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-heading\">\n\tWelcome\n</div>\n<div class=\"panel-body\">\n\tHere goes the welcome page\n</div>"
+'use strict';
+
+module.exports = {
+
+  data: function data() {
+    return {
+      clients: [],
+      messages: []
+    };
+  },
+
+  methods: {
+    // Let's fetch some clients
+    fetch: function fetch(successHandler) {
+      var that = this;
+      client({ path: '/clients' }).then(function (response) {
+        //Set the clients
+        that.$set('clients', response.entity.data);
+        successHandler(response.entity.data);
+      }, function (response, status) {
+        if (_.contains([401, 500], status)) {
+          that.$dispatch('userHasLoggedOut');
+        }
+      });
+    },
+
+    deleteClient: function deleteClient(index) {
+      var that = this;
+      client({ path: '/clients/' + this.clients[index].id, method: 'DELETE' }).then(function (response) {
+        that.clients.splice(index, 1);
+        that.messages = [{ type: 'success', message: 'The client has been deleted' }];
+      }, function (response) {
+        that.messages.push({ type: 'danger', message: 'There was a problem deleting the client' });
+      });
+    }
+
+  },
+
+  route: {
+    // fetch the list of clients
+    data: function data(transition) {
+      this.fetch(function (data) {
+        transition.next({ clients: data });
+      });
+    }
+  }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-xs-12\">\n      <div class=\"box\">\n        <div class=\"box-header\">\n          <h3 class=\"box-title\">Clients</h3>\n          <div class=\"box-tools\">\n            <div class=\"input-group\" style=\"width: 150px;\">\n              <input type=\"text\" name=\"table_search\" class=\"form-control input-sm pull-right\" placeholder=\"Search\">\n              <div class=\"input-group-btn\">\n                <button class=\"btn btn-sm btn-default\"><i class=\"fa fa-search\"></i></button>\n              </div>\n            </div>\n          </div>\n        </div><!-- /.box-header -->\n        <div class=\"box-body table-responsive no-padding\">\n\n            <div class=\"panel-body\" v-if=\"$loadingRouteData\">\n                Loading data {{ loadingRouteData }}\n            </div>\n            <div class=\"panel-body\" v-if=\"messages.length > 0\">\n                <div v-for=\"message in messages\" class=\"alert alert-{{ message.type }} alert-dismissible\" role=\"alert\">\n                    {{ message.message }}\n                </div>\n            </div>\n\n            <table class=\"table table-hover\">\n                <thead>\n                    <tr>\n                      <th>ID</th>\n                      <th>Company</th>\n                      <th>Contact</th>\n                      <th>Email</th>\n                      <th>Telephone</th>\n                      <th></th>\n                    </tr>\n                </thead>\n                <tfoot>\n                    <tr>\n                        <td colspan=\"6\">\n                            <a class=\"btn btn-primary\" v-link=\"{ path: 'clients/create'}\">\n                                Create Client\n                            </a>\n                        </td>\n                    </tr>\n                </tfoot>\n                <tbody>\n                    <tr v-for=\"client in clients\" v-if=\" ! $loadingRouteData &amp;&amp; clients.length > 0\">\n                        <td>{{ client.id }}</td>\n                        <td>{{ client.company }}</td>\n                        <td>{{ client.contact }}</td>\n                        <td class=\"hidden-xs\">{{ client.email }}</td>\n                        <td class=\"hidden-xs\">{{ client.telephone }}</td>\n                        <td>\n                            <a class=\"btn btn-primary btn-xs\" v-link=\"{ path: '/clients/'+client.id }\">Edit</a>\n                            <a class=\"btn btn-primary btn-xs\" v-on:click=\"deleteClient($index)\">Delete</a>\n                        </td>\n                    </tr>\n                    <tr v-if=\" ! $loadingRouteData &amp;&amp; clients.length == 0\">\n                        <td colspan=\"6\">You have not added any clients</td>\n                    </tr>\n                </tbody>\n\n\n            </table>\n        </div><!-- /.box-body -->\n      </div><!-- /.box -->\n    </div>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/pm/clients.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/clients.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19359,7 +19404,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/pm/dashboard.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/dashboard.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19378,7 +19423,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/pm/tracking.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/tracking.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19391,7 +19436,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/pages/terms.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/terms.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19403,12 +19448,12 @@ if (module.hot) {(function () {  module.hot.accept()
 
 module.exports = {};
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- Left side column. contains the logo and sidebar -->\n<aside class=\"main-sidebar\">\n\n  <!-- sidebar: style can be found in sidebar.less -->\n  <section class=\"sidebar\">\n\n    <!-- Sidebar user panel (optional) -->\n    <div class=\"user-panel\">\n      <div class=\"pull-left image\">\n        <img src=\"assets/dist/img/user2-160x160.jpg\" class=\"img-circle\" alt=\"User Image\">\n      </div>\n      <div class=\"pull-left info\">\n        <p v-if=\"$root.user\">Matt Nelson</p>\n        <!-- Status -->\n        <a href=\"#\"><i class=\"fa fa-circle text-success\"></i> Online</a>\n      </div>\n    </div>\n\n    <!-- search form (Optional) -->\n    <form action=\"#\" method=\"get\" class=\"sidebar-form\">\n      <div class=\"input-group\">\n        <input type=\"text\" name=\"q\" class=\"form-control\" placeholder=\"Search...\">\n        <span class=\"input-group-btn\">\n          <button type=\"submit\" name=\"search\" id=\"search-btn\" class=\"btn btn-flat\"><i class=\"fa fa-search\"></i></button>\n        </span>\n      </div>\n    </form>\n    <!-- /.search form -->\n\n    <!-- Sidebar Menu -->\n    <ul class=\"sidebar-menu\">\n      <li class=\"header\">HEADER</li>\n      <!-- Optionally, you can add icons to the links -->\n      <li v-link=\"{ path: '/pm/dashboard', activeClass: 'active' }\">\n        <a v-link=\"{ path: '/pm/dashboard', activeClass: 'active' }\">\n          <i class=\"fa fa fa-dashboard\"></i> \n          <span>Dashboard</span>\n        </a>\n      </li>\n      <li v-link=\"{path: '/pm/tracking', activeClass: 'active'}\">\n        <a v-link=\"{ path: '/pm/tracking' }\">\n          <i class=\"fa fa-link\"></i> \n          <span>Tracking</span>\n        </a>\n      </li>\n      <li v-link=\"{path: '/pm/clients', activeClass: 'active'}\">\n        <a v-link=\"{ path: '/pm/clients' }\">\n          <i class=\"fa fa-link\"></i> \n          <span>Clients</span>\n        </a>\n      </li>\n      <li v-link=\"{path: '/dogs', activeClass: 'active'}\">\n        <a v-link=\"{ path: '/dogs' }\">\n          <i class=\"fa fa-link\"></i> \n          <span>Dogs</span>\n        </a>\n      </li>\n      <li class=\"treeview\">\n        <a href=\"#\"><i class=\"fa fa-link\"></i> <span>Multilevel</span> <i class=\"fa fa-angle-left pull-right\"></i></a>\n        <ul class=\"treeview-menu\">\n          <li><a href=\"#\">Link in level 2</a></li>\n          <li><a href=\"#\">Link in level 2</a></li>\n        </ul>\n      </li>\n    </ul><!-- /.sidebar-menu -->\n  </section>\n  <!-- /.sidebar -->\n</aside>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- Left side column. contains the logo and sidebar -->\n<aside class=\"main-sidebar\">\n\n  <!-- sidebar: style can be found in sidebar.less -->\n  <section class=\"sidebar\">\n\n    <!-- Sidebar user panel (optional) -->\n    <div class=\"user-panel\">\n      <div class=\"pull-left image\">\n        <img src=\"assets/dist/img/user2-160x160.jpg\" class=\"img-circle\" alt=\"User Image\">\n      </div>\n      <div class=\"pull-left info\">\n        <p v-if=\"$root.user\">Matt Nelson</p>\n        <!-- Status -->\n        <a href=\"#\"><i class=\"fa fa-circle text-success\"></i> Online</a>\n      </div>\n    </div>\n\n    <!-- search form (Optional) -->\n    <form action=\"#\" method=\"get\" class=\"sidebar-form\">\n      <div class=\"input-group\">\n        <input type=\"text\" name=\"q\" class=\"form-control\" placeholder=\"Search...\">\n        <span class=\"input-group-btn\">\n          <button type=\"submit\" name=\"search\" id=\"search-btn\" class=\"btn btn-flat\"><i class=\"fa fa-search\"></i></button>\n        </span>\n      </div>\n    </form>\n    <!-- /.search form -->\n\n    <!-- Sidebar Menu -->\n    <ul class=\"sidebar-menu\">\n      <li class=\"header\">MAIN NAVIGATION</li>\n      <!-- Optionally, you can add icons to the links -->\n      <li v-link=\"{ path: '/pm/dashboard', activeClass: 'active' }\">\n        <a v-link=\"{ path: '/pm/dashboard', activeClass: 'active' }\">\n          <i class=\"fa fa fa-dashboard\"></i> \n          <span>Dashboard</span>\n        </a>\n      </li>\n      <li v-link=\"{path: '/pm/tracking', activeClass: 'active'}\">\n        <a v-link=\"{ path: '/pm/tracking' }\">\n          <i class=\"fa fa-clock-o\"></i> \n          <span>Tracking</span>\n        </a>\n      </li>\n      <li v-link=\"{path: '/pm/clients', activeClass: 'active'}\">\n        <a v-link=\"{ path: '/pm/clients' }\">\n          <i class=\"fa fa-bank\"></i> \n          <span>Clients</span>\n        </a>\n      </li>\n      <li v-link=\"{path: '/dogs', activeClass: 'active'}\">\n        <a v-link=\"{ path: '/dogs' }\">\n          <i class=\"fa fa-link\"></i> \n          <span>Dogs</span>\n        </a>\n      </li>\n      <li class=\"treeview\">\n        <a href=\"#\"><i class=\"fa fa-link\"></i> <span>Multilevel</span> <i class=\"fa fa-angle-left pull-right\"></i></a>\n        <ul class=\"treeview-menu\">\n          <li><a href=\"#\">Link in level 2</a></li>\n          <li><a href=\"#\">Link in level 2</a></li>\n        </ul>\n      </li>\n    </ul><!-- /.sidebar-menu -->\n  </section>\n  <!-- /.sidebar -->\n</aside>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/sidebar.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/sidebar.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19421,7 +19466,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/media/server/www/arkpm/website/resources/assets/js/compiled/sidebarright.vue"
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/sidebarright.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -19540,7 +19585,7 @@ module.exports = config;
 				var token, headers;
 
 				token = localStorage.getItem('jwt-token');
-				console.log("making request" + token);
+
 				headers = _request.headers || (_request.headers = {});
 
 				if (token !== null && token !== 'undefined') {
@@ -19555,11 +19600,9 @@ module.exports = config;
 				}
 				if (_response.headers && _response.headers.Authorization) {
 					localStorage.setItem('jwt-token', _response.headers.Authorization);
-					console.log('response headers returned authorization:' + _response.headers.Authorization);
 				}
 				if (_response.entity && _response.entity.token && _response.entity.token.length > 10) {
-					console.log("setting token");
-					console.log(_response.entity.token);
+
 					localStorage.setItem('jwt-token', 'Bearer ' + _response.entity.token);
 				}
 				return _response;

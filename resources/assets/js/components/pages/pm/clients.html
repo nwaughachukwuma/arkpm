@@ -1,6 +1,68 @@
-<div class="panel-heading">
-	Welcome
-</div>
-<div class="panel-body">
-	Here goes the welcome page
+<div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Clients</h3>
+          <div class="box-tools">
+            <div class="input-group" style="width: 150px;">
+              <input type="text" name="table_search" class="form-control input-sm pull-right" placeholder="Search">
+              <div class="input-group-btn">
+                <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.box-header -->
+        <div class="box-body table-responsive no-padding">
+
+            <div class="panel-body" v-if="$loadingRouteData">
+                Loading data {{ loadingRouteData }}
+            </div>
+            <div class="panel-body" v-if="messages.length > 0">
+                <div v-for="message in messages" class="alert alert-{{ message.type }} alert-dismissible" role="alert">
+                    {{ message.message }}
+                </div>
+            </div>
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Company</th>
+                      <th>Contact</th>
+                      <th>Email</th>
+                      <th>Telephone</th>
+                      <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <td colspan="6">
+                            <a class="btn btn-primary" v-link="{ path: 'clients/create'}">
+                                Create Client
+                            </a>
+                        </td>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    <tr v-for="client in clients" v-if=" ! $loadingRouteData && clients.length > 0">
+                        <td>{{ client.id }}</td>
+                        <td>{{ client.company }}</td>
+                        <td>{{ client.contact }}</td>
+                        <td class="hidden-xs">{{ client.email }}</td>
+                        <td class="hidden-xs">{{ client.telephone }}</td>
+                        <td>
+                            <a class="btn btn-primary btn-xs" v-link="{ path: '/clients/'+client.id }">Edit</a>
+                            <a class="btn btn-primary btn-xs" v-on:click="deleteClient($index)">Delete</a>
+                        </td>
+                    </tr>
+                    <tr v-if=" ! $loadingRouteData && clients.length == 0">
+                        <td colspan="6">You have not added any clients</td>
+                    </tr>
+                </tbody>
+
+
+            </table>
+        </div><!-- /.box-body -->
+      </div><!-- /.box -->
+    </div>
 </div>
