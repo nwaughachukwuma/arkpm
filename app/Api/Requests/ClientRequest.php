@@ -15,9 +15,9 @@ class ClientRequest extends FormRequest
 	{
 		return [
 	    	'company' => 'required|max:100',
-	    	'contact' => 'trim|max:100',
-	    	'email' => 'trim|email',
-	    	'telephone' => 'trim|max:30',
+	    	'contact' => 'max:100',
+	    	'email' => 'email',
+	    	'telephone' => 'max:30',
 	    	'hourly' => 'decimal|max:9'
     	];
 	}

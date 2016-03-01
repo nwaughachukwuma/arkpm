@@ -48,6 +48,9 @@ module.exports = {
           '/clients': {
             component: require('./compiled/pages/pm/clients.vue')
           },
+          '/clients/create': {
+            component: require('./compiled/pages/pm/clients/create.vue')
+          },
           '/tracking': {
             component: require('./compiled/pages/pm/tracking.vue')
           }

@@ -43,12 +43,23 @@
           <span>Tracking</span>
         </a>
       </li>
-      <li v-link="{path: '/pm/clients', activeClass: 'active'}">
-        <a v-link="{ path: '/pm/clients' }">
-          <i class="fa fa-bank"></i> 
-          <span>Clients</span>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-bank"></i>  
+          <span>Clients</span> 
+          <i class="fa fa-angle-left pull-right"></i>
         </a>
+        <ul class="treeview-menu">
+          <li v-link="{path: '/pm/clients', activeClass: 'active'}">
+            <a href="#" v-link="{path: '/pm/clients'}">View All</a>
+          </li>
+          <li v-link="{path: '/pm/clients/create', activeClass: 'active'}">
+            <a v-link="{path: '/pm/clients/create'}">Create New</a>
+          </li>
+        </ul>
       </li>
+
+
       <li v-link="{path: '/dogs', activeClass: 'active'}">
         <a v-link="{ path: '/dogs' }">
           <i class="fa fa-link"></i> 

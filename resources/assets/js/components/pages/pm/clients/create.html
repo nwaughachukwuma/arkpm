@@ -1,0 +1,54 @@
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">New Client</h3>
+            </div><!-- /.box-header -->
+
+            <div id="alerts" v-if="messages.length > 0">
+                <div v-for="message in messages" class="alert alert-{{ message.type }} alert-dismissible" role="alert">
+                    {{ message.message }}
+                </div>
+            </div>
+
+            <!-- form start -->
+            <form role="form" v-on:submit="createClient">
+                <div class="box-body">
+                    <div class="form-group">
+                      <input type="text" placeholder="Company or Business Name" 
+                       id="company" class="form-control" required="required" name="company" v-model="client.company">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" placeholder="Contact name" 
+                       id="contact" class="form-control" name="contact" v-model="client.contact">
+                    </div>
+                    <div class="form-group">
+                      <input type="email" placeholder="Email" 
+                       id="email" class="form-control" name="email" v-model="client.email">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" placeholder="Telephone"  id="telephone" class="form-control" 
+                       name="telephone" v-model="client.telephone">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">&pound;</span>
+                        <input type="text" class="form-control" name="houlry" v-model="client.houlry">
+                        <span class="input-group-addon">.00</span>
+                    </div>
+                   
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox"> Enabled
+                      </label>
+                    </div>
+                </div><!-- /.box-body -->
+
+                <div class="box-footer">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </form>
+        </div><!-- /.box -->
+    </div><!--/.col (left) -->
+</div>
