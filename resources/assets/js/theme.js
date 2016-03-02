@@ -153,7 +153,7 @@ $(function () {
   $("body").removeClass("hold-transition");
 
   //Extend options if external options exist
-  if (typeof AdminLTEOptions !== "undefined") {
+  if (typeof AdminLTEOptions !== "undefined") { 
     $.extend(true,
             $.AdminLTE.options,
             AdminLTEOptions);

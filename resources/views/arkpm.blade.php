@@ -28,14 +28,11 @@
     <![endif]-->
   </head>
 
-  <body class="">
-    <div class="wrapper">
-
-      <div id="app">
+  <body>
+   
+    <div id="app">
         
-      </div>
-
-    </div><!-- ./wrapper -->
+    </div>
 
     <!-- REQUIRED JS SCRIPTS -->
 

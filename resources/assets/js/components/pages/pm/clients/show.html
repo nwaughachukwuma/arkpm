@@ -4,7 +4,7 @@
         <!-- general form elements -->
         <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">New Client</h3>
+              <h3 class="box-title">Update Client</h3>
             </div><!-- /.box-header -->
 
             <div id="alerts" v-if="messages.length > 0">
@@ -14,8 +14,16 @@
             </div>
 
             <!-- form start -->
-            <form role="form" v-on:submit="createClient">
+            <form role="form" v-on:submit="updateClient">
                 <div class="box-body">
+                    <fieldset disabled>
+                      <div class="form-group">
+                        <label for="name" class="control-label">Client ID</label>
+                        <input class="form-control" required="required" name="name" type="text" v-model="client.id">
+                      </div>
+                    </fieldset>
+
+
                     <div class="form-group">
                       <input type="text" placeholder="Company or Business Name" 
                        id="company" class="form-control" required="required" name="company" v-model="client.company">
@@ -34,8 +42,8 @@
                     </div>
                     <div class="input-group">
                         <span class="input-group-addon">&pound;</span>
-                        <input type="text" class="form-control" name="houlry" v-model="client.houlry">
-                        <span class="input-group-addon">.00</span>
+                        <input type="text" class="form-control" name="houlry" v-model="client.hourly">
+                        
                     </div>
                    
                     <div class="checkbox">
@@ -46,7 +54,7 @@
                 </div><!-- /.box-body -->
 
                 <div class="box-footer">
-                    <button class="btn btn-primary" type="submit">Save Client</button>
+                    <button class="btn btn-primary" type="submit">Update Client</button>
                 </div>
             </form>
         </div><!-- /.box -->

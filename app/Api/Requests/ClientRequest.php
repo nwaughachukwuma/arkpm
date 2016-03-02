@@ -18,7 +18,7 @@ class ClientRequest extends FormRequest
 	    	'contact' => 'max:100',
 	    	'email' => 'email',
 	    	'telephone' => 'max:30',
-	    	'hourly' => 'decimal|max:9'
+	    	'hourly' => 'numeric|max:3000'
     	];
 	}
 }

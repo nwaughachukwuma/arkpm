@@ -51,7 +51,7 @@
                         <td class="hidden-xs">{{ client.email }}</td>
                         <td class="hidden-xs">{{ client.telephone }}</td>
                         <td>
-                            <a class="btn btn-primary btn-xs" v-link="{ path: '/clients/'+client.id }">Edit</a>
+                            <a class="btn btn-primary btn-xs" v-link="{ path: '/pm/clients/'+client.id }">Edit</a>
                             <a class="btn btn-primary btn-xs" v-on:click="deleteClient($index)">Delete</a>
                         </td>
                     </tr>

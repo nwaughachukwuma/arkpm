@@ -153,7 +153,7 @@ $(function () {
   $("body").removeClass("hold-transition");
 
   //Extend options if external options exist
-  if (typeof AdminLTEOptions !== "undefined") {
+  if (typeof AdminLTEOptions !== "undefined") { 
     $.extend(true,
             $.AdminLTE.options,
             AdminLTEOptions);
@@ -18718,7 +18718,7 @@ var App = Vue.extend(require('./compiled/app.vue'));
 router.start(App, '#app');
 window.router = router;
 
-},{"./compiled/app.vue":116,"./compiled/footer.vue":117,"./compiled/header.vue":118,"./compiled/login.vue":119,"./compiled/maintemplate.vue":120,"./compiled/nav.vue":121,"./compiled/sidebar.vue":141,"./compiled/sidebarright.vue":142,"./config":144,"./interceptors/jwtAuth":147,"./routes":148,"rest":3,"rest/interceptor":7,"rest/interceptor/defaultRequest":8,"rest/interceptor/errorCode":9,"rest/interceptor/mime":10,"rest/interceptor/pathPrefix":11,"vue":94,"vue-router":28}],116:[function(require,module,exports){
+},{"./compiled/app.vue":116,"./compiled/footer.vue":117,"./compiled/header.vue":118,"./compiled/login.vue":119,"./compiled/maintemplate.vue":120,"./compiled/nav.vue":121,"./compiled/sidebar.vue":142,"./compiled/sidebarright.vue":143,"./config":145,"./interceptors/jwtAuth":148,"./routes":149,"rest":3,"rest/interceptor":7,"rest/interceptor/defaultRequest":8,"rest/interceptor/errorCode":9,"rest/interceptor/mime":10,"rest/interceptor/pathPrefix":11,"vue":94,"vue-router":28}],116:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -18864,7 +18864,7 @@ if (module.hot) {(function () {  module.hot.accept()
 
 module.exports = {};
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n\n\n  <!-- Content Wrapper. Contains page content -->\n  <div class=\"content-wrapper\">\n\n      <!-- Content Header (Page header) -->\n      <section class=\"content-header\">\n        <h1>\n          Page Header\n          <small>Optional description</small>\n        </h1>\n        <ol class=\"breadcrumb\">\n          <li><a href=\"#\"><i class=\"fa fa-dashboard\"></i> Level</a></li>\n          <li class=\"active\">Here</li>\n        </ol>\n      </section>\n\n      <!-- Main content -->\n      <section class=\"content\">\n        <div>\n        <!-- Your Page Content Here -->\n            <router-view></router-view>\n        </div>\n\n \n      </section><!-- /.content -->\n  </div><!-- /.content-wrapper -->\n\n  <!-- Control Sidebar -->\n  <aside class=\"control-sidebar control-sidebar-dark\">\n  <!-- Create the tabs -->\n  <ul class=\"nav nav-tabs nav-justified control-sidebar-tabs\">\n    <li class=\"active\"><a href=\"#control-sidebar-home-tab\" data-toggle=\"tab\"><i class=\"fa fa-home\"></i></a></li>\n    <li><a href=\"#control-sidebar-settings-tab\" data-toggle=\"tab\"><i class=\"fa fa-gears\"></i></a></li>\n  </ul>\n  <!-- Tab panes -->\n  <div class=\"tab-content\">\n    <!-- Home tab content -->\n    <div class=\"tab-pane active\" id=\"control-sidebar-home-tab\">\n      <h3 class=\"control-sidebar-heading\">Recent Activity</h3>\n      <ul class=\"control-sidebar-menu\">\n        <li>\n          <a href=\"javascript::;\">\n            <i class=\"menu-icon fa fa-birthday-cake bg-red\"></i>\n            <div class=\"menu-info\">\n              <h4 class=\"control-sidebar-subheading\">Langdon's Birthday</h4>\n              <p>Will be 23 on April 24th</p>\n            </div>\n          </a>\n        </li>\n      </ul><!-- /.control-sidebar-menu -->\n\n      <h3 class=\"control-sidebar-heading\">Tasks Progress</h3>\n      <ul class=\"control-sidebar-menu\">\n        <li>\n          <a href=\"javascript::;\">\n            <h4 class=\"control-sidebar-subheading\">\n              Custom Template Design\n              <span class=\"label label-danger pull-right\">70%</span>\n            </h4>\n            <div class=\"progress progress-xxs\">\n              <div class=\"progress-bar progress-bar-danger\" style=\"width: 70%\"></div>\n            </div>\n          </a>\n        </li>\n      </ul><!-- /.control-sidebar-menu -->\n\n    </div><!-- /.tab-pane -->\n    <!-- Stats tab content -->\n    <div class=\"tab-pane\" id=\"control-sidebar-stats-tab\">Stats Tab Content</div><!-- /.tab-pane -->\n    <!-- Settings tab content -->\n    <div class=\"tab-pane\" id=\"control-sidebar-settings-tab\">\n      <form method=\"post\">\n        <h3 class=\"control-sidebar-heading\">General Settings</h3>\n        <div class=\"form-group\">\n          <label class=\"control-sidebar-subheading\">\n            Report panel usage\n            <input type=\"checkbox\" class=\"pull-right\" checked=\"\">\n          </label>\n          <p>\n            Some information about this general settings option\n          </p>\n        </div><!-- /.form-group -->\n      </form>\n    </div><!-- /.tab-pane -->\n  </div>\n  </aside><!-- /.control-sidebar -->\n  <!-- Add the sidebar's background. This div must be placed\n     immediately after the control sidebar -->\n  <div class=\"control-sidebar-bg\"></div>\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n\n\n  <!-- Content Wrapper. Contains page content -->\n  <div class=\"content-wrapper\">\n\n      <!-- Content Header (Page header) -->\n      <section class=\"content-header\">\n        <h1>\n          Page Header\n          <small>Optional description</small>\n        </h1>\n        <ol class=\"breadcrumb\">\n          <li><a href=\"#\"><i class=\"fa fa-dashboard\"></i> Level</a></li>\n          <li class=\"active\">Here</li>\n        </ol>\n      </section>\n\n      <!-- Main content -->\n      <section class=\"content\">\n        <div>\n        <!-- Your Page Content Here -->\n            <router-view></router-view>\n        </div>\n\n \n      </section><!-- /.content -->\n  </div><!-- /.content-wrapper -->\n\n  <footer class=\"main-footer\">\n    <div class=\"pull-right hidden-xs\">\n      <b>Version</b> 2.3.1\n    </div>\n    <strong>Copyright © <a href=\"http://almsaeedstudio.com\">ARK PM</a>.</strong> All rights\n    reserved.\n  </footer>\n\n  <!-- Control Sidebar -->\n  <aside class=\"control-sidebar control-sidebar-dark\">\n  <!-- Create the tabs -->\n  <ul class=\"nav nav-tabs nav-justified control-sidebar-tabs\">\n    <li class=\"active\"><a href=\"#control-sidebar-home-tab\" data-toggle=\"tab\"><i class=\"fa fa-home\"></i></a></li>\n    <li><a href=\"#control-sidebar-settings-tab\" data-toggle=\"tab\"><i class=\"fa fa-gears\"></i></a></li>\n  </ul>\n  <!-- Tab panes -->\n  <div class=\"tab-content\">\n    <!-- Home tab content -->\n    <div class=\"tab-pane active\" id=\"control-sidebar-home-tab\">\n      <h3 class=\"control-sidebar-heading\">Recent Activity</h3>\n      <ul class=\"control-sidebar-menu\">\n        <li>\n          <a href=\"javascript::;\">\n            <i class=\"menu-icon fa fa-birthday-cake bg-red\"></i>\n            <div class=\"menu-info\">\n              <h4 class=\"control-sidebar-subheading\">Langdon's Birthday</h4>\n              <p>Will be 23 on April 24th</p>\n            </div>\n          </a>\n        </li>\n      </ul><!-- /.control-sidebar-menu -->\n\n      <h3 class=\"control-sidebar-heading\">Tasks Progress</h3>\n      <ul class=\"control-sidebar-menu\">\n        <li>\n          <a href=\"javascript::;\">\n            <h4 class=\"control-sidebar-subheading\">\n              Custom Template Design\n              <span class=\"label label-danger pull-right\">70%</span>\n            </h4>\n            <div class=\"progress progress-xxs\">\n              <div class=\"progress-bar progress-bar-danger\" style=\"width: 70%\"></div>\n            </div>\n          </a>\n        </li>\n      </ul><!-- /.control-sidebar-menu -->\n\n    </div><!-- /.tab-pane -->\n    <!-- Stats tab content -->\n    <div class=\"tab-pane\" id=\"control-sidebar-stats-tab\">Stats Tab Content</div><!-- /.tab-pane -->\n    <!-- Settings tab content -->\n    <div class=\"tab-pane\" id=\"control-sidebar-settings-tab\">\n      <form method=\"post\">\n        <h3 class=\"control-sidebar-heading\">General Settings</h3>\n        <div class=\"form-group\">\n          <label class=\"control-sidebar-subheading\">\n            Report panel usage\n            <input type=\"checkbox\" class=\"pull-right\" checked=\"\">\n          </label>\n          <p>\n            Some information about this general settings option\n          </p>\n        </div><!-- /.form-group -->\n      </form>\n    </div><!-- /.tab-pane -->\n  </div>\n  </aside><!-- /.control-sidebar -->\n  <!-- Add the sidebar's background. This div must be placed\n     immediately after the control sidebar -->\n  <div class=\"control-sidebar-bg\" style=\"position: fixed; height: auto;\"></div>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -18918,7 +18918,7 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":94,"vue-hot-reload-api":27,"vueify-insert-css":96}],123:[function(require,module,exports){
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<router-view></router-view>\n\t\t\t"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"wrapper\">\n    <router-view></router-view>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19324,7 +19324,7 @@ if (module.hot) {(function () {  module.hot.accept()
 
 module.exports = {};
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"ark-home\" class=\"ark-home hold-transition skin-blue sidebar-mini\">\n\n    <!-- Header -->\n    <header-component></header-component>\n\n    <!-- Sidebar -->\n    <sidebar-component></sidebar-component>  \n\n\n        \n    <!-- Content Wrapper. Contains page content -->\n    <div class=\"content-wrapper\">\n\n      <!-- Content Header (Page header) -->\n      <section class=\"content-header\">\n        <h1>\n          Page Header\n          <small>Optional description</small>\n        </h1>\n        <ol class=\"breadcrumb\">\n          <li><a href=\"#\"><i class=\"fa fa-dashboard\"></i> Level</a></li>\n          <li class=\"active\">Here</li>\n        </ol>\n      </section>\n\n      <!-- Main content -->\n      <section class=\"content\">\n        <router-view></router-view>\n      </section><!-- /.content -->\n    </div><!-- /.content-wrapper -->\n\n    <!-- Sidebar -->\n    <sidebarright-component></sidebarright-component> \n    \n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"ark-home\" class=\"ark-home hold-transition skin-blue sidebar-mini\">\n  <div class=\"wrapper\">\n    <!-- Header -->\n    <header-component></header-component>\n\n    <!-- Sidebar -->\n    <sidebar-component></sidebar-component>  \n\n\n        \n    <!-- Content Wrapper. Contains page content -->\n    <div class=\"content-wrapper\">\n\n      <!-- Content Header (Page header) -->\n      <section class=\"content-header\">\n        <h1>\n          Page Header\n          <small>Optional description</small>\n        </h1>\n        <ol class=\"breadcrumb\">\n          <li><a href=\"#\"><i class=\"fa fa-dashboard\"></i> Level</a></li>\n          <li class=\"active\">Here</li>\n        </ol>\n      </section>\n\n      <!-- Main content -->\n      <section class=\"content\">\n        <router-view></router-view>\n      </section><!-- /.content -->\n    </div><!-- /.content-wrapper -->\n\n  <footer class=\"main-footer\">\n    <div class=\"pull-right hidden-xs\">\n      <b>Version</b> 0.0.3\n    </div>\n    <strong>Copyright © <a href=\"http://almsaeedstudio.com\">Silverark IT Solutions</a>.</strong> All rights\n    reserved.\n  </footer>\n\n    <!-- Sidebar -->\n    <sidebarright-component></sidebarright-component> \n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19386,7 +19386,7 @@ module.exports = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-xs-12\">\n      <div class=\"box\">\n        <div class=\"box-header\">\n          <h3 class=\"box-title\">Clients</h3>\n          <div class=\"box-tools\">\n            <div class=\"input-group\" style=\"width: 150px;\">\n              <input type=\"text\" name=\"table_search\" class=\"form-control input-sm pull-right\" placeholder=\"Search\">\n              <div class=\"input-group-btn\">\n                <button class=\"btn btn-sm btn-default\"><i class=\"fa fa-search\"></i></button>\n              </div>\n            </div>\n          </div>\n        </div><!-- /.box-header -->\n        <div class=\"box-body table-responsive no-padding\">\n\n            <div class=\"panel-body\" v-if=\"$loadingRouteData\">\n                Loading data {{ loadingRouteData }}\n            </div>\n            <div class=\"panel-body\" v-if=\"messages.length > 0\">\n                <div v-for=\"message in messages\" class=\"alert alert-{{ message.type }} alert-dismissible\" role=\"alert\">\n                    {{ message.message }}\n                </div>\n            </div>\n\n            <table class=\"table table-hover\">\n                <thead>\n                    <tr>\n                      <th>ID</th>\n                      <th>Company</th>\n                      <th>Contact</th>\n                      <th>Email</th>\n                      <th>Telephone</th>\n                      <th></th>\n                    </tr>\n                </thead>\n                <tfoot>\n                    <tr>\n                        <td colspan=\"6\">\n                            <a class=\"btn btn-primary\" v-link=\"{ path: 'clients/create'}\">\n                                Create Client\n                            </a>\n                        </td>\n                    </tr>\n                </tfoot>\n                <tbody>\n                    <tr v-for=\"client in clients\" v-if=\" ! $loadingRouteData &amp;&amp; clients.length > 0\">\n                        <td>{{ client.id }}</td>\n                        <td>{{ client.company }}</td>\n                        <td>{{ client.contact }}</td>\n                        <td class=\"hidden-xs\">{{ client.email }}</td>\n                        <td class=\"hidden-xs\">{{ client.telephone }}</td>\n                        <td>\n                            <a class=\"btn btn-primary btn-xs\" v-link=\"{ path: '/clients/'+client.id }\">Edit</a>\n                            <a class=\"btn btn-primary btn-xs\" v-on:click=\"deleteClient($index)\">Delete</a>\n                        </td>\n                    </tr>\n                    <tr v-if=\" ! $loadingRouteData &amp;&amp; clients.length == 0\">\n                        <td colspan=\"6\">You have not added any clients</td>\n                    </tr>\n                </tbody>\n\n\n            </table>\n        </div><!-- /.box-body -->\n      </div><!-- /.box -->\n    </div>\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-xs-12\">\n      <div class=\"box\">\n        <div class=\"box-header\">\n          <h3 class=\"box-title\">Clients</h3>\n          <div class=\"box-tools\">\n            <div class=\"input-group\" style=\"width: 150px;\">\n              <input type=\"text\" name=\"table_search\" class=\"form-control input-sm pull-right\" placeholder=\"Search\">\n              <div class=\"input-group-btn\">\n                <button class=\"btn btn-sm btn-default\"><i class=\"fa fa-search\"></i></button>\n              </div>\n            </div>\n          </div>\n        </div><!-- /.box-header -->\n        <div class=\"box-body table-responsive no-padding\">\n\n            <div class=\"panel-body\" v-if=\"$loadingRouteData\">\n                Loading data {{ loadingRouteData }}\n            </div>\n            <div class=\"panel-body\" v-if=\"messages.length > 0\">\n                <div v-for=\"message in messages\" class=\"alert alert-{{ message.type }} alert-dismissible\" role=\"alert\">\n                    {{ message.message }}\n                </div>\n            </div>\n\n            <table class=\"table table-hover\">\n                <thead>\n                    <tr>\n                      <th>ID</th>\n                      <th>Company</th>\n                      <th>Contact</th>\n                      <th>Email</th>\n                      <th>Telephone</th>\n                      <th></th>\n                    </tr>\n                </thead>\n                <tfoot>\n                    <tr>\n                        <td colspan=\"6\">\n                            <a class=\"btn btn-primary\" v-link=\"{ path: 'clients/create'}\">\n                                Create Client\n                            </a>\n                        </td>\n                    </tr>\n                </tfoot>\n                <tbody>\n                    <tr v-for=\"client in clients\" v-if=\" ! $loadingRouteData &amp;&amp; clients.length > 0\">\n                        <td>{{ client.id }}</td>\n                        <td>{{ client.company }}</td>\n                        <td>{{ client.contact }}</td>\n                        <td class=\"hidden-xs\">{{ client.email }}</td>\n                        <td class=\"hidden-xs\">{{ client.telephone }}</td>\n                        <td>\n                            <a class=\"btn btn-primary btn-xs\" v-link=\"{ path: '/pm/clients/'+client.id }\">Edit</a>\n                            <a class=\"btn btn-primary btn-xs\" v-on:click=\"deleteClient($index)\">Delete</a>\n                        </td>\n                    </tr>\n                    <tr v-if=\" ! $loadingRouteData &amp;&amp; clients.length == 0\">\n                        <td colspan=\"6\">You have not added any clients</td>\n                    </tr>\n                </tbody>\n\n\n            </table>\n        </div><!-- /.box-body -->\n      </div><!-- /.box -->\n    </div>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19436,7 +19436,7 @@ module.exports = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <!-- left column -->\n    <div class=\"col-md-6\">\n        <!-- general form elements -->\n        <div class=\"box box-primary\">\n            <div class=\"box-header with-border\">\n              <h3 class=\"box-title\">New Client</h3>\n            </div><!-- /.box-header -->\n\n            <div id=\"alerts\" v-if=\"messages.length > 0\">\n                <div v-for=\"message in messages\" class=\"alert alert-{{ message.type }} alert-dismissible\" role=\"alert\">\n                    {{ message.message }}\n                </div>\n            </div>\n\n            <!-- form start -->\n            <form role=\"form\" v-on:submit=\"createClient\">\n                <div class=\"box-body\">\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Company or Business Name\" id=\"company\" class=\"form-control\" required=\"required\" name=\"company\" v-model=\"client.company\">\n                    </div>\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Contact name\" id=\"contact\" class=\"form-control\" name=\"contact\" v-model=\"client.contact\">\n                    </div>\n                    <div class=\"form-group\">\n                      <input type=\"email\" placeholder=\"Email\" id=\"email\" class=\"form-control\" name=\"email\" v-model=\"client.email\">\n                    </div>\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Telephone\" id=\"telephone\" class=\"form-control\" name=\"telephone\" v-model=\"client.telephone\">\n                    </div>\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\">£</span>\n                        <input type=\"text\" class=\"form-control\" name=\"houlry\" v-model=\"client.houlry\">\n                        <span class=\"input-group-addon\">.00</span>\n                    </div>\n                   \n                    <div class=\"checkbox\">\n                      <label>\n                        <input type=\"checkbox\"> Enabled\n                      </label>\n                    </div>\n                </div><!-- /.box-body -->\n\n                <div class=\"box-footer\">\n                    <button class=\"btn btn-primary\" type=\"submit\">Submit</button>\n                </div>\n            </form>\n        </div><!-- /.box -->\n    </div><!--/.col (left) -->\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <!-- left column -->\n    <div class=\"col-md-6\">\n        <!-- general form elements -->\n        <div class=\"box box-primary\">\n            <div class=\"box-header with-border\">\n              <h3 class=\"box-title\">New Client</h3>\n            </div><!-- /.box-header -->\n\n            <div id=\"alerts\" v-if=\"messages.length > 0\">\n                <div v-for=\"message in messages\" class=\"alert alert-{{ message.type }} alert-dismissible\" role=\"alert\">\n                    {{ message.message }}\n                </div>\n            </div>\n\n            <!-- form start -->\n            <form role=\"form\" v-on:submit=\"createClient\">\n                <div class=\"box-body\">\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Company or Business Name\" id=\"company\" class=\"form-control\" required=\"required\" name=\"company\" v-model=\"client.company\">\n                    </div>\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Contact name\" id=\"contact\" class=\"form-control\" name=\"contact\" v-model=\"client.contact\">\n                    </div>\n                    <div class=\"form-group\">\n                      <input type=\"email\" placeholder=\"Email\" id=\"email\" class=\"form-control\" name=\"email\" v-model=\"client.email\">\n                    </div>\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Telephone\" id=\"telephone\" class=\"form-control\" name=\"telephone\" v-model=\"client.telephone\">\n                    </div>\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\">£</span>\n                        <input type=\"text\" class=\"form-control\" name=\"houlry\" v-model=\"client.houlry\">\n                        <span class=\"input-group-addon\">.00</span>\n                    </div>\n                   \n                    <div class=\"checkbox\">\n                      <label>\n                        <input type=\"checkbox\"> Enabled\n                      </label>\n                    </div>\n                </div><!-- /.box-body -->\n\n                <div class=\"box-footer\">\n                    <button class=\"btn btn-primary\" type=\"submit\">Save Client</button>\n                </div>\n            </form>\n        </div><!-- /.box -->\n    </div><!--/.col (left) -->\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19449,6 +19449,74 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":94,"vue-hot-reload-api":27}],138:[function(require,module,exports){
+'use strict';
+
+module.exports = {
+  data: function data() {
+    return {
+      client: {
+        company: '',
+        contact: '',
+        email: '',
+        telephone: '',
+        hourly: ''
+      },
+      messages: []
+    };
+  },
+
+  methods: {
+    fetch: function fetch(id, successHandler) {
+      var that = this;
+      client({ path: '/clients/' + id }).then(function (response) {
+        that.$set('client', response.entity.data);
+        successHandler(response.entity.data);
+      }, function (response, status, request) {
+        // Go tell your parents that you've messed up somehow
+        if (status === 401) {
+          self.$dispatch('userHasLoggedOut');
+        } else {
+          console.log(response);
+        }
+      });
+    },
+    updateClient: function updateClient(e) {
+      e.preventDefault();
+      var self = this;
+      client({ path: '/clients/' + this.client.id, entity: this.client, method: 'PUT' }).then(function (response) {
+        self.messages = [];
+        self.messages.push({ type: 'success', message: 'The client has been updated' });
+      }, function (response) {
+        self.messages = [];
+        for (var key in response.entity) {
+          self.messages.push({ type: 'danger', message: response.entity[key] });
+        }
+      });
+    }
+  },
+  route: {
+    // Ooh, ooh, are there any new puppies yet?
+    data: function data(transition) {
+      this.fetch(this.$route.params.id, function (data) {
+        transition.next({ client: data });
+      });
+    }
+  }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <!-- left column -->\n    <div class=\"col-md-6\">\n        <!-- general form elements -->\n        <div class=\"box box-primary\">\n            <div class=\"box-header with-border\">\n              <h3 class=\"box-title\">Update Client</h3>\n            </div><!-- /.box-header -->\n\n            <div id=\"alerts\" v-if=\"messages.length > 0\">\n                <div v-for=\"message in messages\" class=\"alert alert-{{ message.type }} alert-dismissible\" role=\"alert\">\n                    {{ message.message }}\n                </div>\n            </div>\n\n            <!-- form start -->\n            <form role=\"form\" v-on:submit=\"updateClient\">\n                <div class=\"box-body\">\n                    <fieldset disabled=\"\">\n                      <div class=\"form-group\">\n                        <label for=\"name\" class=\"control-label\">Client ID</label>\n                        <input class=\"form-control\" required=\"required\" name=\"name\" type=\"text\" v-model=\"client.id\">\n                      </div>\n                    </fieldset>\n\n\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Company or Business Name\" id=\"company\" class=\"form-control\" required=\"required\" name=\"company\" v-model=\"client.company\">\n                    </div>\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Contact name\" id=\"contact\" class=\"form-control\" name=\"contact\" v-model=\"client.contact\">\n                    </div>\n                    <div class=\"form-group\">\n                      <input type=\"email\" placeholder=\"Email\" id=\"email\" class=\"form-control\" name=\"email\" v-model=\"client.email\">\n                    </div>\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Telephone\" id=\"telephone\" class=\"form-control\" name=\"telephone\" v-model=\"client.telephone\">\n                    </div>\n                    <div class=\"input-group\">\n                        <span class=\"input-group-addon\">£</span>\n                        <input type=\"text\" class=\"form-control\" name=\"houlry\" v-model=\"client.hourly\">\n                        \n                    </div>\n                   \n                    <div class=\"checkbox\">\n                      <label>\n                        <input type=\"checkbox\"> Enabled\n                      </label>\n                    </div>\n                </div><!-- /.box-body -->\n\n                <div class=\"box-footer\">\n                    <button class=\"btn btn-primary\" type=\"submit\">Update Client</button>\n                </div>\n            </form>\n        </div><!-- /.box -->\n    </div><!--/.col (left) -->\n</div>"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/clients/show.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":94,"vue-hot-reload-api":27}],139:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-heading\">\n\tDashboard\n</div>\n<div class=\"panel-body\">\n\tWelcome to ArkPM\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -19461,7 +19529,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":94,"vue-hot-reload-api":27}],139:[function(require,module,exports){
+},{"vue":94,"vue-hot-reload-api":27}],140:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -19480,7 +19548,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":94,"vue-hot-reload-api":27}],140:[function(require,module,exports){
+},{"vue":94,"vue-hot-reload-api":27}],141:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav-component></nav-component>\n\n<div class=\"container app-screen\">\n\t<div class=\"row\">\n\t\t<div class=\"tab-content\">\n\t\t\t<div class=\"tab-pane\">\n\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\tTerms of service\n\t\t\t\t\t</div>\n\t\t\t\t\t<!-- Profile Selection notice panel -->\n\t\t\t\t\t<div class=\"panel-body\">\n<pre>The MIT License (MIT)\n\nCopyright (c) 2015 Yourname\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n</pre>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div><!-- End tab panel -->\n\t\t</div><!-- End tab content -->\n\t</div><!-- End tab panes col-md-9 -->\n</div><!-- End container -->\n\n<footer-component></footer-component>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -19493,7 +19561,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":94,"vue-hot-reload-api":27}],141:[function(require,module,exports){
+},{"vue":94,"vue-hot-reload-api":27}],142:[function(require,module,exports){
 "use strict";
 
 module.exports = {};
@@ -19510,8 +19578,8 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":94,"vue-hot-reload-api":27}],142:[function(require,module,exports){
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- Control Sidebar -->\n    <aside class=\"control-sidebar control-sidebar-dark\">\n      <!-- Create the tabs -->\n      <ul class=\"nav nav-tabs nav-justified control-sidebar-tabs\">\n      <li class=\"active\"><a href=\"#control-sidebar-home-tab\" data-toggle=\"tab\"><i class=\"fa fa-home\"></i></a></li>\n      <li><a href=\"#control-sidebar-settings-tab\" data-toggle=\"tab\"><i class=\"fa fa-gears\"></i></a></li>\n      </ul>\n      <!-- Tab panes -->\n      <div class=\"tab-content\">\n      <!-- Home tab content -->\n      <div class=\"tab-pane active\" id=\"control-sidebar-home-tab\">\n        <h3 class=\"control-sidebar-heading\">Recent Activity</h3>\n        <ul class=\"control-sidebar-menu\">\n          <li>\n            <a href=\"javascript::;\">\n              <i class=\"menu-icon fa fa-birthday-cake bg-red\"></i>\n              <div class=\"menu-info\">\n                <h4 class=\"control-sidebar-subheading\">Langdon's Birthday</h4>\n                <p>Will be 23 on April 24th</p>\n              </div>\n            </a>\n          </li>\n        </ul><!-- /.control-sidebar-menu -->\n\n        <h3 class=\"control-sidebar-heading\">Tasks Progress</h3>\n        <ul class=\"control-sidebar-menu\">\n          <li>\n            <a href=\"javascript::;\">\n              <h4 class=\"control-sidebar-subheading\">\n                Custom Template Design\n                <span class=\"label label-danger pull-right\">70%</span>\n              </h4>\n              <div class=\"progress progress-xxs\">\n                <div class=\"progress-bar progress-bar-danger\" style=\"width: 70%\"></div>\n              </div>\n            </a>\n          </li>\n        </ul><!-- /.control-sidebar-menu -->\n\n      </div><!-- /.tab-pane -->\n      <!-- Stats tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-stats-tab\">Stats Tab Content</div><!-- /.tab-pane -->\n      <!-- Settings tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-settings-tab\">\n        <form method=\"post\">\n          <h3 class=\"control-sidebar-heading\">General Settings</h3>\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Report panel usage\n              <input type=\"checkbox\" class=\"pull-right\" checked=\"\">\n            </label>\n            <p>\n              Some information about this general settings option\n            </p>\n          </div><!-- /.form-group -->\n        </form>\n      </div><!-- /.tab-pane -->\n      </div>\n    </aside><!-- /.control-sidebar -->\n    <!-- Add the sidebar's background. This div must be placed\n     immediately after the control sidebar -->\n    <div class=\"control-sidebar-bg\"></div>"
+},{"vue":94,"vue-hot-reload-api":27}],143:[function(require,module,exports){
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- Control Sidebar -->\n    <aside class=\"control-sidebar control-sidebar-dark\">\n      <!-- Create the tabs -->\n      <ul class=\"nav nav-tabs nav-justified control-sidebar-tabs\">\n      <li class=\"active\"><a href=\"#control-sidebar-home-tab\" data-toggle=\"tab\"><i class=\"fa fa-home\"></i></a></li>\n      <li><a href=\"#control-sidebar-settings-tab\" data-toggle=\"tab\"><i class=\"fa fa-gears\"></i></a></li>\n      </ul>\n      <!-- Tab panes -->\n      <div class=\"tab-content\">\n      <!-- Home tab content -->\n      <div class=\"tab-pane active\" id=\"control-sidebar-home-tab\">\n        <h3 class=\"control-sidebar-heading\">Recent Activity</h3>\n        <ul class=\"control-sidebar-menu\">\n          <li>\n            <a href=\"javascript::;\">\n              <i class=\"menu-icon fa fa-birthday-cake bg-red\"></i>\n              <div class=\"menu-info\">\n                <h4 class=\"control-sidebar-subheading\">Langdon's Birthday</h4>\n                <p>Will be 23 on April 24th</p>\n              </div>\n            </a>\n          </li>\n        </ul><!-- /.control-sidebar-menu -->\n\n        <h3 class=\"control-sidebar-heading\">Tasks Progress</h3>\n        <ul class=\"control-sidebar-menu\">\n          <li>\n            <a href=\"javascript::;\">\n              <h4 class=\"control-sidebar-subheading\">\n                Custom Template Design\n                <span class=\"label label-danger pull-right\">70%</span>\n              </h4>\n              <div class=\"progress progress-xxs\">\n                <div class=\"progress-bar progress-bar-danger\" style=\"width: 70%\"></div>\n              </div>\n            </a>\n          </li>\n        </ul><!-- /.control-sidebar-menu -->\n\n      </div><!-- /.tab-pane -->\n      <!-- Stats tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-stats-tab\">Stats Tab Content</div><!-- /.tab-pane -->\n      <!-- Settings tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-settings-tab\">\n        <form method=\"post\">\n          <h3 class=\"control-sidebar-heading\">General Settings</h3>\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Report panel usage\n              <input type=\"checkbox\" class=\"pull-right\" checked=\"\">\n            </label>\n            <p>\n              Some information about this general settings option\n            </p>\n          </div><!-- /.form-group -->\n        </form>\n      </div><!-- /.tab-pane -->\n      </div>\n    </aside><!-- /.control-sidebar -->\n    <!-- Add the sidebar's background. This div must be placed\n     immediately after the control sidebar -->\n    <div class=\"control-sidebar-bg\" style=\"position: fixed; height: auto;\"></div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19523,7 +19591,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":94,"vue-hot-reload-api":27}],143:[function(require,module,exports){
+},{"vue":94,"vue-hot-reload-api":27}],144:[function(require,module,exports){
 'use strict';
 
 var config = {
@@ -19547,7 +19615,7 @@ var config = {
 
 module.exports = config;
 
-},{}],144:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -19563,7 +19631,7 @@ module.exports = config[env];
 
 }).call(this,require('_process'))
 
-},{"./development.config":143,"./production.config":145,"./staging.config":146,"_process":1}],145:[function(require,module,exports){
+},{"./development.config":144,"./production.config":146,"./staging.config":147,"_process":1}],146:[function(require,module,exports){
 'use strict';
 
 var config = {
@@ -19587,7 +19655,7 @@ var config = {
 
 module.exports = config;
 
-},{}],146:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 'use strict';
 
 var config = {
@@ -19610,7 +19678,7 @@ var config = {
 };
 module.exports = config;
 
-},{}],147:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 'use strict';
 
 (function (define) {
@@ -19665,7 +19733,7 @@ module.exports = config;
 // Boilerplate for AMD and Node
 );
 
-},{"rest/interceptor":7}],148:[function(require,module,exports){
+},{"rest/interceptor":7}],149:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19721,6 +19789,9 @@ module.exports = {
           '/clients/create': {
             component: require('./compiled/pages/pm/clients/create.vue')
           },
+          '/clients/:id': {
+            component: require('./compiled/pages/pm/clients/show.vue')
+          },
           '/tracking': {
             component: require('./compiled/pages/pm/tracking.vue')
           }
@@ -19773,7 +19844,7 @@ module.exports = {
   }
 };
 
-},{"./compiled/pages/404.vue":122,"./compiled/pages/auth.vue":123,"./compiled/pages/auth/login.vue":124,"./compiled/pages/auth/logout.vue":125,"./compiled/pages/auth/profile.vue":126,"./compiled/pages/auth/register.vue":127,"./compiled/pages/dogs.vue":128,"./compiled/pages/dogs/create.vue":129,"./compiled/pages/dogs/index.vue":130,"./compiled/pages/dogs/show.vue":131,"./compiled/pages/home/about.vue":132,"./compiled/pages/home/home.vue":133,"./compiled/pages/home/welcome.vue":134,"./compiled/pages/pm.vue":135,"./compiled/pages/pm/clients.vue":136,"./compiled/pages/pm/clients/create.vue":137,"./compiled/pages/pm/dashboard.vue":138,"./compiled/pages/pm/tracking.vue":139,"./compiled/pages/terms.vue":140}]},{},[115])
+},{"./compiled/pages/404.vue":122,"./compiled/pages/auth.vue":123,"./compiled/pages/auth/login.vue":124,"./compiled/pages/auth/logout.vue":125,"./compiled/pages/auth/profile.vue":126,"./compiled/pages/auth/register.vue":127,"./compiled/pages/dogs.vue":128,"./compiled/pages/dogs/create.vue":129,"./compiled/pages/dogs/index.vue":130,"./compiled/pages/dogs/show.vue":131,"./compiled/pages/home/about.vue":132,"./compiled/pages/home/home.vue":133,"./compiled/pages/home/welcome.vue":134,"./compiled/pages/pm.vue":135,"./compiled/pages/pm/clients.vue":136,"./compiled/pages/pm/clients/create.vue":137,"./compiled/pages/pm/clients/show.vue":138,"./compiled/pages/pm/dashboard.vue":139,"./compiled/pages/pm/tracking.vue":140,"./compiled/pages/terms.vue":141}]},{},[115])
 
 
 //# sourceMappingURL=transit.js.map

@@ -15,5 +15,7 @@ class Client extends Model
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+    use SoftDeletes;
     
 }
