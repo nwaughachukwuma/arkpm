@@ -8408,7 +8408,7 @@ fieldset[disabled] .btn-yahoo.active {
 }
 
 .bounce-transition {
-  /* display: inline-block; */ /* otherwise scale animation won't work */
+   /* display: inline-block; */  /* otherwise scale animation won't work */
 }
 .bounce-enter {
   animation: bounce-in .5s;
@@ -8421,7 +8421,7 @@ fieldset[disabled] .btn-yahoo.active {
     transform: scale(0);
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);
@@ -8432,7 +8432,7 @@ fieldset[disabled] .btn-yahoo.active {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
   100% {
     transform: scale(0);

@@ -43,7 +43,10 @@ module.exports = {
   route: {
     activate: function (transition) {
       this.$dispatch('userHasLoggedOut')
-      transition.next()
-    }
+      console.log(transition);
+      //Add a 500 delay in for annimations
+      setTimeout(function() {transition.next()}, 500)
+      
+    },
   }
 }

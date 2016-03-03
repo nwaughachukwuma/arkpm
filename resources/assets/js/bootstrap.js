@@ -47,9 +47,82 @@ Vue.component('maintemplate-component', require('./compiled/maintemplate.vue'))
 
 //transitions
 Vue.transition('zoomInLoad', {
-    enterClass: 'animated bounceInLeft',
-    leaveClass: 'animated bounceOutRight',
-    type: 'animation'
+    type:'animation',
+    enter: function (el, done) {
+      // element is already inserted into the DOM
+      // call done when animation finishes.
+      $(el).hide();
+      setTimeout(function() {
+        $(el).addClass('flipInX').show()
+        .animate({ opacity: 1 }, 1, done)
+      },700)
+      
+    },
+    leave: function (el, done) {
+      // same as enter
+      
+      $(el).removeClass('flipInX')
+      $(el).addClass('zoomOut')
+
+      setTimeout(function() {
+        $(el).hide()
+        .animate({ opacity: 0 }, 500, done)
+      },650)
+    },
+})
+
+//transitions
+Vue.transition('slideInSide', {
+    enter: function (el, done) {
+      // element is already inserted into the DOM
+      // call done when animation finishes.
+      $(el).hide();
+      setTimeout(function() {
+        $(el).addClass('slideInLeft').show()
+        .animate({ opacity: 1 }, 1, done)
+      },1000)
+      
+    },
+    leave: function (el, done) {
+      // same as enter
+      
+      $(el).removeClass('slideInLeft')
+      $(el).addClass('slideOutLeft')
+
+      setTimeout(function() {
+        $(el).hide()
+        .animate({ opacity: 0 }, 500, done)
+      },650)
+    },
+})
+
+
+Vue.transition('bounce', {
+    type:'transition'
+})
+
+Vue.transition('fade', {
+  css: false,
+  enter: function (el, done) {
+    // element is already inserted into the DOM
+    // call done when animation finishes.
+    setTimeout(function() {
+      $(el)
+      .css('opacity', 0)
+      .animate({ opacity: 1 }, 1000, done)
+    },1000)
+    
+  },
+  enterCancelled: function (el) {
+    $(el).stop()
+  },
+  leave: function (el, done) {
+    // same as enter
+    $(el).animate({ opacity: 0 }, 1000, done)
+  },
+  leaveCancelled: function (el) {
+    $(el).stop()
+  }
 })
 
 const App = Vue.extend(require('./compiled/app.vue'))
