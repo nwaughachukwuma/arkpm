@@ -18298,7 +18298,7 @@ Vue.transition('zoomInLoad', {
     $(el).hide();
     setTimeout(function () {
       $(el).addClass('flipInX').show().animate({ opacity: 1 }, 1, done);
-    }, 700);
+    }, 500);
   },
   leave: function leave(el, done) {
     // same as enter
@@ -18312,40 +18312,39 @@ Vue.transition('zoomInLoad', {
   }
 });
 
-//transitions
-Vue.transition('slideInLeft', {
+Vue.transition('zoomFade', {
+  type: 'animation',
   enter: function enter(el, done) {
     // element is already inserted into the DOM
     // call done when animation finishes.
     $(el).hide();
     setTimeout(function () {
-      $(el).addClass('slideInLeft').show().animate({ opacity: 1 }, 1, done);
-    }, 200);
+      $(el).addClass('fadeIn').show().animate({ opacity: 1 }, 1, done);
+    }, 600);
   },
   leave: function leave(el, done) {
     // same as enter
 
-    $(el).removeClass('slideInLeft');
-    $(el).addClass('slideOutLeft');
+    $(el).removeClass('fadeIn');
+    $(el).addClass('fadeOut');
 
     setTimeout(function () {
-      $(el).hide().animate({ opacity: 0 }, 500, done);
-    }, 650);
+      $(el).hide().animate({ opacity: 0 }, 10, done);
+    }, 300);
   }
 });
 
 Vue.transition('bounce', {
-  type: 'transition'
+  type: 'animation'
 });
 
 Vue.transition('fade', {
   css: false,
   enter: function enter(el, done) {
-    // element is already inserted into the DOM
-    // call done when animation finishes.
+    $(el).css('opacity', 0);
     setTimeout(function () {
       $(el).css('opacity', 0).animate({ opacity: 1 }, 1000, done);
-    }, 1000);
+    }, 500);
   },
   enterCancelled: function enterCancelled(el) {
     $(el).stop();
@@ -18973,7 +18972,7 @@ if (module.hot) {(function () {  module.hot.accept()
 
 module.exports = {};
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"ark-home\" class=\"ark-home hold-transition skin-blue sidebar-mini\">\n  <div class=\"wrapper\">\n    <!-- Header -->\n    <header-component class=\"animated\" transition=\"slideInLeft\" stagger=\"300\"></header-component>\n\n    <!-- Sidebar -->\n    <sidebar-component></sidebar-component>  \n\n\n    <!-- Content Wrapper. Contains page content -->\n    <div class=\"content-wrapper\">\n\n      <!-- Content Header (Page header) -->\n      <section class=\"content-header\">\n        <h1>\n          Page Header\n          <small>Optional description</small>\n        </h1>\n        <ol class=\"breadcrumb\">\n          <li><a href=\"#\"><i class=\"fa fa-dashboard\"></i> Level</a></li>\n          <li class=\"active\">Here</li>\n        </ol>\n      </section>\n\n      <!-- Main content -->\n      <section class=\"content\">\n        <router-view></router-view>\n      </section><!-- /.content -->\n    </div><!-- /.content-wrapper -->\n\n    <!-- Sidebar -->\n    <sidebarright-component></sidebarright-component> \n  </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div id=\"ark-home\" class=\"ark-home skin-blue sidebar-mini\">\n  <div class=\"wrapper\">\n    <!-- Header -->\n    <header-component></header-component>\n\n    <!-- Sidebar -->\n    <sidebar-component></sidebar-component>  \n\n\n    <!-- Content Wrapper. Contains page content -->\n    <div class=\"content-wrapper\">\n\n      <!-- Content Header (Page header) -->\n      <section class=\"content-header\">\n        <h1>\n          Page Header\n          <small>Optional description</small>\n        </h1>\n        <ol class=\"breadcrumb\">\n          <li><a href=\"#\"><i class=\"fa fa-dashboard\"></i> Level</a></li>\n          <li class=\"active\">Here</li>\n        </ol>\n      </section>\n\n      <!-- Main content -->\n      <section class=\"content\">\n        <router-view></router-view>\n      </section><!-- /.content -->\n    </div><!-- /.content-wrapper -->\n\n    <!-- Sidebar -->\n    <sidebarright-component></sidebarright-component> \n  </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19166,7 +19165,7 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":29,"vue-hot-reload-api":27}],73:[function(require,module,exports){
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-heading\">\n\tDashboard\n</div>\n<div class=\"panel-body\">\n\tWelcome to ArkPM\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n<div class=\"panel-heading\">\n    \tDashboard\n    </div>\n    <div class=\"panel-body\">\n    \tWelcome to ArkPM\n    </div>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19185,7 +19184,7 @@ module.exports = {
    ready: function ready() {}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-heading\">\n\tAbout us\n</div>\n<div class=\"panel-body\">\n\tThis is a sample webpage that authenticates against a Laravel API and gets the obligatory dogs. A new page here\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n    <div class=\"panel-heading\">\n    \tAbout us\n    </div>\n    <div class=\"panel-body\">\n    \tThis is a sample webpage that authenticates against a Laravel API and gets the obligatory dogs. A new page here\n    </div>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19215,7 +19214,7 @@ if (module.hot) {(function () {  module.hot.accept()
 
 module.exports = {};
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- Left side column. contains the logo and sidebar -->\n<aside class=\"main-sidebar\">\n\n  <!-- sidebar: style can be found in sidebar.less -->\n  <section class=\"sidebar\">\n\n    <!-- Sidebar user panel (optional) -->\n    <div class=\"user-panel\">\n      <div class=\"pull-left image\">\n        <img src=\"assets/dist/img/user2-160x160.jpg\" class=\"img-circle\" alt=\"User Image\">\n      </div>\n      <div class=\"pull-left info\">\n        <p v-if=\"$root.user\">Matt Nelson</p>\n        <!-- Status -->\n        <a href=\"#\"><i class=\"fa fa-circle text-success\"></i> Online</a>\n      </div>\n    </div>\n\n    <!-- search form (Optional) -->\n    <form action=\"#\" method=\"get\" class=\"sidebar-form\">\n      <div class=\"input-group\">\n        <input type=\"text\" name=\"q\" class=\"form-control\" placeholder=\"Search...\">\n        <span class=\"input-group-btn\">\n          <button type=\"submit\" name=\"search\" id=\"search-btn\" class=\"btn btn-flat\"><i class=\"fa fa-search\"></i></button>\n        </span>\n      </div>\n    </form>\n    <!-- /.search form -->\n\n    <!-- Sidebar Menu -->\n    <ul class=\"sidebar-menu\">\n      <li class=\"header\">MAIN NAVIGATION</li>\n      <!-- Optionally, you can add icons to the links -->\n      <li v-link=\"{ path: '/pm/dashboard', activeClass: 'active' }\">\n        <a v-link=\"{ path: '/pm/dashboard', activeClass: 'active' }\">\n          <i class=\"fa fa fa-dashboard\"></i> \n          <span>Dashboard</span>\n        </a>\n      </li>\n      <li v-link=\"{path: '/pm/tracking', activeClass: 'active'}\">\n        <a v-link=\"{ path: '/pm/tracking' }\">\n          <i class=\"fa fa-clock-o\"></i> \n          <span>Tracking</span>\n        </a>\n      </li>\n      <li class=\"treeview\">\n        <a href=\"#\">\n          <i class=\"fa fa-bank\"></i>  \n          <span>Clients</span> \n          <i class=\"fa fa-angle-left pull-right\"></i>\n        </a>\n        <ul class=\"treeview-menu\">\n          <li v-link=\"{path: '/pm/clients', activeClass: 'active'}\">\n            <a href=\"#\" v-link=\"{path: '/pm/clients'}\">View All</a>\n          </li>\n          <li v-link=\"{path: '/pm/clients/create', activeClass: 'active'}\">\n            <a v-link=\"{path: '/pm/clients/create'}\">Create New</a>\n          </li>\n        </ul>\n      </li>\n\n\n      <li v-link=\"{path: '/dogs', activeClass: 'active'}\">\n        <a v-link=\"{ path: '/dogs' }\">\n          <i class=\"fa fa-link\"></i> \n          <span>Dogs</span>\n        </a>\n      </li>\n      <li class=\"treeview\">\n        <a href=\"#\"><i class=\"fa fa-link\"></i> <span>Multilevel</span> <i class=\"fa fa-angle-left pull-right\"></i></a>\n        <ul class=\"treeview-menu\">\n          <li><a href=\"#\">Link in level 2</a></li>\n          <li><a href=\"#\">Link in level 2</a></li>\n        </ul>\n      </li>\n    </ul><!-- /.sidebar-menu -->\n  </section>\n  <!-- /.sidebar -->\n</aside>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n<!-- Left side column. contains the logo and sidebar -->\n<aside class=\"main-sidebar\">\n\n  <!-- sidebar: style can be found in sidebar.less -->\n  <section class=\"sidebar\">\n\n    <!-- Sidebar user panel (optional) -->\n    <div class=\"user-panel\">\n      <div class=\"pull-left image\">\n        <img src=\"assets/dist/img/user2-160x160.jpg\" class=\"img-circle\" alt=\"User Image\">\n      </div>\n      <div class=\"pull-left info\">\n        <p v-if=\"$root.user\">Matt Nelson</p>\n        <!-- Status -->\n        <a href=\"#\"><i class=\"fa fa-circle text-success\"></i> Online</a>\n      </div>\n    </div>\n\n    <!-- search form (Optional) -->\n    <form action=\"#\" method=\"get\" class=\"sidebar-form\">\n      <div class=\"input-group\">\n        <input type=\"text\" name=\"q\" class=\"form-control\" placeholder=\"Search...\">\n        <span class=\"input-group-btn\">\n          <button type=\"submit\" name=\"search\" id=\"search-btn\" class=\"btn btn-flat\"><i class=\"fa fa-search\"></i></button>\n        </span>\n      </div>\n    </form>\n    <!-- /.search form -->\n\n    <!-- Sidebar Menu -->\n    <ul class=\"sidebar-menu\">\n      <li class=\"header\">MAIN NAVIGATION</li>\n      <!-- Optionally, you can add icons to the links -->\n      <li v-link=\"{ path: '/pm/dashboard', activeClass: 'active' }\">\n        <a v-link=\"{ path: '/pm/dashboard', activeClass: 'active' }\">\n          <i class=\"fa fa fa-dashboard\"></i> \n          <span>Dashboard</span>\n        </a>\n      </li>\n      <li v-link=\"{path: '/pm/tracking', activeClass: 'active'}\">\n        <a v-link=\"{ path: '/pm/tracking' }\">\n          <i class=\"fa fa-clock-o\"></i> \n          <span>Tracking</span>\n        </a>\n      </li>\n      <li v-link=\"{path: '/pm/clients', activeClass: 'active'}\">\n        <a v-link=\"{ path: '/pm/clients' }\">\n          <i class=\"fa fa-clock-o\"></i> \n          <span>Tracking</span>\n        </a>\n      </li>\n      \n    </ul><!-- /.sidebar-menu -->\n  </section>\n  <!-- /.sidebar -->\n</aside>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

@@ -55,7 +55,7 @@ Vue.transition('zoomInLoad', {
       setTimeout(function() {
         $(el).addClass('flipInX').show()
         .animate({ opacity: 1 }, 1, done)
-      },700)
+      },500)
       
     },
     leave: function (el, done) {
@@ -71,46 +71,46 @@ Vue.transition('zoomInLoad', {
     },
 })
 
-//transitions
-Vue.transition('slideInSide', {
+Vue.transition('zoomFade', {
+    type:'animation',
     enter: function (el, done) {
       // element is already inserted into the DOM
       // call done when animation finishes.
       $(el).hide();
       setTimeout(function() {
-        $(el).addClass('slideInLeft').show()
+        $(el).addClass('fadeIn').show()
         .animate({ opacity: 1 }, 1, done)
-      },1000)
+      },600)
       
     },
     leave: function (el, done) {
       // same as enter
       
-      $(el).removeClass('slideInLeft')
-      $(el).addClass('slideOutLeft')
+      $(el).removeClass('fadeIn')
+      $(el).addClass('fadeOut')
 
       setTimeout(function() {
         $(el).hide()
-        .animate({ opacity: 0 }, 500, done)
-      },650)
+        .animate({ opacity: 0 }, 10, done)
+      },300)
     },
 })
 
 
 Vue.transition('bounce', {
-    type:'transition'
+    type:'animation'
 })
 
 Vue.transition('fade', {
   css: false,
   enter: function (el, done) {
-    // element is already inserted into the DOM
-    // call done when animation finishes.
+    $(el)
+      .css('opacity', 0)
     setTimeout(function() {
       $(el)
       .css('opacity', 0)
       .animate({ opacity: 1 }, 1000, done)
-    },1000)
+    },500)
     
   },
   enterCancelled: function (el) {
