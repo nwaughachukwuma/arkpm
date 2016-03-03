@@ -22,8 +22,12 @@ elixir.extend('remove', function(path) {
 elixir(function (mix) {
     mix
     .less('theme.less')
+
     .styles([
         "theme.css",
+        "../../resources/assets/css/animate.css",
+        "../../resources/assets/css/transitions.css",
+
       ],'public/css/arkpm.css' ,'public/css')
     .vuemaker([
        'resources/assets/js/components/**/*.+(js|css|html)',

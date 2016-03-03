@@ -1,13 +1,8 @@
-
-
-
-
 <!-- iCheck -->
 <link rel="stylesheet" href="/assets/plugins/iCheck/square/blue.css">
 
 
-
-<div class="hold-transition login-page">
+<div class="login-page" transition="bounce">
     <div class="login-box">
       <div class="login-logo">
         <a href="../../index2.html"><b>Ark</b>PM</a>
@@ -53,7 +48,7 @@
         </div><!-- /.social-auth-links -->
 
         <a v-link="{ path: '/auth/forgot' }">I forgot my password</a><br>
-        <a href="register.html" class="text-center">Register a new membership</a>
+        <a v-link="{ path: '/auth/register' }" class="text-center">Register a new membership</a>
 
       </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->

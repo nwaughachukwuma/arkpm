@@ -45,6 +45,13 @@ Vue.component('maintemplate-component', require('./compiled/maintemplate.vue'))
 //Services
 //window.timetracker = require('./services/timetracker');
 
+//transitions
+Vue.transition('zoomInLoad', {
+    enterClass: 'animated bounceInLeft',
+    leaveClass: 'animated bounceOutRight',
+    type: 'animation'
+})
+
 const App = Vue.extend(require('./compiled/app.vue'))
 router.start(App, '#app')
 window.router = router
