@@ -34,7 +34,15 @@ elixir(function (mix) {
        'resources/assets/js/app.+(js|css|html)'
      ], 'resources/assets/js/compiled')
     .browserify('bootstrap.js', 'resources/assets/js/transit.js')
-    .scripts(['theme.js','transit.js', '../bower/moment/moment.js'] )
+    .scripts([
+      'theme.js',
+      'transit.js', 
+      '../bower/moment/moment.js',
+      'vendor/input-mask/inputmask.js',
+      'vendor/input-mask/inputmask.date.extensions.js',
+      'vendor/input-mask/inputmask.extensions.js',
+      'vendor/input-mask/jquery.inputmask.js',
+      ] )
     .remove([ 'public/css/theme.*', 'resources/assets/js/transit.*'])
 })
 

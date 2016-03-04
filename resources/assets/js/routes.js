@@ -55,7 +55,10 @@ module.exports = {
             component: require('./compiled/pages/pm/clients/show.vue')
           },
           '/tracking': {
-            component: require('./compiled/pages/pm/tracking.vue')
+            component: require('./compiled/pages/pm/tracking/index.vue')
+          },
+          '/tracking/create': {
+            component: require('./compiled/pages/pm/tracking/create.vue')
           }
         }
       },

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "A small project managemnt system built with VueJS and Laravel",
   "author": "Matt Nelson",
-  "license": "GNU GPL3",
+  "license": "GPL-3.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/silverark/arkpm.git"
