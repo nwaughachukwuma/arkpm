@@ -14,11 +14,10 @@ class TimelogRequest extends FormRequest
 	public function rules()
 	{
 		return [
-	    	'company' => 'required|max:100',
-	    	'contact' => 'max:100',
-	    	'email' => 'email',
-	    	'telephone' => 'max:30',
-	    	'hourly' => 'numeric|max:3000'
+	    	'user_id' => 'numeric|max:100',
+	    	'startdate' => 'max:16',
+	    	'enddate' => 'max:16',
+	    	'minutes' => 'numeric',
     	];
 	}
 }
