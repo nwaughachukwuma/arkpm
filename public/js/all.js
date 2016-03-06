@@ -19184,28 +19184,33 @@ module.exports = {
   data: function data() {
     return {
       timelog: {
-        company: '',
-        contact: '',
-        email: '',
-        telephone: '',
-        hourly: ''
+        userid: '',
+        startdate: '',
+        enddate: '',
+        minutes: 0,
+        client_id: null,
+        project_id: null,
+        task_id: null,
+        billable: false,
+        visible: false
       },
       messages: []
     };
   },
   ready: function ready() {
-    $("#logdate").inputmask('datetime', { greedy: false });
+    $("#startdate").inputmask('datetime', { greedy: false });
+    $("#enddate").inputmask('datetime', { greedy: false });
   },
   methods: {
     createTimelog: function createTimelog(e) {
       e.preventDefault();
       var that = this;
       client({ path: 'tracking', entity: this.timelog }).then(function (response, status) {
-        that.timelog.company = '';
-        that.timelog.contact = '';
+        that.timelog.client_id = '';
+        that.timelog.project_id = '';
         that.messages = [{ type: 'success', message: 'The timelog has been created successfully' }];
         Vue.nextTick(function () {
-          document.getElementById('company').focus();
+          document.getElementById('startdate').focus();
         });
       }, function (response, status) {
         that.messages = [];
@@ -19217,7 +19222,7 @@ module.exports = {
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <!-- left column -->\n    <div class=\"col-md-12\">\n        <!-- general form elements -->\n        <div class=\"box box-primary\">\n            <div class=\"box-header with-border\">\n              <h3 class=\"box-title\">Time Log</h3>\n            </div><!-- /.box-header -->\n\n            <div id=\"alerts\" v-if=\"messages.length > 0\">\n                <div v-for=\"message in messages\" class=\"alert alert-{{ message.type }} alert-dismissible\" role=\"alert\">\n                    {{ message.message }}\n                </div>\n            </div>\n\n            <!-- form start -->\n            <form role=\"form\" v-on:submit=\"createTimelog\">\n                <div class=\"box-body\">\n\n                    <div class=\"form-group\">\n                      \n                    </div>\n\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Start Date\" id=\"logdate\" class=\"form-control\" required=\"required\" name=\"logdate\" v-model=\"timelog.logdate\">\n                    </div>\n                    \n                   \n                </div><!-- /.box-body -->\n\n                <div class=\"box-footer\">\n                    <button class=\"btn btn-primary\" type=\"submit\">Save Client</button>\n                </div>\n            </form>\n        </div><!-- /.box -->\n    </div><!--/.col (left) -->\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <!-- left column -->\n    <div class=\"col-md-12\">\n        <!-- general form elements -->\n        <div class=\"box box-primary\">\n            <div class=\"box-header with-border\">\n              <h3 class=\"box-title\">Time Log</h3>\n            </div><!-- /.box-header -->\n\n            <div id=\"alerts\" v-if=\"messages.length > 0\">\n                <div v-for=\"message in messages\" class=\"alert alert-{{ message.type }} alert-dismissible\" role=\"alert\">\n                    {{ message.message }}\n                </div>\n            </div>\n\n            <!-- form start -->\n            <form role=\"form\" v-on:submit=\"createTimelog\">\n                <div class=\"box-body\">\n\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Start Date\" id=\"startdate\" class=\"form-control\" required=\"required\" name=\"startdate\" v-model=\"timelog.startdate\">\n                    </div>\n\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"End Date\" id=\"enddate\" class=\"form-control\" required=\"required\" name=\"enddate\" v-model=\"timelog.enddate\">\n                    </div>\n\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Time Spent\" id=\"minutes\" class=\"form-control\" required=\"required\" name=\"minutes\" v-model=\"timelog.minutes\">\n                    </div>\n\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"client_id\" id=\"client_id\" class=\"form-control\" required=\"required\" name=\"client_id\" v-model=\"timelog.client_id\">\n                    </div>\n\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Project Id\" id=\"project_id\" class=\"form-control\" required=\"required\" name=\"project_id\" v-model=\"timelog.project_id\">\n                    </div>\n\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Task ID\" id=\"task_id\" class=\"form-control\" required=\"required\" name=\"task_id\" v-model=\"timelog.task_id\">\n                    </div>\n\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Billable?\" id=\"billable\" class=\"form-control\" required=\"required\" name=\"billable\" v-model=\"timelog.billable\">\n                    </div>\n                    <div class=\"form-group\">\n                      <input type=\"text\" placeholder=\"Visible\" id=\"visible\" class=\"form-control\" required=\"required\" name=\"visible\" v-model=\"timelog.visible\">\n                    </div>\n\n                </div><!-- /.box-body -->\n\n                <div class=\"box-footer\">\n                    <button class=\"btn btn-primary\" type=\"submit\">Track Time</button>\n                </div>\n            </form>\n        </div><!-- /.box -->\n    </div><!--/.col (left) -->\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -19269,13 +19274,9 @@ module.exports = {
   route: {
     // fetch the list of clients
     data: function data(transition) {
-
-      transition.next;
-
-      /*this.fetch(function (data) {
-        transition.next({timelogs: data})
-      })
-      */
+      this.fetch(function (data) {
+        transition.next({ timelogs: data });
+      });
     }
   }
 };

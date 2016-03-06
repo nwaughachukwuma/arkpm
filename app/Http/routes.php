@@ -32,11 +32,11 @@ $api->version('v1', function ($api) {
 			$api->put('clients/{id}', 'ClientsController@update');
 
 			//Time Logging Functions
-			$api->get('timelogs', 'TrackingController@index');
-			$api->post('timelogs', 'TrackingController@store');
-			$api->get('timelogs/{id}', 'TrackingController@show');
-			$api->delete('timelogs/{id}', 'TrackingController@destroy');
-			$api->put('timelogs/{id}', 'TrackingController@update');
+			$api->get('tracking', 'TrackingController@index');
+			$api->post('tracking', 'TrackingController@store');
+			$api->get('tracking/{id}', 'TrackingController@show');
+			$api->delete('tracking/{id}', 'TrackingController@destroy');
+			$api->put('tracking/{id}', 'TrackingController@update');
 
 		});
 

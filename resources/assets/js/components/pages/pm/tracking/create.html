@@ -18,19 +18,53 @@
                 <div class="box-body">
 
                     <div class="form-group">
-                      
+                      <input type="text" placeholder="Start Date" 
+                       id="startdate" class="form-control" required="required" 
+                       name="startdate" v-model="timelog.startdate">
                     </div>
 
                     <div class="form-group">
-                      <input type="text" placeholder="Start Date" 
-                       id="logdate" class="form-control" required="required" name="logdate" v-model="timelog.logdate">
+                      <input type="text" placeholder="End Date" 
+                       id="enddate" class="form-control" required="required" 
+                       name="enddate" v-model="timelog.enddate">
                     </div>
-                    
-                   
+
+                    <div class="form-group">
+                      <input type="text" placeholder="Time Spent" 
+                       id="minutes" class="form-control" required="required" 
+                       name="minutes" v-model="timelog.minutes">
+                    </div>
+
+                    <div class="form-group">
+                      <input type="text" placeholder="client_id" 
+                       id="client_id" class="form-control" required="required" 
+                       name="client_id" v-model="timelog.client_id">
+                    </div>
+
+                    <div class="form-group">
+                      <input type="text" placeholder="Project Id" 
+                       id="project_id" class="form-control" required="required" 
+                       name="project_id" v-model="timelog.project_id">
+                    </div>
+
+                    <div class="form-group">
+                      <input type="text" placeholder="Task ID" 
+                       id="task_id" class="form-control" required="required" name="task_id" v-model="timelog.task_id">
+                    </div>
+
+                    <div class="form-group">
+                      <input type="text" placeholder="Billable?" 
+                       id="billable" class="form-control" required="required" name="billable" v-model="timelog.billable">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" placeholder="Visible" 
+                       id="visible" class="form-control" required="required" name="visible" v-model="timelog.visible">
+                    </div>
+
                 </div><!-- /.box-body -->
 
                 <div class="box-footer">
-                    <button class="btn btn-primary" type="submit">Save Client</button>
+                    <button class="btn btn-primary" type="submit">Track Time</button>
                 </div>
             </form>
         </div><!-- /.box -->

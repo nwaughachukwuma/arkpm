@@ -43,13 +43,10 @@ module.exports = {
   route: {
     // fetch the list of clients
     data: function (transition) {
-
-        transition.next
-
-      /*this.fetch(function (data) {
+      this.fetch(function (data) {
         transition.next({timelogs: data})
       })
-      */
+      
     }
   }
 }
