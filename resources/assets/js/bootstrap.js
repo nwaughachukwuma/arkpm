@@ -33,6 +33,8 @@ window.client = rest.wrap(pathPrefix, { prefix: config.api.base_url })
                     .wrap(jwtAuth);
 
 // Bootstrap the app
+
+//Components
 Vue.component('header-component', require('./compiled/header.vue'))
 Vue.component('sidebar-component', require('./compiled/sidebar.vue'))
 Vue.component('sidebarright-component', require('./compiled/sidebarright.vue'))

@@ -27,7 +27,6 @@ elixir(function (mix) {
         "theme.css",
         "../../resources/assets/css/animate.css",
         "../../resources/assets/css/transitions.css",
-
       ],'public/css/arkpm.css' ,'public/css')
     .vuemaker([
        'resources/assets/js/components/**/*.+(js|css|html)',
