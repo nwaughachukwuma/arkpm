@@ -58,4 +58,5 @@ RewriteCond %{HTTP:Authorization} ^(.*)
 RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
 ```
 
+If you have run the DB seed then the default username is admin@example.com and the password is admin. You can update the seed file before you run it if you want to stick your own details in.
 
