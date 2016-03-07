@@ -12,7 +12,8 @@ module.exports = {
         billable: false,
         visible: false
       },
-      messages: []
+      messages: [],
+      clients: []
     }
   },
   ready: function() {
@@ -39,6 +40,31 @@ module.exports = {
           }
         }
       )
+    },
+    // Let's get the clients
+    fetch: function (successHandler) {
+      var that = this
+      client({ path: '/clients' }).then(
+        function (response) {
+          //Set the clients
+          that.$set('clients', response.entity.data)
+          successHandler(response.entity.data)
+        },
+        function (response, status) {
+          if (_.contains([401, 500], status)) {
+            that.$dispatch('userHasLoggedOut')
+          }
+        }
+      )
+    },
+  },
+  route: {
+    // fetch the list of clients
+    data: function (transition) {
+      this.fetch(function (data) {
+        transition.next({clients: data.clients})
+      })
+      
     }
   }
 }
