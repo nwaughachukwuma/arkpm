@@ -25,6 +25,12 @@
     "tests"
   ],
   "dependencies": {
-    "moment": "^2.11.2",
+    "moment": "^2.11.2"
+  },
+  "resolutions": {
+    "select2": "^4.0.0"
+  },
+  "devDependencies": {
+    "vue-select": "^0.1.7"
   }
 }

@@ -27,6 +27,7 @@ elixir(function (mix) {
         "theme.css",
         "../../resources/assets/css/animate.css",
         "../../resources/assets/css/transitions.css",
+        '../bower/select2/dist/css/select2.css',
       ],'public/css/arkpm.css' ,'public/css')
     .vuemaker([
        'resources/assets/js/components/**/*.+(js|css|html)',
@@ -37,6 +38,7 @@ elixir(function (mix) {
       'theme.js',
       'transit.js', 
       '../bower/moment/moment.js',
+      '../bower/select2/dist/js/select2.js',
       'vendor/input-mask/inputmask.js',
       'vendor/input-mask/inputmask.date.extensions.js',
       'vendor/input-mask/inputmask.extensions.js',

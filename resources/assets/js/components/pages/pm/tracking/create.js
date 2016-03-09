@@ -13,7 +13,13 @@ module.exports = {
         visible: false
       },
       messages: [],
-      clients: []
+      clients: [],
+      options1: [
+        "value1",
+        "value2",
+        "value3"
+      ],
+      result1: ""
     }
   },
   ready: function() {
