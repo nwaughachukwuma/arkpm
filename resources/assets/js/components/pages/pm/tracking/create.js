@@ -14,17 +14,21 @@ module.exports = {
       },
       messages: [],
       clients: [],
-      options1: [
-        "value1",
-        "value2",
-        "value3"
-      ],
+      options: [
+      { text: 'One', value: 'A' },
+      { text: 'Two', value: 'B' },
+      { text: 'Three', value: 'C' }
+    ],
+      selected: "",
       result1: ""
     }
   },
   ready: function() {
       $("#startdate").inputmask('datetime', {greedy: false});
       $("#enddate").inputmask('datetime', {greedy: false});
+
+      $(".js-example-basic-single").select2();
+
   },
   methods: {
     createTimelog: function (e) {
@@ -54,6 +58,7 @@ module.exports = {
         function (response) {
           //Set the clients
           that.$set('clients', response.entity.data)
+          
           successHandler(response.entity.data)
         },
         function (response, status) {
@@ -68,7 +73,8 @@ module.exports = {
     // fetch the list of clients
     data: function (transition) {
       this.fetch(function (data) {
-        transition.next({clients: data.clients})
+        
+        transition.next({clients: data})
       })
       
     }

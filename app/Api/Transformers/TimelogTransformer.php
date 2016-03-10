@@ -2,7 +2,7 @@
 
 namespace Api\Transformers;
 
-use App\Client;
+use App\Timelog;
 use League\Fractal\TransformerAbstract;
 
 class TimelogTransformer extends TransformerAbstract
