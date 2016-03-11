@@ -27,7 +27,7 @@ module.exports = {
       $("#startdate").inputmask('datetime', {greedy: false});
       $("#enddate").inputmask('datetime', {greedy: false});
 
-      $(".js-example-basic-single").select2();
+      $(".js-example-basic-single").select2({theme: "bootstrap"});
 
   },
   methods: {

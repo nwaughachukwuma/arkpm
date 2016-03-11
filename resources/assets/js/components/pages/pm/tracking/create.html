@@ -27,16 +27,6 @@
                     </div>
 
                     <div class="form-group">
-                      <select v-model="selected" class="form-control">
-                        <option v-for="client in clients" v-bind:value="client.id">
-                          {{ client.company }}
-                          </option>
-                      </select>
-                      <span>Selected: {{ selected }} </span>
-                    </div>  
-
-
-                    <div class="form-group">
                       <input type="text" placeholder="Start Date" 
                        id="startdate" class="form-control" required="required" 
                        name="startdate" v-model="timelog.startdate">
@@ -55,9 +45,11 @@
                     </div>
 
                     <div class="form-group">
-                      <input type="text" placeholder="client_id" 
-                       id="client_id" class="form-control" required="required" 
-                       name="client_id" v-model="timelog.client_id">
+                      <select id="client_id" name="client_id" v-model="timelog.client_id" class="form-control">
+                        <option v-for="client in clients" v-bind:value="client.id">
+                          {{ client.company }}
+                          </option>
+                      </select>
                     </div>
 
                     <div class="form-group">
