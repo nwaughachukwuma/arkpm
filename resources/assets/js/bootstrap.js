@@ -49,6 +49,8 @@ Vue.component('vue-select', require('vue-select2'))
 //Services
 //window.timetracker = require('./services/timetracker');
 
+
+
 //transitions
 Vue.transition('zoomInLoad', {
     type:'animation',

@@ -27,7 +27,13 @@ module.exports = {
       $("#startdate").inputmask('datetime', {greedy: false});
       $("#enddate").inputmask('datetime', {greedy: false});
 
-      $(".select2").select2({theme: "bootstrap"});
+      $(".select2").select2({theme: "bootstrap"}).on("change", function(e) {
+          //Manually bind the result to the model as select 2 deosn;t fire a real event
+          console.log($(".select2").find(":selected").val())
+          this.timelog.client_id = $(".select2").find(":selected").val();
+          result1 = "no";
+         
+        });
 
   },
   methods: {

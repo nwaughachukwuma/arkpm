@@ -18,62 +18,107 @@
                 <div class="box-body">
 
 
-                    <div class="form-group">
-                      <select class="js-example-basic-single form-control">
-                        <option value="AL">Alabama</option>
-                        <option value="WY">Wyoming</option>
-                        <option value="WY">Another</option>
-                      </select>
+                  <div class="row form-group">
+
+                    <div class="col-xs-4">
+                      <div class="input-group">
+                        <input type="text" placeholder="Start Date" 
+                         id="startdate" class="form-control" required="required" 
+                         name="startdate" v-model="timelog.startdate">
+
+                        <div class="input-group-btn">
+                          <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button" aria-expanded="false">Options <span class="fa fa-caret-down"></span></button>
+                          <ul class="dropdown-menu">
+                            <li><a href="#">Clock In</a></li>
+                            <li><a href="#">Today</a></li>
+                            <li><a href="#">Last Timelog End</a></li>
+                          </ul>
+                        </div><!-- /btn-group -->
+                      </div>    
                     </div>
 
-                    <div class="form-group">
-                      <input type="text" placeholder="Start Date" 
-                       id="startdate" class="form-control" required="required" 
-                       name="startdate" v-model="timelog.startdate">
+                    
+                    <div class="col-xs-4">
+                      <div class="input-group">
+                    
+                        <input type="text" placeholder="End Date" 
+                          id="enddate" class="form-control" required="required" 
+                          name="enddate" v-model="timelog.enddate">
+
+                        <div class="input-group-btn">
+                          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle" type="button" aria-expanded="false">Options <span class="fa fa-caret-down"></span></button>
+                          <ul class="dropdown-menu">
+                            <li><a href="#">Clock Out</a></li>
+                            <li><a href="#">Last Timelog End</a></li>
+                          </ul>
+                        </div><!-- /btn-group -->
+                      </div>
                     </div>
 
-                    <div class="form-group">
-                      <input type="text" placeholder="End Date" 
-                       id="enddate" class="form-control" required="required" 
-                       name="enddate" v-model="timelog.enddate">
+                    <div class="col-xs-4">
+                      <div class="input-group">
+                    
+                        <input type="text" placeholder="Time Spent" 
+                           id="minutes" class="form-control" required="required" 
+                           name="minutes" v-model="timelog.minutes">
+
+                        <div class="input-group-btn">
+                          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle" type="button" aria-expanded="false">
+                            Options <span class="fa fa-caret-down"></span>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="#">Clock In</a></li>
+                            <li><a href="#">Today</a></li>
+                            <li><a href="#">Last Timelog End</a></li>
+                          </ul>
+                        </div><!-- /btn-group -->
+                      </div>
                     </div>
 
-                    <div class="form-group">
-                      <input type="text" placeholder="Time Spent" 
-                       id="minutes" class="form-control" required="required" 
-                       name="minutes" v-model="timelog.minutes">
+                  </div>
+
+
+                  <div class="row form-group">
+
+                    <div class="col-xs-4">
+                      <div class="form-group">
+                        <select id="client_id" name="client_id" v-model="timelog.client_id" 
+                          class="form-control select2" placeholder="Client">
+                          <option v-for="client in clients" v-bind:value="client.id">
+                            {{ client.company }}
+                            </option>
+                        </select>
+                      </div>
+                      
                     </div>
 
-                    <div class="form-group">
-                      <select id="client_id" name="client_id" v-model="timelog.client_id" class="form-control select2">
-                        <option v-for="client in clients" v-bind:value="client.id">
-                          {{ client.company }}
-                          </option>
-                      </select>
+                    <div class="col-xs-4">
+                      <div class="form-group">
+                        <input type="text" placeholder="Project Id" 
+                         id="project_id" class="form-control" required="required" 
+                         name="project_id" v-model="timelog.project_id">
+                      </div>
                     </div>
 
-                    <div class="form-group">
-                      <input type="text" placeholder="Project Id" 
-                       id="project_id" class="form-control" required="required" 
-                       name="project_id" v-model="timelog.project_id">
+                    <div class="col-xs-4">
+                      <div class="form-group">
+                        <input type="text" placeholder="Task ID"  id="task_id" class="form-control" required="required"
+                         name="task_id" v-model="timelog.task_id">
+                      </div>
                     </div>
+                  </div>
 
-                    <div class="form-group">
-                      <input type="text" placeholder="Task ID" 
-                       id="task_id" class="form-control" required="required" name="task_id" v-model="timelog.task_id">
-                    </div>
-
-                    <div class="form-group">
-                      <input type="text" placeholder="Billable?" 
-                       id="billable" class="form-control" required="required" name="billable" v-model="timelog.billable">
-                    </div>
-                    <div class="form-group">
-                      <input type="text" placeholder="Visible" 
-                       id="visible" class="form-control" required="required" name="visible" v-model="timelog.visible">
-                    </div>
+                  <div class="form-group">
+                    <input type="text" placeholder="Billable?" 
+                     id="billable" class="form-control" required="required" name="billable" v-model="timelog.billable">
+                  </div>
+                  <div class="form-group">
+                    <input type="text" placeholder="Visible" 
+                     id="visible" class="form-control" required="required" name="visible" v-model="timelog.visible">
+                  </div>
 
                 </div><!-- /.box-body -->
-
+{{timelog || json}}
                 <div class="box-footer">
                     <button class="btn btn-primary" type="submit">Track Time</button>
                 </div>
