@@ -40,7 +40,22 @@ class TrackingController extends BaseController
     public function store(TimelogRequest $request)
     {
         $timeLog = new Timelog();
-        return Timelog::create($request->all());
+
+        //update the created on and end dates
+        $data = $request->all();
+
+        if(isset($data['startdate']) && $data['startdate'] != "") :
+            $data['startdate'] = date('Y-m-d H:i', strtotime(trim($data['startdate'])));
+        endif;
+
+        if(isset($data['enddate']) && $data['enddate'] != "") :
+            $data['enddate'] = date('Y-m-d H:i', strtotime(trim($data['enddate'])));
+        endif;
+
+        //Add the user ID
+        $data['user_id'] = $request->user()->id;
+
+        return Timelog::create($data);
     }
 
     /**

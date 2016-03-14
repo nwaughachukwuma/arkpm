@@ -18,22 +18,18 @@ module.exports = {
       { text: 'One', value: 'A' },
       { text: 'Two', value: 'B' },
       { text: 'Three', value: 'C' }
-    ],
-      selected: "",
-      result1: ""
+    ]
     }
   },
   ready: function() {
       $("#startdate").inputmask('datetime', {greedy: false});
       $("#enddate").inputmask('datetime', {greedy: false});
 
-      $(".select2").select2({theme: "bootstrap"}).on("change", function(e) {
+      
+      $(".select2").select2({theme: "bootstrap"}).on("change", null, {that: this}, function(e) {
           //Manually bind the result to the model as select 2 deosn;t fire a real event
-          console.log($(".select2").find(":selected").val())
-          this.timelog.client_id = $(".select2").find(":selected").val();
-          result1 = "no";
-         
-        });
+          e.data.that.timelog.client_id = $(".select2").find(":selected").val();
+      });
 
   },
   methods: {
