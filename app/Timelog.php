@@ -19,4 +19,16 @@ class Timelog extends Model
 
     use SoftDeletes;
     
+    //Set one-to-one relationship between timelog and a client
+    public function client()
+    {
+        return $this->belongsTo('App\Client');
+    }
+
+    public function getUsersLogs($user_id)
+    {
+        $logs = Timelog::leftJoin('clients', 'clients.id', '=', 'timelogs.client_id')->get();
+        return $logs;
+    }
+
 }

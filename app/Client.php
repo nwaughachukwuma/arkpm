@@ -18,4 +18,10 @@ class Client extends Model
 
     use SoftDeletes;
     
+    /* return the timelogs for a client */
+    public function timelogs()
+    {
+        return $this->hasMany('App\Timelog');
+    }
+
 }

@@ -26,17 +26,17 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                      <th>ID</th>
-                      <th>User</th>
-                      <th>Tracked</th>
-                      <th>Date</th>
-                      <th>Total Time</th>
+                      <th>Start Date</th>
+                      <th>Duration</th>
+                      <th>Client</th>
+                      <th>Task</th>
+                      
                       <th></th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <td colspan="6">
+                        <td colspan="5">
                             <a class="btn btn-primary" v-link="{ path: 'tracking/create'}">
                                 Track Time
                             </a>
@@ -45,9 +45,10 @@
                 </tfoot>
                 <tbody>
                     <tr v-for="timelog in timelogs" v-if=" ! $loadingRouteData && timelogs.length > 0">
-                        <td>{{ timelog.id }}</td>
+                        <td>{{ timelog.startdate }}</td>
+                        <td>{{ timelog.minutes }}</td>
                         <td>{{ timelog.company }}</td>
-                       
+                        <td>{{ timelog.task_id }}</td>
                         <td>
                             <a class="btn btn-primary btn-xs" v-link="{ path: '/pm/tracking/'+timelog.id }">Edit</a>
                             <a class="btn btn-primary btn-xs" v-on:click="deleteTimelog($index)">Delete</a>

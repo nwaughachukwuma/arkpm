@@ -28,7 +28,8 @@ class TrackingController extends BaseController
      */
     public function index()
     {
-        return $this->collection(Timelog::all(), new TimelogTransformer);
+        $timelogs = Timelog::with('client')->get();
+        return $this->collection($timelogs, new TimelogTransformer);
     }
 
     /**

@@ -13,6 +13,7 @@ module.exports = {
         visible: false
       },
       messages: [],
+      duration: 0,
       clients: [],
       options: [
       { text: 'One', value: 'A' },
@@ -22,14 +23,16 @@ module.exports = {
     }
   },
   ready: function() {
-      $("#startdate").inputmask('datetime', {greedy: false});
-      $("#enddate").inputmask('datetime', {greedy: false});
+      
 
       
       $(".select2").select2({theme: "bootstrap"}).on("change", null, {that: this}, function(e) {
           //Manually bind the result to the model as select 2 deosn;t fire a real event
           e.data.that.timelog.client_id = $(".select2").find(":selected").val();
       });
+
+      $("#startdate").inputmask('datetime', {greedy: false});
+      $("#enddate").inputmask('datetime', {greedy: false});
 
   },
   methods: {
@@ -53,6 +56,12 @@ module.exports = {
         }
       )
     },
+    clockIn: function() {
+      this.timelog.startdate = moment().format('DD/MM/YYYY HH:mm');   
+    },
+    clockOut: function() {
+      this.timelog.enddate = moment().format('DD/MM/YYYY HH:mm');   
+    },
     // Let's get the clients
     fetch: function (successHandler) {
       var that = this
@@ -71,6 +80,33 @@ module.exports = {
       )
     },
   },
+
+  watch: {
+    'timelog.enddate': function (val, oldVal) {
+      //try {
+        console.log('end changed to ' + val)
+        var start = moment(this.timelog.startdate, 'DD/MM/YYYY HH:mm')
+        var end = moment(this.timelog.enddate, 'DD/MM/YYYY HH:mm')
+        var diff = moment.duration(end.diff(start));
+        this.timelog.minutes = diff.asMinutes()
+        var hours = Math.floor(diff.asHours())
+        var minutes = diff.minutes();
+
+        if(hours > 0) {
+          this.duration = hours + "H " + minutes + "m";
+        } else {
+          this.duration = minutes + " minutes";
+        }
+        
+      //} catch ($exception) {
+
+      //}
+    },
+    'duration': function(val, oldval) {
+      this.timelog.minutes = val
+    }
+  },
+
   route: {
     // fetch the list of clients
     data: function (transition) {

@@ -9,7 +9,10 @@ class TimelogTransformer extends TransformerAbstract
 {
 	public function transform(Timelog $timelog)
 	{
-		return [
+
+
+
+		$return =  [
             'id' => (int) $timelog->id,
             'user_id' => (int) $timelog->user_id, 
             'startdate' => $timelog->startdate, 
@@ -21,5 +24,9 @@ class TimelogTransformer extends TransformerAbstract
             'billable' => (boolean) $timelog->billable, 
             'visible' => (boolean) $timelog->visible
 		];
+
+            if(isset($timelog->client->company)) $return['company'] = $timelog->client->company;
+
+            return $return;
 	}
 }

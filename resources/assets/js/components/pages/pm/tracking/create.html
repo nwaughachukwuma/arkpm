@@ -29,7 +29,9 @@
                         <div class="input-group-btn">
                           <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button" aria-expanded="false">Options <span class="fa fa-caret-down"></span></button>
                           <ul class="dropdown-menu">
-                            <li><a href="#">Clock In</a></li>
+                            <li>
+                              <a v-on:click.prevent="clockIn">Clock In</a>
+                            </li>
                             <li><a href="#">Today</a></li>
                             <li><a href="#">Last Timelog End</a></li>
                           </ul>
@@ -42,13 +44,13 @@
                       <div class="input-group">
                     
                         <input type="text" placeholder="End Date" 
-                          id="enddate" class="form-control" required="required" 
+                          id="enddate" class="form-control" 
                           name="enddate" v-model="timelog.enddate">
 
                         <div class="input-group-btn">
                           <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle" type="button" aria-expanded="false">Options <span class="fa fa-caret-down"></span></button>
                           <ul class="dropdown-menu">
-                            <li><a href="#">Clock Out</a></li>
+                            <li><a v-on:click.prevent="clockOut">Clock Out</a></li>
                             <li><a href="#">Last Timelog End</a></li>
                           </ul>
                         </div><!-- /btn-group -->
@@ -59,17 +61,16 @@
                       <div class="input-group">
                     
                         <input type="text" placeholder="Time Spent" 
-                           id="minutes" class="form-control" required="required" 
-                           name="minutes" v-model="timelog.minutes">
+                           id="minutes" class="form-control" 
+                           name="minutes" v-model="duration">
 
                         <div class="input-group-btn">
                           <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle" type="button" aria-expanded="false">
                             Options <span class="fa fa-caret-down"></span>
                           </button>
                           <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a href="#">Clock In</a></li>
-                            <li><a href="#">Today</a></li>
-                            <li><a href="#">Last Timelog End</a></li>
+                            <li><a href="#">Reload</a></li>
+                            
                           </ul>
                         </div><!-- /btn-group -->
                       </div>
@@ -95,14 +96,14 @@
                     <div class="col-xs-4">
                       <div class="form-group">
                         <input type="text" placeholder="Project Id" 
-                         id="project_id" class="form-control" required="required" 
+                         id="project_id" class="form-control"
                          name="project_id" v-model="timelog.project_id">
                       </div>
                     </div>
 
                     <div class="col-xs-4">
                       <div class="form-group">
-                        <input type="text" placeholder="Task ID"  id="task_id" class="form-control" required="required"
+                        <input type="text" placeholder="Task ID"  id="task_id" class="form-control"
                          name="task_id" v-model="timelog.task_id">
                       </div>
                     </div>
