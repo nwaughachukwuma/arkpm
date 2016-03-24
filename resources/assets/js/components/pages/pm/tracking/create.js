@@ -24,15 +24,21 @@ module.exports = {
   },
   ready: function() {
       
+      $(function() {
+         $("#startdate").inputmask('datetime', {greedy: false});
+          $("#enddate").inputmask('datetime', {greedy: false});
 
-      
-      $(".select2").select2({theme: "bootstrap"}).on("change", null, {that: this}, function(e) {
-          //Manually bind the result to the model as select 2 deosn;t fire a real event
-          e.data.that.timelog.client_id = $(".select2").find(":selected").val();
+        $(".select2").select2({theme: "bootstrap"}).on("change", null, {that: this}, function(e) {
+            //Manually bind the result to the model as select 2 deosn;t fire a real event
+            e.data.that.timelog.client_id = $(".select2").find(":selected").val();
+        });
+
       });
 
-      $("#startdate").inputmask('datetime', {greedy: false});
-      $("#enddate").inputmask('datetime', {greedy: false});
+      
+
+
+     
 
   },
   methods: {

@@ -3253,6 +3253,9 @@ table.text-center th {
 .post .user-block {
   margin-bottom: 15px;
 }
+label {
+  font-weight: 400;
+}
 /*
  * Social Buttons for Bootstrap
  *
