@@ -23,22 +23,17 @@ module.exports = {
     }
   },
   ready: function() {
-      
+      var _this = this
       $(function() {
-         $("#startdate").inputmask('datetime', {greedy: false});
-          $("#enddate").inputmask('datetime', {greedy: false});
+        $("#startdate").inputmask('datetime', {greedy: false});
+        $("#enddate").inputmask('datetime', {greedy: false});
 
-        $(".select2").select2({theme: "bootstrap"}).on("change", null, {that: this}, function(e) {
+        $(".select2").select2({theme: "bootstrap"}).on("change", null, {that: _this}, function(e) {
             //Manually bind the result to the model as select 2 deosn;t fire a real event
             e.data.that.timelog.client_id = $(".select2").find(":selected").val();
         });
 
       });
-
-      
-
-
-     
 
   },
   methods: {
@@ -96,12 +91,12 @@ module.exports = {
         var diff = moment.duration(end.diff(start));
         this.timelog.minutes = diff.asMinutes()
         var hours = Math.floor(diff.asHours())
-        var minutes = diff.minutes();
+        var fullminutes = diff.minutes();
 
         if(hours > 0) {
-          this.duration = hours + "H " + minutes + "m";
+          this.duration = hours + "H " + fullminutes + "m";
         } else {
-          this.duration = minutes + " minutes";
+          this.duration = fullminutes + " minutes";
         }
         
       //} catch ($exception) {
@@ -109,7 +104,7 @@ module.exports = {
       //}
     },
     'duration': function(val, oldval) {
-      this.timelog.minutes = val
+      //this.timelog.minutes = val
     }
   },
 
