@@ -1,4 +1,138 @@
 <div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Time Log</h3>
+            </div><!-- /.box-header -->
+
+            <div id="alerts" class="panel-body" v-if="messagessave.length > 0">
+                <div v-for="message in messagessave" class="alert alert-{{ message.type }} alert-dismissible" role="alert">
+                    {{ message.message }}
+                </div>
+            </div>
+
+            <!-- form start -->
+            <form role="form" v-on:submit="saveTimelog">
+                <div class="box-body">
+
+
+                  <div class="row form-group">
+
+                    <div class="col-xs-4">
+                      <div class="input-group">
+                        <input type="text" placeholder="Start Date" 
+                         id="startdate" class="form-control" required="required" 
+                         name="startdate" v-model="timelog.startdate">
+
+                        <div class="input-group-btn">
+                          <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button" aria-expanded="false">Options <span class="fa fa-caret-down"></span></button>
+                          <ul class="dropdown-menu">
+                            <li>
+                              <a v-on:click.prevent="clockIn">Clock In</a>
+                            </li>
+                            <li><a href="#">Today</a></li>
+                            <li><a href="#">Last Timelog End</a></li>
+                          </ul>
+                        </div><!-- /btn-group -->
+                      </div>    
+                    </div>
+
+                    
+                    <div class="col-xs-4">
+                      <div class="input-group">
+                    
+                        <input type="text" placeholder="End Date" 
+                          id="enddate" class="form-control" 
+                          name="enddate" v-model="timelog.enddate">
+
+                        <div class="input-group-btn">
+                          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle" type="button" aria-expanded="false">Options <span class="fa fa-caret-down"></span></button>
+                          <ul class="dropdown-menu">
+                            <li><a v-on:click.prevent="clockOut">Clock Out</a></li>
+                            <li><a href="#">Last Timelog End</a></li>
+                          </ul>
+                        </div><!-- /btn-group -->
+                      </div>
+                    </div>
+
+                    <div class="col-xs-4">
+                      <div class="input-group">
+                    
+                        <input type="text" placeholder="Time Spent" class="form-control" 
+                            v-model="duration">
+
+                        <div class="input-group-btn">
+                          <button data-toggle="dropdown" class="btn btn-warning dropdown-toggle" type="button" aria-expanded="false">
+                            Options <span class="fa fa-caret-down"></span>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="#">Reload</a></li>
+                            
+                          </ul>
+                        </div><!-- /btn-group -->
+                      </div>
+                    </div>
+
+                  </div>
+
+
+                  <div class="row form-group">
+
+                    <div class="col-xs-4">
+                      <div class="form-group">
+                        <select id="client_id" name="client_id" v-model="timelog.client_id" 
+                          class="form-control select2" placeholder="Client">
+                          <option v-for="client in clients" v-bind:value="client.id">
+                            {{ client.company }}
+                            </option>
+                        </select>
+                      </div>
+
+                    </div>
+
+                    <div class="col-xs-4">
+                      <div class="form-group">
+                        <input type="text" placeholder="Project Id" 
+                         id="project_id" class="form-control"
+                         name="project_id" v-model="timelog.project_id">
+                      </div>
+                    </div>
+
+                    <div class="col-xs-4">
+                      <div class="form-group">
+                        <input type="text" placeholder="Task ID"  id="task_id" class="form-control"
+                         name="task_id" v-model="timelog.task_id">
+                      </div>
+                    </div>
+                  </div>
+
+                </div><!-- /.box-body -->
+
+                <div class="box-footer">
+
+                    
+                    
+                    <label style="margin-right:10px">
+                      <input type="checkbox" name="billable" id="billable" v-model="timelog.billable" checked>
+                      Billable?
+                    </label>
+
+                    <label>
+                      <input type="checkbox" id="visible" name="visible" v-model="timelog.visible">
+                      Visible to client?
+                    </label>
+
+
+                    <button class="btn btn-primary pull-right" type="submit">Track Time</button>
+                </div>
+            </form>
+
+        </div><!-- /.box -->
+    </div><!--/.col (left) -->
+</div>
+<div class="row">
     <div class="col-xs-12">
       <div class="box">
         <div class="box-header">

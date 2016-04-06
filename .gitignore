@@ -11,3 +11,4 @@ composer.lock
 
 public/js/app.js.map
 resources/assets/bower
+resources/assets/js/transit.*

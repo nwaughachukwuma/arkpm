@@ -20372,17 +20372,63 @@ if (module.hot) {(function () {  module.hot.accept()
 module.exports = {
   data: function data() {
     return {
-      timelogs: [],
-      messages: []
+      timelog: {
+        userid: '',
+        startdate: '',
+        enddate: '',
+        minutes: 0,
+        client_id: '',
+        project_id: '',
+        task_id: '',
+        billable: false,
+        visible: false
+      },
+      messages: [],
+      messagessave: [],
+      duration: 0,
+      clients: [],
+      timelogs: []
     };
   },
   methods: {
+    saveTimelog: function saveTimelog(e) {
+      e.preventDefault();
+      var that = this;
+      client({ path: 'tracking', entity: this.timelog }).then(function (response, status) {
+
+        that.messagessave = [{ type: 'success', message: 'The timelog has been created successfully' }];
+        Vue.nextTick(function () {
+          document.getElementById('startdate').focus();
+        });
+      }, function (response, status) {
+        that.messagessave = [];
+        for (var key in response.entity) {
+          that.messages.push({ type: 'danger', message: response.entity[key] });
+        }
+      });
+    },
+    clockIn: function clockIn() {
+      this.timelog.startdate = moment().format('DD/MM/YYYY HH:mm');
+    },
+    clockOut: function clockOut() {
+      this.timelog.enddate = moment().format('DD/MM/YYYY HH:mm');
+    },
     // get the timelogs
     fetch: function fetch(successHandler) {
       var that = this;
       client({ path: '/tracking' }).then(function (response) {
         //Set the timelogs
         that.$set('timelogs', response.entity.data);
+      }, function (response, status) {
+        if (_.contains([401, 500], status)) {
+          that.$dispatch('userHasLoggedOut');
+        }
+      });
+      //Get the clients
+      client({ path: '/clients' }).then(function (response) {
+        //Set the clients
+        that.$set('clients', response.entity.data);
+        //Call success handler to let them know we have finished
         successHandler(response.entity.data);
       }, function (response, status) {
         if (_.contains([401, 500], status)) {
@@ -20402,18 +20448,42 @@ module.exports = {
     }
 
   },
+  watch: {
+    'timelog.enddate': function timelogEnddate(val, oldVal) {
+      //try {
+      console.log('end changed to ' + val);
+      var start = moment(this.timelog.startdate, 'DD/MM/YYYY HH:mm');
+      var end = moment(this.timelog.enddate, 'DD/MM/YYYY HH:mm');
+      var diff = moment.duration(end.diff(start));
+      this.timelog.minutes = diff.asMinutes();
+      var hours = Math.floor(diff.asHours());
+      var fullminutes = diff.minutes();
 
+      if (hours > 0) {
+        this.duration = hours + "H " + fullminutes + "m";
+      } else {
+        this.duration = fullminutes + " minutes";
+      }
+
+      //} catch ($exception) {
+
+      //}
+    },
+    'duration': function duration(val, oldval) {
+      //this.timelog.minutes = val
+    }
+  },
   route: {
     // fetch the list of clients
     data: function data(transition) {
       this.fetch(function (data) {
-        transition.next({ timelogs: data });
+        transition.next();
       });
     }
   }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <div class=\"col-xs-12\">\n      <div class=\"box\">\n        <div class=\"box-header\">\n          <h3 class=\"box-title\">Time Tracking</h3>\n          <div class=\"box-tools\">\n            <div class=\"input-group\" style=\"width: 150px;\">\n              <input type=\"text\" name=\"table_search\" class=\"form-control input-sm pull-right\" placeholder=\"Search\">\n              <div class=\"input-group-btn\">\n                <button class=\"btn btn-sm btn-default\"><i class=\"fa fa-search\"></i></button>\n              </div>\n            </div>\n          </div>\n        </div><!-- /.box-header -->\n        <div class=\"box-body table-responsive no-padding\">\n\n            <div class=\"panel-body\" v-if=\"$loadingRouteData\">\n                Loading data {{ loadingRouteData }}\n            </div>\n            <div class=\"panel-body\" v-if=\"messages.length > 0\">\n                <div v-for=\"message in messages\" class=\"alert alert-{{ message.type }} alert-dismissible\" role=\"alert\">\n                    {{ message.message }}\n                </div>\n            </div>\n\n            <table class=\"table table-hover\">\n                <thead>\n                    <tr>\n                      <th>Start Date</th>\n                      <th>Duration</th>\n                      <th>Client</th>\n                      <th>Task</th>\n                      \n                      <th></th>\n                    </tr>\n                </thead>\n                <tfoot>\n                    <tr>\n                        <td colspan=\"5\">\n                            <a class=\"btn btn-primary\" v-link=\"{ path: 'tracking/create'}\">\n                                Track Time\n                            </a>\n                        </td>\n                    </tr>\n                </tfoot>\n                <tbody>\n                    <tr v-for=\"timelog in timelogs\" v-if=\" ! $loadingRouteData &amp;&amp; timelogs.length > 0\">\n                        <td>{{ timelog.startdate }}</td>\n                        <td>{{ timelog.minutes }}</td>\n                        <td>{{ timelog.company }}</td>\n                        <td>{{ timelog.task_id }}</td>\n                        <td>\n                            <a class=\"btn btn-primary btn-xs\" v-link=\"{ path: '/pm/tracking/'+timelog.id }\">Edit</a>\n                            <a class=\"btn btn-primary btn-xs\" v-on:click=\"deleteTimelog($index)\">Delete</a>\n                        </td>\n                    </tr>\n                    <tr v-if=\" ! $loadingRouteData &amp;&amp; timelogs.length == 0\">\n                        <td colspan=\"6\">There are no time logs to show</td>\n                    </tr>\n                </tbody>\n\n\n            </table>\n        </div><!-- /.box-body -->\n      </div><!-- /.box -->\n    </div>\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <!-- left column -->\n    <div class=\"col-md-12\">\n        <!-- general form elements -->\n        <div class=\"box box-primary\">\n            <div class=\"box-header with-border\">\n              <h3 class=\"box-title\">Time Log</h3>\n            </div><!-- /.box-header -->\n\n            <div id=\"alerts\" class=\"panel-body\" v-if=\"messagessave.length > 0\">\n                <div v-for=\"message in messagessave\" class=\"alert alert-{{ message.type }} alert-dismissible\" role=\"alert\">\n                    {{ message.message }}\n                </div>\n            </div>\n\n            <!-- form start -->\n            <form role=\"form\" v-on:submit=\"saveTimelog\">\n                <div class=\"box-body\">\n\n\n                  <div class=\"row form-group\">\n\n                    <div class=\"col-xs-4\">\n                      <div class=\"input-group\">\n                        <input type=\"text\" placeholder=\"Start Date\" id=\"startdate\" class=\"form-control\" required=\"required\" name=\"startdate\" v-model=\"timelog.startdate\">\n\n                        <div class=\"input-group-btn\">\n                          <button data-toggle=\"dropdown\" class=\"btn btn-primary dropdown-toggle\" type=\"button\" aria-expanded=\"false\">Options <span class=\"fa fa-caret-down\"></span></button>\n                          <ul class=\"dropdown-menu\">\n                            <li>\n                              <a v-on:click.prevent=\"clockIn\">Clock In</a>\n                            </li>\n                            <li><a href=\"#\">Today</a></li>\n                            <li><a href=\"#\">Last Timelog End</a></li>\n                          </ul>\n                        </div><!-- /btn-group -->\n                      </div>    \n                    </div>\n\n                    \n                    <div class=\"col-xs-4\">\n                      <div class=\"input-group\">\n                    \n                        <input type=\"text\" placeholder=\"End Date\" id=\"enddate\" class=\"form-control\" name=\"enddate\" v-model=\"timelog.enddate\">\n\n                        <div class=\"input-group-btn\">\n                          <button data-toggle=\"dropdown\" class=\"btn btn-warning dropdown-toggle\" type=\"button\" aria-expanded=\"false\">Options <span class=\"fa fa-caret-down\"></span></button>\n                          <ul class=\"dropdown-menu\">\n                            <li><a v-on:click.prevent=\"clockOut\">Clock Out</a></li>\n                            <li><a href=\"#\">Last Timelog End</a></li>\n                          </ul>\n                        </div><!-- /btn-group -->\n                      </div>\n                    </div>\n\n                    <div class=\"col-xs-4\">\n                      <div class=\"input-group\">\n                    \n                        <input type=\"text\" placeholder=\"Time Spent\" class=\"form-control\" v-model=\"duration\">\n\n                        <div class=\"input-group-btn\">\n                          <button data-toggle=\"dropdown\" class=\"btn btn-warning dropdown-toggle\" type=\"button\" aria-expanded=\"false\">\n                            Options <span class=\"fa fa-caret-down\"></span>\n                          </button>\n                          <ul class=\"dropdown-menu dropdown-menu-right\">\n                            <li><a href=\"#\">Reload</a></li>\n                            \n                          </ul>\n                        </div><!-- /btn-group -->\n                      </div>\n                    </div>\n\n                  </div>\n\n\n                  <div class=\"row form-group\">\n\n                    <div class=\"col-xs-4\">\n                      <div class=\"form-group\">\n                        <select id=\"client_id\" name=\"client_id\" v-model=\"timelog.client_id\" class=\"form-control select2\" placeholder=\"Client\">\n                          <option v-for=\"client in clients\" v-bind:value=\"client.id\">\n                            {{ client.company }}\n                            </option>\n                        </select>\n                      </div>\n\n                    </div>\n\n                    <div class=\"col-xs-4\">\n                      <div class=\"form-group\">\n                        <input type=\"text\" placeholder=\"Project Id\" id=\"project_id\" class=\"form-control\" name=\"project_id\" v-model=\"timelog.project_id\">\n                      </div>\n                    </div>\n\n                    <div class=\"col-xs-4\">\n                      <div class=\"form-group\">\n                        <input type=\"text\" placeholder=\"Task ID\" id=\"task_id\" class=\"form-control\" name=\"task_id\" v-model=\"timelog.task_id\">\n                      </div>\n                    </div>\n                  </div>\n\n                </div><!-- /.box-body -->\n\n                <div class=\"box-footer\">\n\n                    \n                    \n                    <label style=\"margin-right:10px\">\n                      <input type=\"checkbox\" name=\"billable\" id=\"billable\" v-model=\"timelog.billable\" checked=\"\">\n                      Billable?\n                    </label>\n\n                    <label>\n                      <input type=\"checkbox\" id=\"visible\" name=\"visible\" v-model=\"timelog.visible\">\n                      Visible to client?\n                    </label>\n\n\n                    <button class=\"btn btn-primary pull-right\" type=\"submit\">Track Time</button>\n                </div>\n            </form>\n\n        </div><!-- /.box -->\n    </div><!--/.col (left) -->\n</div>\n<div class=\"row\">\n    <div class=\"col-xs-12\">\n      <div class=\"box\">\n        <div class=\"box-header\">\n          <h3 class=\"box-title\">Time Tracking</h3>\n          <div class=\"box-tools\">\n            <div class=\"input-group\" style=\"width: 150px;\">\n              <input type=\"text\" name=\"table_search\" class=\"form-control input-sm pull-right\" placeholder=\"Search\">\n              <div class=\"input-group-btn\">\n                <button class=\"btn btn-sm btn-default\"><i class=\"fa fa-search\"></i></button>\n              </div>\n            </div>\n          </div>\n        </div><!-- /.box-header -->\n        <div class=\"box-body table-responsive no-padding\">\n\n            <div class=\"panel-body\" v-if=\"$loadingRouteData\">\n                Loading data {{ loadingRouteData }}\n            </div>\n            <div class=\"panel-body\" v-if=\"messages.length > 0\">\n                <div v-for=\"message in messages\" class=\"alert alert-{{ message.type }} alert-dismissible\" role=\"alert\">\n                    {{ message.message }}\n                </div>\n            </div>\n\n            <table class=\"table table-hover\">\n                <thead>\n                    <tr>\n                      <th>Start Date</th>\n                      <th>Duration</th>\n                      <th>Client</th>\n                      <th>Task</th>\n                      \n                      <th></th>\n                    </tr>\n                </thead>\n                <tfoot>\n                    <tr>\n                        <td colspan=\"5\">\n                            <a class=\"btn btn-primary\" v-link=\"{ path: 'tracking/create'}\">\n                                Track Time\n                            </a>\n                        </td>\n                    </tr>\n                </tfoot>\n                <tbody>\n                    <tr v-for=\"timelog in timelogs\" v-if=\" ! $loadingRouteData &amp;&amp; timelogs.length > 0\">\n                        <td>{{ timelog.startdate }}</td>\n                        <td>{{ timelog.minutes }}</td>\n                        <td>{{ timelog.company }}</td>\n                        <td>{{ timelog.task_id }}</td>\n                        <td>\n                            <a class=\"btn btn-primary btn-xs\" v-link=\"{ path: '/pm/tracking/'+timelog.id }\">Edit</a>\n                            <a class=\"btn btn-primary btn-xs\" v-on:click=\"deleteTimelog($index)\">Delete</a>\n                        </td>\n                    </tr>\n                    <tr v-if=\" ! $loadingRouteData &amp;&amp; timelogs.length == 0\">\n                        <td colspan=\"6\">There are no time logs to show</td>\n                    </tr>\n                </tbody>\n\n\n            </table>\n        </div><!-- /.box-body -->\n      </div><!-- /.box -->\n    </div>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
