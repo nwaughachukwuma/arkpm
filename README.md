@@ -11,10 +11,10 @@ The system is buit using VueJS for the frontend and laravel for the backend so w
 
 * Single Page Application (SPA)
 * Full API as the site is driven from laravel
-* TODO: Tasks, Projects, and clients
-* TODO: Time Tracking - log against a Task, Project or Client
+* Tasks, Projects, and clients
+* Time Tracking - Log against a Task, Project or Client
 * TODO: Kanban View of tasks by status
-* TODO: Customisable statuses per project (Icebox, Development etc)
+* TODO: Customisable status per project (Icebox, Development etc)
 * TODO: Milestones (Tag anything as a milestone)
 * TODO: Reports for tasks closed and time tracked.
 
