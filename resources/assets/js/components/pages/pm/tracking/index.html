@@ -184,7 +184,7 @@
                         <td>{{ timelog.company }}</td>
                         <td>{{ timelog.task_id }}</td>
                         <td>
-                            <a class="btn btn-primary btn-xs" v-link="{ path: '/pm/tracking/'+timelog.id }">Edit</a>
+                            <a class="btn btn-primary btn-xs" v-on:click="loadTimelog($index)">Edit</a>
                             <a class="btn btn-primary btn-xs" v-on:click="deleteTimelog($index)">Delete</a>
                         </td>
                     </tr>
