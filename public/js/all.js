@@ -1388,16 +1388,16 @@ process.umask = function() { return 0; };
 					return;
 				}
 
-				XMLHttpRequest = request.engine || global.XMLHttpRequest;
-				if (!XMLHttpRequest) {
-					reject({ request: request, error: 'xhr-not-available' });
-					return;
-				}
-
 				entity = request.entity;
 				request.method = request.method || (entity ? 'POST' : 'GET');
 				method = request.method;
-				url = new UrlBuilder(request.path || '', request.params).build();
+				url = response.url = new UrlBuilder(request.path || '', request.params).build();
+
+				XMLHttpRequest = request.engine || global.XMLHttpRequest;
+				if (!XMLHttpRequest) {
+					reject({ request: request, url: url, error: 'xhr-not-available' });
+					return;
+				}
 
 				try {
 					client = response.raw = new XMLHttpRequest();
@@ -1478,7 +1478,7 @@ process.umask = function() { return 0; };
 	// Boilerplate for AMD and Node
 ));
 
-},{"../UrlBuilder":2,"../client":4,"../util/normalizeHeaderName":23,"../util/responsePromise":24,"when":50}],7:[function(require,module,exports){
+},{"../UrlBuilder":2,"../client":4,"../util/normalizeHeaderName":23,"../util/responsePromise":24,"when":48}],7:[function(require,module,exports){
 /*
  * Copyright 2012-2015 the original author or authors
  * @license MIT, see LICENSE.txt for details
@@ -1645,7 +1645,7 @@ process.umask = function() { return 0; };
 	// Boilerplate for AMD and Node
 ));
 
-},{"./client":4,"./client/default":5,"./util/mixin":22,"./util/responsePromise":24,"when":50}],8:[function(require,module,exports){
+},{"./client":4,"./client/default":5,"./util/mixin":22,"./util/responsePromise":24,"when":48}],8:[function(require,module,exports){
 /*
  * Copyright 2013 the original author or authors
  * @license MIT, see LICENSE.txt for details
@@ -1775,7 +1775,7 @@ process.umask = function() { return 0; };
 	// Boilerplate for AMD and Node
 ));
 
-},{"../interceptor":7,"when":50}],10:[function(require,module,exports){
+},{"../interceptor":7,"when":48}],10:[function(require,module,exports){
 /*
  * Copyright 2012-2014 the original author or authors
  * @license MIT, see LICENSE.txt for details
@@ -1887,7 +1887,7 @@ process.umask = function() { return 0; };
 	// Boilerplate for AMD and Node
 ));
 
-},{"../interceptor":7,"../mime":13,"../mime/registry":14,"when":50}],11:[function(require,module,exports){
+},{"../interceptor":7,"../mime":13,"../mime/registry":14,"when":48}],11:[function(require,module,exports){
 /*
  * Copyright 2012-2013 the original author or authors
  * @license MIT, see LICENSE.txt for details
@@ -1971,6 +1971,8 @@ process.umask = function() { return 0; };
 		 * Applies request params to the path as a URI Template
 		 *
 		 * Params are removed from the request object, as they have been consumed.
+		 *
+		 * @see https://tools.ietf.org/html/rfc6570
 		 *
 		 * @param {Client} [client] client to wrap
 		 * @param {Object} [config.params] default param values
@@ -2176,7 +2178,7 @@ process.umask = function() { return 0; };
 	// Boilerplate for AMD and Node
 ));
 
-},{"../mime":13,"./type/application/hal":15,"./type/application/json":16,"./type/application/x-www-form-urlencoded":17,"./type/multipart/form-data":18,"./type/text/plain":19,"when":50}],15:[function(require,module,exports){
+},{"../mime":13,"./type/application/hal":15,"./type/application/json":16,"./type/application/x-www-form-urlencoded":17,"./type/multipart/form-data":18,"./type/text/plain":19,"when":48}],15:[function(require,module,exports){
 /*
  * Copyright 2013-2015 the original author or authors
  * @license MIT, see LICENSE.txt for details
@@ -2317,7 +2319,7 @@ process.umask = function() { return 0; };
 	// Boilerplate for AMD and Node
 ));
 
-},{"../../../interceptor/pathPrefix":11,"../../../interceptor/template":12,"../../../util/find":20,"../../../util/lazyPromise":21,"../../../util/responsePromise":24,"when":50}],16:[function(require,module,exports){
+},{"../../../interceptor/pathPrefix":11,"../../../interceptor/template":12,"../../../util/find":20,"../../../util/lazyPromise":21,"../../../util/responsePromise":24,"when":48}],16:[function(require,module,exports){
 /*
  * Copyright 2012-2015 the original author or authors
  * @license MIT, see LICENSE.txt for details
@@ -2664,7 +2666,7 @@ process.umask = function() { return 0; };
 	// Boilerplate for AMD and Node
 ));
 
-},{"when":50}],22:[function(require,module,exports){
+},{"when":48}],22:[function(require,module,exports){
 /*
  * Copyright 2012-2013 the original author or authors
  * @license MIT, see LICENSE.txt for details
@@ -2896,7 +2898,7 @@ process.umask = function() { return 0; };
 	// Boilerplate for AMD and Node
 ));
 
-},{"./normalizeHeaderName":23,"when":50}],25:[function(require,module,exports){
+},{"./normalizeHeaderName":23,"when":48}],25:[function(require,module,exports){
 /*
  * Copyright 2015 the original author or authors
  * @license MIT, see LICENSE.txt for details
@@ -2951,7 +2953,8 @@ process.umask = function() { return 0; };
 				}
 				var code = myChar.charCodeAt(0);
 				if (code <= 127) {
-					return '%' + code.toString(16).toUpperCase();
+					var encoded = code.toString(16).toUpperCase();
+					return '%' + (encoded.length % 2 === 1 ? '0' : '') + encoded;
 				}
 				else {
 					return encodeURIComponent(myChar).toUpperCase();
@@ -3553,7 +3556,7 @@ function format (id) {
 
 },{}],28:[function(require,module,exports){
 /*!
- * vue-router v0.7.11
+ * vue-router v0.7.13
  * (c) 2016 Evan You
  * Released under the MIT License.
  */
@@ -3678,6 +3681,21 @@ function format (id) {
   var specials = ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'];
 
   var escapeRegex = new RegExp('(\\' + specials.join('|\\') + ')', 'g');
+
+  var noWarning = false;
+  function warn(msg) {
+    if (!noWarning && typeof console !== 'undefined') {
+      console.error('[vue-router] ' + msg);
+    }
+  }
+
+  function tryDecode(uri, asComponent) {
+    try {
+      return asComponent ? decodeURIComponent(uri) : decodeURI(uri);
+    } catch (e) {
+      warn('malformed URI' + (asComponent ? ' component: ' : ': ') + uri);
+    }
+  }
 
   function isArray(test) {
     return Object.prototype.toString.call(test) === "[object Array]";
@@ -4019,7 +4037,7 @@ function format (id) {
   function decodeQueryParamPart(part) {
     // http://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.1
     part = part.replace(/\+/gm, '%20');
-    return decodeURIComponent(part);
+    return tryDecode(part, true);
   }
 
   // The main interface
@@ -4201,7 +4219,8 @@ function format (id) {
       return queryParams;
     },
 
-    recognize: function recognize(path) {
+    recognize: function recognize(path, silent) {
+      noWarning = silent;
       var states = [this.rootState],
           pathLen,
           i,
@@ -4214,10 +4233,13 @@ function format (id) {
       if (queryStart !== -1) {
         var queryString = path.substr(queryStart + 1, path.length);
         path = path.substr(0, queryStart);
-        queryParams = this.parseQueryString(queryString);
+        if (queryString) {
+          queryParams = this.parseQueryString(queryString);
+        }
       }
 
-      path = decodeURI(path);
+      path = tryDecode(path);
+      if (!path) return;
 
       // DEBUG GROUP path
 
@@ -4264,8 +4286,6 @@ function format (id) {
 
   RouteRecognizer.prototype.map = map;
 
-  RouteRecognizer.VERSION = '0.1.9';
-
   var genQuery = RouteRecognizer.prototype.generateQueryString;
 
   // export default for holding the Vue reference
@@ -4276,13 +4296,10 @@ function format (id) {
    * @param {String} msg
    */
 
-  function warn(msg) {
+  function warn$1(msg) {
     /* istanbul ignore next */
-    if (window.console) {
-      console.warn('[vue-router] ' + msg);
-      if (!exports$1.Vue || exports$1.Vue.config.debug) {
-        console.warn(new Error('warning stack trace:').stack);
-      }
+    if (typeof console !== 'undefined') {
+      console.error('[vue-router] ' + msg);
     }
   }
 
@@ -4401,7 +4418,7 @@ function format (id) {
       var val = params[key];
       /* istanbul ignore if */
       if (!val) {
-        warn('param "' + key + '" not found when generating ' + 'path for "' + path + '" with params ' + JSON.stringify(params));
+        warn$1('param "' + key + '" not found when generating ' + 'path for "' + path + '" with params ' + JSON.stringify(params));
       }
       return val || '';
     });
@@ -4419,7 +4436,7 @@ function format (id) {
       var onChange = _ref.onChange;
       babelHelpers.classCallCheck(this, HTML5History);
 
-      if (root) {
+      if (root && root !== '/') {
         // make sure there's the starting slash
         if (root.charAt(0) !== '/') {
           root = '/' + root;
@@ -4440,7 +4457,7 @@ function format (id) {
       var _this = this;
 
       this.listener = function (e) {
-        var url = decodeURI(location.pathname + location.search);
+        var url = location.pathname + location.search;
         if (_this.root) {
           url = url.replace(_this.rootRE, '');
         }
@@ -4516,7 +4533,7 @@ function format (id) {
         // note it's possible to have queries in both the actual URL
         // and the hash fragment itself.
         var query = location.search && path.indexOf('?') > -1 ? '&' + location.search.slice(1) : location.search;
-        self.onChange(decodeURI(path.replace(/^#!?/, '') + query));
+        self.onChange(path.replace(/^#!?/, '') + query);
       };
       window.addEventListener('hashchange', this.listener);
       this.listener();
@@ -5089,7 +5106,7 @@ function format (id) {
       var onError = function onError(err) {
         postActivate ? next() : abort();
         if (err && !transition.router._suppress) {
-          warn('Uncaught error during transition: ');
+          warn$1('Uncaught error during transition: ');
           throw err instanceof Error ? err : new Error(err);
         }
       };
@@ -5109,7 +5126,7 @@ function format (id) {
       // advance the transition to the next step
       var next = function next() {
         if (nextCalled) {
-          warn('transition.next() should be called only once.');
+          warn$1('transition.next() should be called only once.');
           return;
         }
         nextCalled = true;
@@ -5219,7 +5236,7 @@ function format (id) {
     return val ? Array.prototype.slice.call(val) : [];
   }
 
-  var internalKeysRE = /^(component|subRoutes)$/;
+  var internalKeysRE = /^(component|subRoutes|fullPath)$/;
 
   /**
    * Route Context Object
@@ -5256,9 +5273,13 @@ function format (id) {
     }
     // expose path and router
     this.path = path;
-    this.router = router;
     // for internal use
     this.matched = matched || router._notFoundHandler;
+    // internal reference to router
+    Object.defineProperty(this, 'router', {
+      enumerable: false,
+      value: router
+    });
     // Important: freeze self to prevent observation
     Object.freeze(this);
   };
@@ -5346,7 +5367,7 @@ function format (id) {
         var route = this.vm.$route;
         /* istanbul ignore if */
         if (!route) {
-          warn('<router-view> can only be used inside a ' + 'router-enabled app.');
+          warn$1('<router-view> can only be used inside a ' + 'router-enabled app.');
           return;
         }
         // force dynamic directive so v-component doesn't
@@ -5415,35 +5436,58 @@ function format (id) {
     var addClass = _Vue$util.addClass;
     var removeClass = _Vue$util.removeClass;
 
+    var onPriority = Vue.directive('on').priority;
+    var LINK_UPDATE = '__vue-router-link-update__';
+
+    var activeId = 0;
+
     Vue.directive('link-active', {
-      priority: 1001,
+      priority: 9999,
       bind: function bind() {
-        this.el.__v_link_active = true;
+        var _this = this;
+
+        var id = String(activeId++);
+        // collect v-links contained within this element.
+        // we need do this here before the parent-child relationship
+        // gets messed up by terminal directives (if, for, components)
+        var childLinks = this.el.querySelectorAll('[v-link]');
+        for (var i = 0, l = childLinks.length; i < l; i++) {
+          var link = childLinks[i];
+          var existingId = link.getAttribute(LINK_UPDATE);
+          var value = existingId ? existingId + ',' + id : id;
+          // leave a mark on the link element which can be persisted
+          // through fragment clones.
+          link.setAttribute(LINK_UPDATE, value);
+        }
+        this.vm.$on(LINK_UPDATE, this.cb = function (link, path) {
+          if (link.activeIds.indexOf(id) > -1) {
+            link.updateClasses(path, _this.el);
+          }
+        });
+      },
+      unbind: function unbind() {
+        this.vm.$off(LINK_UPDATE, this.cb);
       }
     });
 
     Vue.directive('link', {
-      priority: 1000,
+      priority: onPriority - 2,
 
       bind: function bind() {
         var vm = this.vm;
         /* istanbul ignore if */
         if (!vm.$route) {
-          warn('v-link can only be used inside a router-enabled app.');
+          warn$1('v-link can only be used inside a router-enabled app.');
           return;
         }
         this.router = vm.$route.router;
         // update things when the route changes
         this.unwatch = vm.$watch('$route', _bind(this.onRouteUpdate, this));
-        // check if active classes should be applied to a different element
-        this.activeEl = this.el;
-        var parent = this.el.parentNode;
-        while (parent) {
-          if (parent.__v_link_active) {
-            this.activeEl = parent;
-            break;
-          }
-          parent = parent.parentNode;
+        // check v-link-active ids
+        var activeIds = this.el.getAttribute(LINK_UPDATE);
+        if (activeIds) {
+          this.el.removeAttribute(LINK_UPDATE);
+          this.activeIds = activeIds.split(',');
         }
         // no need to handle click if link expects to be opened
         // in a new window/tab.
@@ -5491,8 +5535,12 @@ function format (id) {
           }
           if (el.tagName === 'A' && sameOrigin(el)) {
             e.preventDefault();
+            var path = el.pathname;
+            if (this.router.history.root) {
+              path = path.replace(this.router.history.rootRE, '');
+            }
             this.router.go({
-              path: el.pathname,
+              path: path,
               replace: target && target.replace,
               append: target && target.append
             });
@@ -5501,15 +5549,19 @@ function format (id) {
       },
 
       onRouteUpdate: function onRouteUpdate(route) {
-        // router._stringifyPath is dependent on current route
+        // router.stringifyPath is dependent on current route
         // and needs to be called again whenver route changes.
-        var newPath = this.router._stringifyPath(this.target);
+        var newPath = this.router.stringifyPath(this.target);
         if (this.path !== newPath) {
           this.path = newPath;
           this.updateActiveMatch();
           this.updateHref();
         }
-        this.updateClasses(route.path);
+        if (this.activeIds) {
+          this.vm.$emit(LINK_UPDATE, this, route.path);
+        } else {
+          this.updateClasses(route.path, this.el);
+        }
       },
 
       updateActiveMatch: function updateActiveMatch() {
@@ -5532,12 +5584,11 @@ function format (id) {
         }
       },
 
-      updateClasses: function updateClasses(path) {
-        var el = this.activeEl;
+      updateClasses: function updateClasses(path, el) {
         var activeClass = this.activeClass || this.router._linkActiveClass;
         // clear old class
-        if (this.prevActiveClass !== activeClass) {
-          removeClass(el, this.prevActiveClass);
+        if (this.prevActiveClass && this.prevActiveClass !== activeClass) {
+          toggleClasses(el, this.prevActiveClass, removeClass);
         }
         // remove query string before matching
         var dest = this.path.replace(queryStringRE, '');
@@ -5547,15 +5598,15 @@ function format (id) {
           if (dest === path ||
           // also allow additional trailing slash
           dest.charAt(dest.length - 1) !== '/' && dest === path.replace(trailingSlashRE, '')) {
-            addClass(el, activeClass);
+            toggleClasses(el, activeClass, addClass);
           } else {
-            removeClass(el, activeClass);
+            toggleClasses(el, activeClass, removeClass);
           }
         } else {
           if (this.activeRE && this.activeRE.test(path)) {
-            addClass(el, activeClass);
+            toggleClasses(el, activeClass, addClass);
           } else {
-            removeClass(el, activeClass);
+            toggleClasses(el, activeClass, removeClass);
           }
         }
       },
@@ -5568,6 +5619,20 @@ function format (id) {
 
     function sameOrigin(link) {
       return link.protocol === location.protocol && link.hostname === location.hostname && link.port === location.port;
+    }
+
+    // this function is copied from v-bind:class implementation until
+    // we properly expose it...
+    function toggleClasses(el, key, fn) {
+      key = key.trim();
+      if (key.indexOf(' ') === -1) {
+        fn(el, key);
+        return;
+      }
+      var keys = key.split(/\s+/);
+      for (var i = 0, l = keys.length; i < l; i++) {
+        fn(el, keys[i]);
+      }
     }
   }
 
@@ -5777,7 +5842,7 @@ function format (id) {
         replace = path.replace;
         append = path.append;
       }
-      path = this._stringifyPath(path);
+      path = this.stringifyPath(path);
       if (path) {
         this.history.go(path, replace, append);
       }
@@ -5808,7 +5873,7 @@ function format (id) {
     Router.prototype.start = function start(App, container, cb) {
       /* istanbul ignore if */
       if (this._started) {
-        warn('already started.');
+        warn$1('already started.');
         return;
       }
       this._started = true;
@@ -5850,6 +5915,41 @@ function format (id) {
     Router.prototype.stop = function stop() {
       this.history.stop();
       this._started = false;
+    };
+
+    /**
+     * Normalize named route object / string paths into
+     * a string.
+     *
+     * @param {Object|String|Number} path
+     * @return {String}
+     */
+
+    Router.prototype.stringifyPath = function stringifyPath(path) {
+      var generatedPath = '';
+      if (path && typeof path === 'object') {
+        if (path.name) {
+          var extend = Vue.util.extend;
+          var currentParams = this._currentTransition && this._currentTransition.to.params;
+          var targetParams = path.params || {};
+          var params = currentParams ? extend(extend({}, currentParams), targetParams) : targetParams;
+          generatedPath = encodeURI(this._recognizer.generate(path.name, params));
+        } else if (path.path) {
+          generatedPath = encodeURI(path.path);
+        }
+        if (path.query) {
+          // note: the generated query string is pre-URL-encoded by the recognizer
+          var query = this._recognizer.generateQueryString(path.query);
+          if (generatedPath.indexOf('?') > -1) {
+            generatedPath += '&' + query.slice(1);
+          } else {
+            generatedPath += query;
+          }
+        }
+      } else {
+        generatedPath = encodeURI(path ? path + '' : '');
+      }
+      return generatedPath;
     };
 
     // Internal methods ======================================
@@ -5954,7 +6054,7 @@ function format (id) {
      */
 
     Router.prototype._checkGuard = function _checkGuard(path) {
-      var matched = this._guardRecognizer.recognize(path);
+      var matched = this._guardRecognizer.recognize(path, true);
       if (matched) {
         matched[0].handler(matched[0], matched.queryParams);
         return true;
@@ -6117,43 +6217,6 @@ function format (id) {
       }
     };
 
-    /**
-     * Normalize named route object / string paths into
-     * a string.
-     *
-     * @param {Object|String|Number} path
-     * @return {String}
-     */
-
-    Router.prototype._stringifyPath = function _stringifyPath(path) {
-      var fullPath = '';
-      if (path && typeof path === 'object') {
-        if (path.name) {
-          var extend = Vue.util.extend;
-          var currentParams = this._currentTransition && this._currentTransition.to.params;
-          var targetParams = path.params || {};
-          var params = currentParams ? extend(extend({}, currentParams), targetParams) : targetParams;
-          if (path.query) {
-            params.queryParams = path.query;
-          }
-          fullPath = this._recognizer.generate(path.name, params);
-        } else if (path.path) {
-          fullPath = path.path;
-          if (path.query) {
-            var query = this._recognizer.generateQueryString(path.query);
-            if (fullPath.indexOf('?') > -1) {
-              fullPath += '&' + query.slice(1);
-            } else {
-              fullPath += query;
-            }
-          }
-        }
-      } else {
-        fullPath = path ? path + '' : '';
-      }
-      return encodeURI(fullPath);
-    };
-
     return Router;
   })();
 
@@ -6165,7 +6228,7 @@ function format (id) {
     /* istanbul ignore if */
     if (typeof comp !== 'function') {
       handler.component = null;
-      warn('invalid component for route "' + path + '".');
+      warn$1('invalid component for route "' + path + '".');
     }
   }
 
@@ -6181,7 +6244,7 @@ function format (id) {
   Router.install = function (externalVue) {
     /* istanbul ignore if */
     if (Router.installed) {
-      warn('already installed.');
+      warn$1('already installed.');
       return;
     }
     Vue = externalVue;
@@ -6202,1070 +6265,9 @@ function format (id) {
 
 }));
 },{}],29:[function(require,module,exports){
-
-var DIACRITICS = {
-  '\u24B6': 'A',
-  '\uFF21': 'A',
-  '\u00C0': 'A',
-  '\u00C1': 'A',
-  '\u00C2': 'A',
-  '\u1EA6': 'A',
-  '\u1EA4': 'A',
-  '\u1EAA': 'A',
-  '\u1EA8': 'A',
-  '\u00C3': 'A',
-  '\u0100': 'A',
-  '\u0102': 'A',
-  '\u1EB0': 'A',
-  '\u1EAE': 'A',
-  '\u1EB4': 'A',
-  '\u1EB2': 'A',
-  '\u0226': 'A',
-  '\u01E0': 'A',
-  '\u00C4': 'A',
-  '\u01DE': 'A',
-  '\u1EA2': 'A',
-  '\u00C5': 'A',
-  '\u01FA': 'A',
-  '\u01CD': 'A',
-  '\u0200': 'A',
-  '\u0202': 'A',
-  '\u1EA0': 'A',
-  '\u1EAC': 'A',
-  '\u1EB6': 'A',
-  '\u1E00': 'A',
-  '\u0104': 'A',
-  '\u023A': 'A',
-  '\u2C6F': 'A',
-  '\uA732': 'AA',
-  '\u00C6': 'AE',
-  '\u01FC': 'AE',
-  '\u01E2': 'AE',
-  '\uA734': 'AO',
-  '\uA736': 'AU',
-  '\uA738': 'AV',
-  '\uA73A': 'AV',
-  '\uA73C': 'AY',
-  '\u24B7': 'B',
-  '\uFF22': 'B',
-  '\u1E02': 'B',
-  '\u1E04': 'B',
-  '\u1E06': 'B',
-  '\u0243': 'B',
-  '\u0182': 'B',
-  '\u0181': 'B',
-  '\u24B8': 'C',
-  '\uFF23': 'C',
-  '\u0106': 'C',
-  '\u0108': 'C',
-  '\u010A': 'C',
-  '\u010C': 'C',
-  '\u00C7': 'C',
-  '\u1E08': 'C',
-  '\u0187': 'C',
-  '\u023B': 'C',
-  '\uA73E': 'C',
-  '\u24B9': 'D',
-  '\uFF24': 'D',
-  '\u1E0A': 'D',
-  '\u010E': 'D',
-  '\u1E0C': 'D',
-  '\u1E10': 'D',
-  '\u1E12': 'D',
-  '\u1E0E': 'D',
-  '\u0110': 'D',
-  '\u018B': 'D',
-  '\u018A': 'D',
-  '\u0189': 'D',
-  '\uA779': 'D',
-  '\u01F1': 'DZ',
-  '\u01C4': 'DZ',
-  '\u01F2': 'Dz',
-  '\u01C5': 'Dz',
-  '\u24BA': 'E',
-  '\uFF25': 'E',
-  '\u00C8': 'E',
-  '\u00C9': 'E',
-  '\u00CA': 'E',
-  '\u1EC0': 'E',
-  '\u1EBE': 'E',
-  '\u1EC4': 'E',
-  '\u1EC2': 'E',
-  '\u1EBC': 'E',
-  '\u0112': 'E',
-  '\u1E14': 'E',
-  '\u1E16': 'E',
-  '\u0114': 'E',
-  '\u0116': 'E',
-  '\u00CB': 'E',
-  '\u1EBA': 'E',
-  '\u011A': 'E',
-  '\u0204': 'E',
-  '\u0206': 'E',
-  '\u1EB8': 'E',
-  '\u1EC6': 'E',
-  '\u0228': 'E',
-  '\u1E1C': 'E',
-  '\u0118': 'E',
-  '\u1E18': 'E',
-  '\u1E1A': 'E',
-  '\u0190': 'E',
-  '\u018E': 'E',
-  '\u24BB': 'F',
-  '\uFF26': 'F',
-  '\u1E1E': 'F',
-  '\u0191': 'F',
-  '\uA77B': 'F',
-  '\u24BC': 'G',
-  '\uFF27': 'G',
-  '\u01F4': 'G',
-  '\u011C': 'G',
-  '\u1E20': 'G',
-  '\u011E': 'G',
-  '\u0120': 'G',
-  '\u01E6': 'G',
-  '\u0122': 'G',
-  '\u01E4': 'G',
-  '\u0193': 'G',
-  '\uA7A0': 'G',
-  '\uA77D': 'G',
-  '\uA77E': 'G',
-  '\u24BD': 'H',
-  '\uFF28': 'H',
-  '\u0124': 'H',
-  '\u1E22': 'H',
-  '\u1E26': 'H',
-  '\u021E': 'H',
-  '\u1E24': 'H',
-  '\u1E28': 'H',
-  '\u1E2A': 'H',
-  '\u0126': 'H',
-  '\u2C67': 'H',
-  '\u2C75': 'H',
-  '\uA78D': 'H',
-  '\u24BE': 'I',
-  '\uFF29': 'I',
-  '\u00CC': 'I',
-  '\u00CD': 'I',
-  '\u00CE': 'I',
-  '\u0128': 'I',
-  '\u012A': 'I',
-  '\u012C': 'I',
-  '\u0130': 'I',
-  '\u00CF': 'I',
-  '\u1E2E': 'I',
-  '\u1EC8': 'I',
-  '\u01CF': 'I',
-  '\u0208': 'I',
-  '\u020A': 'I',
-  '\u1ECA': 'I',
-  '\u012E': 'I',
-  '\u1E2C': 'I',
-  '\u0197': 'I',
-  '\u24BF': 'J',
-  '\uFF2A': 'J',
-  '\u0134': 'J',
-  '\u0248': 'J',
-  '\u24C0': 'K',
-  '\uFF2B': 'K',
-  '\u1E30': 'K',
-  '\u01E8': 'K',
-  '\u1E32': 'K',
-  '\u0136': 'K',
-  '\u1E34': 'K',
-  '\u0198': 'K',
-  '\u2C69': 'K',
-  '\uA740': 'K',
-  '\uA742': 'K',
-  '\uA744': 'K',
-  '\uA7A2': 'K',
-  '\u24C1': 'L',
-  '\uFF2C': 'L',
-  '\u013F': 'L',
-  '\u0139': 'L',
-  '\u013D': 'L',
-  '\u1E36': 'L',
-  '\u1E38': 'L',
-  '\u013B': 'L',
-  '\u1E3C': 'L',
-  '\u1E3A': 'L',
-  '\u0141': 'L',
-  '\u023D': 'L',
-  '\u2C62': 'L',
-  '\u2C60': 'L',
-  '\uA748': 'L',
-  '\uA746': 'L',
-  '\uA780': 'L',
-  '\u01C7': 'LJ',
-  '\u01C8': 'Lj',
-  '\u24C2': 'M',
-  '\uFF2D': 'M',
-  '\u1E3E': 'M',
-  '\u1E40': 'M',
-  '\u1E42': 'M',
-  '\u2C6E': 'M',
-  '\u019C': 'M',
-  '\u24C3': 'N',
-  '\uFF2E': 'N',
-  '\u01F8': 'N',
-  '\u0143': 'N',
-  '\u00D1': 'N',
-  '\u1E44': 'N',
-  '\u0147': 'N',
-  '\u1E46': 'N',
-  '\u0145': 'N',
-  '\u1E4A': 'N',
-  '\u1E48': 'N',
-  '\u0220': 'N',
-  '\u019D': 'N',
-  '\uA790': 'N',
-  '\uA7A4': 'N',
-  '\u01CA': 'NJ',
-  '\u01CB': 'Nj',
-  '\u24C4': 'O',
-  '\uFF2F': 'O',
-  '\u00D2': 'O',
-  '\u00D3': 'O',
-  '\u00D4': 'O',
-  '\u1ED2': 'O',
-  '\u1ED0': 'O',
-  '\u1ED6': 'O',
-  '\u1ED4': 'O',
-  '\u00D5': 'O',
-  '\u1E4C': 'O',
-  '\u022C': 'O',
-  '\u1E4E': 'O',
-  '\u014C': 'O',
-  '\u1E50': 'O',
-  '\u1E52': 'O',
-  '\u014E': 'O',
-  '\u022E': 'O',
-  '\u0230': 'O',
-  '\u00D6': 'O',
-  '\u022A': 'O',
-  '\u1ECE': 'O',
-  '\u0150': 'O',
-  '\u01D1': 'O',
-  '\u020C': 'O',
-  '\u020E': 'O',
-  '\u01A0': 'O',
-  '\u1EDC': 'O',
-  '\u1EDA': 'O',
-  '\u1EE0': 'O',
-  '\u1EDE': 'O',
-  '\u1EE2': 'O',
-  '\u1ECC': 'O',
-  '\u1ED8': 'O',
-  '\u01EA': 'O',
-  '\u01EC': 'O',
-  '\u00D8': 'O',
-  '\u01FE': 'O',
-  '\u0186': 'O',
-  '\u019F': 'O',
-  '\uA74A': 'O',
-  '\uA74C': 'O',
-  '\u01A2': 'OI',
-  '\uA74E': 'OO',
-  '\u0222': 'OU',
-  '\u24C5': 'P',
-  '\uFF30': 'P',
-  '\u1E54': 'P',
-  '\u1E56': 'P',
-  '\u01A4': 'P',
-  '\u2C63': 'P',
-  '\uA750': 'P',
-  '\uA752': 'P',
-  '\uA754': 'P',
-  '\u24C6': 'Q',
-  '\uFF31': 'Q',
-  '\uA756': 'Q',
-  '\uA758': 'Q',
-  '\u024A': 'Q',
-  '\u24C7': 'R',
-  '\uFF32': 'R',
-  '\u0154': 'R',
-  '\u1E58': 'R',
-  '\u0158': 'R',
-  '\u0210': 'R',
-  '\u0212': 'R',
-  '\u1E5A': 'R',
-  '\u1E5C': 'R',
-  '\u0156': 'R',
-  '\u1E5E': 'R',
-  '\u024C': 'R',
-  '\u2C64': 'R',
-  '\uA75A': 'R',
-  '\uA7A6': 'R',
-  '\uA782': 'R',
-  '\u24C8': 'S',
-  '\uFF33': 'S',
-  '\u1E9E': 'S',
-  '\u015A': 'S',
-  '\u1E64': 'S',
-  '\u015C': 'S',
-  '\u1E60': 'S',
-  '\u0160': 'S',
-  '\u1E66': 'S',
-  '\u1E62': 'S',
-  '\u1E68': 'S',
-  '\u0218': 'S',
-  '\u015E': 'S',
-  '\u2C7E': 'S',
-  '\uA7A8': 'S',
-  '\uA784': 'S',
-  '\u24C9': 'T',
-  '\uFF34': 'T',
-  '\u1E6A': 'T',
-  '\u0164': 'T',
-  '\u1E6C': 'T',
-  '\u021A': 'T',
-  '\u0162': 'T',
-  '\u1E70': 'T',
-  '\u1E6E': 'T',
-  '\u0166': 'T',
-  '\u01AC': 'T',
-  '\u01AE': 'T',
-  '\u023E': 'T',
-  '\uA786': 'T',
-  '\uA728': 'TZ',
-  '\u24CA': 'U',
-  '\uFF35': 'U',
-  '\u00D9': 'U',
-  '\u00DA': 'U',
-  '\u00DB': 'U',
-  '\u0168': 'U',
-  '\u1E78': 'U',
-  '\u016A': 'U',
-  '\u1E7A': 'U',
-  '\u016C': 'U',
-  '\u00DC': 'U',
-  '\u01DB': 'U',
-  '\u01D7': 'U',
-  '\u01D5': 'U',
-  '\u01D9': 'U',
-  '\u1EE6': 'U',
-  '\u016E': 'U',
-  '\u0170': 'U',
-  '\u01D3': 'U',
-  '\u0214': 'U',
-  '\u0216': 'U',
-  '\u01AF': 'U',
-  '\u1EEA': 'U',
-  '\u1EE8': 'U',
-  '\u1EEE': 'U',
-  '\u1EEC': 'U',
-  '\u1EF0': 'U',
-  '\u1EE4': 'U',
-  '\u1E72': 'U',
-  '\u0172': 'U',
-  '\u1E76': 'U',
-  '\u1E74': 'U',
-  '\u0244': 'U',
-  '\u24CB': 'V',
-  '\uFF36': 'V',
-  '\u1E7C': 'V',
-  '\u1E7E': 'V',
-  '\u01B2': 'V',
-  '\uA75E': 'V',
-  '\u0245': 'V',
-  '\uA760': 'VY',
-  '\u24CC': 'W',
-  '\uFF37': 'W',
-  '\u1E80': 'W',
-  '\u1E82': 'W',
-  '\u0174': 'W',
-  '\u1E86': 'W',
-  '\u1E84': 'W',
-  '\u1E88': 'W',
-  '\u2C72': 'W',
-  '\u24CD': 'X',
-  '\uFF38': 'X',
-  '\u1E8A': 'X',
-  '\u1E8C': 'X',
-  '\u24CE': 'Y',
-  '\uFF39': 'Y',
-  '\u1EF2': 'Y',
-  '\u00DD': 'Y',
-  '\u0176': 'Y',
-  '\u1EF8': 'Y',
-  '\u0232': 'Y',
-  '\u1E8E': 'Y',
-  '\u0178': 'Y',
-  '\u1EF6': 'Y',
-  '\u1EF4': 'Y',
-  '\u01B3': 'Y',
-  '\u024E': 'Y',
-  '\u1EFE': 'Y',
-  '\u24CF': 'Z',
-  '\uFF3A': 'Z',
-  '\u0179': 'Z',
-  '\u1E90': 'Z',
-  '\u017B': 'Z',
-  '\u017D': 'Z',
-  '\u1E92': 'Z',
-  '\u1E94': 'Z',
-  '\u01B5': 'Z',
-  '\u0224': 'Z',
-  '\u2C7F': 'Z',
-  '\u2C6B': 'Z',
-  '\uA762': 'Z',
-  '\u24D0': 'a',
-  '\uFF41': 'a',
-  '\u1E9A': 'a',
-  '\u00E0': 'a',
-  '\u00E1': 'a',
-  '\u00E2': 'a',
-  '\u1EA7': 'a',
-  '\u1EA5': 'a',
-  '\u1EAB': 'a',
-  '\u1EA9': 'a',
-  '\u00E3': 'a',
-  '\u0101': 'a',
-  '\u0103': 'a',
-  '\u1EB1': 'a',
-  '\u1EAF': 'a',
-  '\u1EB5': 'a',
-  '\u1EB3': 'a',
-  '\u0227': 'a',
-  '\u01E1': 'a',
-  '\u00E4': 'a',
-  '\u01DF': 'a',
-  '\u1EA3': 'a',
-  '\u00E5': 'a',
-  '\u01FB': 'a',
-  '\u01CE': 'a',
-  '\u0201': 'a',
-  '\u0203': 'a',
-  '\u1EA1': 'a',
-  '\u1EAD': 'a',
-  '\u1EB7': 'a',
-  '\u1E01': 'a',
-  '\u0105': 'a',
-  '\u2C65': 'a',
-  '\u0250': 'a',
-  '\uA733': 'aa',
-  '\u00E6': 'ae',
-  '\u01FD': 'ae',
-  '\u01E3': 'ae',
-  '\uA735': 'ao',
-  '\uA737': 'au',
-  '\uA739': 'av',
-  '\uA73B': 'av',
-  '\uA73D': 'ay',
-  '\u24D1': 'b',
-  '\uFF42': 'b',
-  '\u1E03': 'b',
-  '\u1E05': 'b',
-  '\u1E07': 'b',
-  '\u0180': 'b',
-  '\u0183': 'b',
-  '\u0253': 'b',
-  '\u24D2': 'c',
-  '\uFF43': 'c',
-  '\u0107': 'c',
-  '\u0109': 'c',
-  '\u010B': 'c',
-  '\u010D': 'c',
-  '\u00E7': 'c',
-  '\u1E09': 'c',
-  '\u0188': 'c',
-  '\u023C': 'c',
-  '\uA73F': 'c',
-  '\u2184': 'c',
-  '\u24D3': 'd',
-  '\uFF44': 'd',
-  '\u1E0B': 'd',
-  '\u010F': 'd',
-  '\u1E0D': 'd',
-  '\u1E11': 'd',
-  '\u1E13': 'd',
-  '\u1E0F': 'd',
-  '\u0111': 'd',
-  '\u018C': 'd',
-  '\u0256': 'd',
-  '\u0257': 'd',
-  '\uA77A': 'd',
-  '\u01F3': 'dz',
-  '\u01C6': 'dz',
-  '\u24D4': 'e',
-  '\uFF45': 'e',
-  '\u00E8': 'e',
-  '\u00E9': 'e',
-  '\u00EA': 'e',
-  '\u1EC1': 'e',
-  '\u1EBF': 'e',
-  '\u1EC5': 'e',
-  '\u1EC3': 'e',
-  '\u1EBD': 'e',
-  '\u0113': 'e',
-  '\u1E15': 'e',
-  '\u1E17': 'e',
-  '\u0115': 'e',
-  '\u0117': 'e',
-  '\u00EB': 'e',
-  '\u1EBB': 'e',
-  '\u011B': 'e',
-  '\u0205': 'e',
-  '\u0207': 'e',
-  '\u1EB9': 'e',
-  '\u1EC7': 'e',
-  '\u0229': 'e',
-  '\u1E1D': 'e',
-  '\u0119': 'e',
-  '\u1E19': 'e',
-  '\u1E1B': 'e',
-  '\u0247': 'e',
-  '\u025B': 'e',
-  '\u01DD': 'e',
-  '\u24D5': 'f',
-  '\uFF46': 'f',
-  '\u1E1F': 'f',
-  '\u0192': 'f',
-  '\uA77C': 'f',
-  '\u24D6': 'g',
-  '\uFF47': 'g',
-  '\u01F5': 'g',
-  '\u011D': 'g',
-  '\u1E21': 'g',
-  '\u011F': 'g',
-  '\u0121': 'g',
-  '\u01E7': 'g',
-  '\u0123': 'g',
-  '\u01E5': 'g',
-  '\u0260': 'g',
-  '\uA7A1': 'g',
-  '\u1D79': 'g',
-  '\uA77F': 'g',
-  '\u24D7': 'h',
-  '\uFF48': 'h',
-  '\u0125': 'h',
-  '\u1E23': 'h',
-  '\u1E27': 'h',
-  '\u021F': 'h',
-  '\u1E25': 'h',
-  '\u1E29': 'h',
-  '\u1E2B': 'h',
-  '\u1E96': 'h',
-  '\u0127': 'h',
-  '\u2C68': 'h',
-  '\u2C76': 'h',
-  '\u0265': 'h',
-  '\u0195': 'hv',
-  '\u24D8': 'i',
-  '\uFF49': 'i',
-  '\u00EC': 'i',
-  '\u00ED': 'i',
-  '\u00EE': 'i',
-  '\u0129': 'i',
-  '\u012B': 'i',
-  '\u012D': 'i',
-  '\u00EF': 'i',
-  '\u1E2F': 'i',
-  '\u1EC9': 'i',
-  '\u01D0': 'i',
-  '\u0209': 'i',
-  '\u020B': 'i',
-  '\u1ECB': 'i',
-  '\u012F': 'i',
-  '\u1E2D': 'i',
-  '\u0268': 'i',
-  '\u0131': 'i',
-  '\u24D9': 'j',
-  '\uFF4A': 'j',
-  '\u0135': 'j',
-  '\u01F0': 'j',
-  '\u0249': 'j',
-  '\u24DA': 'k',
-  '\uFF4B': 'k',
-  '\u1E31': 'k',
-  '\u01E9': 'k',
-  '\u1E33': 'k',
-  '\u0137': 'k',
-  '\u1E35': 'k',
-  '\u0199': 'k',
-  '\u2C6A': 'k',
-  '\uA741': 'k',
-  '\uA743': 'k',
-  '\uA745': 'k',
-  '\uA7A3': 'k',
-  '\u24DB': 'l',
-  '\uFF4C': 'l',
-  '\u0140': 'l',
-  '\u013A': 'l',
-  '\u013E': 'l',
-  '\u1E37': 'l',
-  '\u1E39': 'l',
-  '\u013C': 'l',
-  '\u1E3D': 'l',
-  '\u1E3B': 'l',
-  '\u017F': 'l',
-  '\u0142': 'l',
-  '\u019A': 'l',
-  '\u026B': 'l',
-  '\u2C61': 'l',
-  '\uA749': 'l',
-  '\uA781': 'l',
-  '\uA747': 'l',
-  '\u01C9': 'lj',
-  '\u24DC': 'm',
-  '\uFF4D': 'm',
-  '\u1E3F': 'm',
-  '\u1E41': 'm',
-  '\u1E43': 'm',
-  '\u0271': 'm',
-  '\u026F': 'm',
-  '\u24DD': 'n',
-  '\uFF4E': 'n',
-  '\u01F9': 'n',
-  '\u0144': 'n',
-  '\u00F1': 'n',
-  '\u1E45': 'n',
-  '\u0148': 'n',
-  '\u1E47': 'n',
-  '\u0146': 'n',
-  '\u1E4B': 'n',
-  '\u1E49': 'n',
-  '\u019E': 'n',
-  '\u0272': 'n',
-  '\u0149': 'n',
-  '\uA791': 'n',
-  '\uA7A5': 'n',
-  '\u01CC': 'nj',
-  '\u24DE': 'o',
-  '\uFF4F': 'o',
-  '\u00F2': 'o',
-  '\u00F3': 'o',
-  '\u00F4': 'o',
-  '\u1ED3': 'o',
-  '\u1ED1': 'o',
-  '\u1ED7': 'o',
-  '\u1ED5': 'o',
-  '\u00F5': 'o',
-  '\u1E4D': 'o',
-  '\u022D': 'o',
-  '\u1E4F': 'o',
-  '\u014D': 'o',
-  '\u1E51': 'o',
-  '\u1E53': 'o',
-  '\u014F': 'o',
-  '\u022F': 'o',
-  '\u0231': 'o',
-  '\u00F6': 'o',
-  '\u022B': 'o',
-  '\u1ECF': 'o',
-  '\u0151': 'o',
-  '\u01D2': 'o',
-  '\u020D': 'o',
-  '\u020F': 'o',
-  '\u01A1': 'o',
-  '\u1EDD': 'o',
-  '\u1EDB': 'o',
-  '\u1EE1': 'o',
-  '\u1EDF': 'o',
-  '\u1EE3': 'o',
-  '\u1ECD': 'o',
-  '\u1ED9': 'o',
-  '\u01EB': 'o',
-  '\u01ED': 'o',
-  '\u00F8': 'o',
-  '\u01FF': 'o',
-  '\u0254': 'o',
-  '\uA74B': 'o',
-  '\uA74D': 'o',
-  '\u0275': 'o',
-  '\u01A3': 'oi',
-  '\u0223': 'ou',
-  '\uA74F': 'oo',
-  '\u24DF': 'p',
-  '\uFF50': 'p',
-  '\u1E55': 'p',
-  '\u1E57': 'p',
-  '\u01A5': 'p',
-  '\u1D7D': 'p',
-  '\uA751': 'p',
-  '\uA753': 'p',
-  '\uA755': 'p',
-  '\u24E0': 'q',
-  '\uFF51': 'q',
-  '\u024B': 'q',
-  '\uA757': 'q',
-  '\uA759': 'q',
-  '\u24E1': 'r',
-  '\uFF52': 'r',
-  '\u0155': 'r',
-  '\u1E59': 'r',
-  '\u0159': 'r',
-  '\u0211': 'r',
-  '\u0213': 'r',
-  '\u1E5B': 'r',
-  '\u1E5D': 'r',
-  '\u0157': 'r',
-  '\u1E5F': 'r',
-  '\u024D': 'r',
-  '\u027D': 'r',
-  '\uA75B': 'r',
-  '\uA7A7': 'r',
-  '\uA783': 'r',
-  '\u24E2': 's',
-  '\uFF53': 's',
-  '\u00DF': 's',
-  '\u015B': 's',
-  '\u1E65': 's',
-  '\u015D': 's',
-  '\u1E61': 's',
-  '\u0161': 's',
-  '\u1E67': 's',
-  '\u1E63': 's',
-  '\u1E69': 's',
-  '\u0219': 's',
-  '\u015F': 's',
-  '\u023F': 's',
-  '\uA7A9': 's',
-  '\uA785': 's',
-  '\u1E9B': 's',
-  '\u24E3': 't',
-  '\uFF54': 't',
-  '\u1E6B': 't',
-  '\u1E97': 't',
-  '\u0165': 't',
-  '\u1E6D': 't',
-  '\u021B': 't',
-  '\u0163': 't',
-  '\u1E71': 't',
-  '\u1E6F': 't',
-  '\u0167': 't',
-  '\u01AD': 't',
-  '\u0288': 't',
-  '\u2C66': 't',
-  '\uA787': 't',
-  '\uA729': 'tz',
-  '\u24E4': 'u',
-  '\uFF55': 'u',
-  '\u00F9': 'u',
-  '\u00FA': 'u',
-  '\u00FB': 'u',
-  '\u0169': 'u',
-  '\u1E79': 'u',
-  '\u016B': 'u',
-  '\u1E7B': 'u',
-  '\u016D': 'u',
-  '\u00FC': 'u',
-  '\u01DC': 'u',
-  '\u01D8': 'u',
-  '\u01D6': 'u',
-  '\u01DA': 'u',
-  '\u1EE7': 'u',
-  '\u016F': 'u',
-  '\u0171': 'u',
-  '\u01D4': 'u',
-  '\u0215': 'u',
-  '\u0217': 'u',
-  '\u01B0': 'u',
-  '\u1EEB': 'u',
-  '\u1EE9': 'u',
-  '\u1EEF': 'u',
-  '\u1EED': 'u',
-  '\u1EF1': 'u',
-  '\u1EE5': 'u',
-  '\u1E73': 'u',
-  '\u0173': 'u',
-  '\u1E77': 'u',
-  '\u1E75': 'u',
-  '\u0289': 'u',
-  '\u24E5': 'v',
-  '\uFF56': 'v',
-  '\u1E7D': 'v',
-  '\u1E7F': 'v',
-  '\u028B': 'v',
-  '\uA75F': 'v',
-  '\u028C': 'v',
-  '\uA761': 'vy',
-  '\u24E6': 'w',
-  '\uFF57': 'w',
-  '\u1E81': 'w',
-  '\u1E83': 'w',
-  '\u0175': 'w',
-  '\u1E87': 'w',
-  '\u1E85': 'w',
-  '\u1E98': 'w',
-  '\u1E89': 'w',
-  '\u2C73': 'w',
-  '\u24E7': 'x',
-  '\uFF58': 'x',
-  '\u1E8B': 'x',
-  '\u1E8D': 'x',
-  '\u24E8': 'y',
-  '\uFF59': 'y',
-  '\u1EF3': 'y',
-  '\u00FD': 'y',
-  '\u0177': 'y',
-  '\u1EF9': 'y',
-  '\u0233': 'y',
-  '\u1E8F': 'y',
-  '\u00FF': 'y',
-  '\u1EF7': 'y',
-  '\u1E99': 'y',
-  '\u1EF5': 'y',
-  '\u01B4': 'y',
-  '\u024F': 'y',
-  '\u1EFF': 'y',
-  '\u24E9': 'z',
-  '\uFF5A': 'z',
-  '\u017A': 'z',
-  '\u1E91': 'z',
-  '\u017C': 'z',
-  '\u017E': 'z',
-  '\u1E93': 'z',
-  '\u1E95': 'z',
-  '\u01B6': 'z',
-  '\u0225': 'z',
-  '\u0240': 'z',
-  '\u2C6C': 'z',
-  '\uA763': 'z',
-  '\u0386': '\u0391',
-  '\u0388': '\u0395',
-  '\u0389': '\u0397',
-  '\u038A': '\u0399',
-  '\u03AA': '\u0399',
-  '\u038C': '\u039F',
-  '\u038E': '\u03A5',
-  '\u03AB': '\u03A5',
-  '\u038F': '\u03A9',
-  '\u03AC': '\u03B1',
-  '\u03AD': '\u03B5',
-  '\u03AE': '\u03B7',
-  '\u03AF': '\u03B9',
-  '\u03CA': '\u03B9',
-  '\u0390': '\u03B9',
-  '\u03CC': '\u03BF',
-  '\u03CD': '\u03C5',
-  '\u03CB': '\u03C5',
-  '\u03B0': '\u03C5',
-  '\u03C9': '\u03C9',
-  '\u03C2': '\u03C3'
-};
-
-
-function stripDiacritics (text) {
-  // Used 'uni range + named function' from http://jsperf.com/diacritics/18
-  function match(a) {
-    return DIACRITICS[a] || a;
-  }
-  return text.replace(/[^\u0000-\u007E]/g, match);
-}
-
-// The following matcher is a modification version of the default matcher
-// of select2
-module.exports = matcher = function(params, data) {
-  // Always return the object if there is nothing to compare
-  if ($.trim(params.term) === '') {
-    return data;
-  }
-
-  // Do a recursive check for options with children
-  if (data.children && data.children.length > 0) {
-    // Clone the data object if there are children
-    // This is required as we modify the object to remove any non-matches
-    var match = $.extend(true, {}, data);
-
-    // Check each child of the option
-    for (var c = data.children.length - 1; c >= 0; c--) {
-      var child = data.children[c];
-
-      var matches = matcher(params, child);
-
-      // If there wasn't a match, remove the object in the array
-      if (matches == null) {
-        match.children.splice(c, 1);
-      }
-    }
-
-    // If any children matched, return the new object
-    if (match.children.length > 0) {
-      return match;
-    }
-
-    // If there were no matching children, check just the plain object
-    return matcher(params, match);
-  }
-
-  var original = stripDiacritics(data.text).toUpperCase();
-  var term = stripDiacritics(params.term).toUpperCase();
-
-  // Check if the text contains the term
-  if (original.indexOf(term) > -1) {
-    return data;
-  }
-
-  // add by Haixing Hu: also match the value of an option
-  if (data.id) {
-    var originalValue = stripDiacritics(data.id).toUpperCase();
-    if (originalValue.indexOf(term) > -1) {
-      return data;
-    }
-  }
-
-  // If it doesn't contain the term, don't return anything
-  return null;
-}
-},{}],30:[function(require,module,exports){
-/**
- * The default language used by this component.
- */
-var DEFAULT_LANGUAGE = "en-US";
-
-/**
- * A bootstrap style selection (combobox) control using the select2 plugin.
- *
- * @param options
- *    the array of options of the selection control. It could be an array of
- *    strings, e.g., "['opt1', 'opt2']"; or an array of objects specifying
- *    the text and value of each option, e.g.,
- *    "[{text: 'name1', value: 'val1'}, {text: 'name2', value: 'val2'}]";
- *    or it could be an array of objects specifying the option group, e.g.
- *    "[{label: 'group1', options: [{text: 'name1', value: 'val1'}, {text: 'name2', value: 'val2'}]},
- *      {label: 'group2', options: [{text: 'name3', value: 'val3'}, {text: 'name4', value: 'val4'}]}]".
- * @param model
- *    the model bind to the control, which must be a two way binding variable.
- * @param searchable
- *    the optional flag indicates whether to show the search box. Default value
- *    is false.
- * @param matchValue
- *    the optional flag indicates whether the searching should match both the
- *    texts and values of options. Default value is true.
- * @param language
- *    the optional code of language used by the select2 plugin. If it is not set,
- *    and the [vue-i18n](https://github.com/Haixing-Hu/vue-i18n) plugin is used,
- *    the component will use the language code `$language` provided by the
- *    [vue-i18n](https://github.com/Haixing-Hu/vue-i18n) plugin; otherwise, the
- *    component will use the default value "en-US".
- * @param theme
- *    the optional name of the theme of the select2. Default value is "bootstrap".
- * @author Haixing Hu
- */
-module.exports = {
-  replace: true,
-  inherit: false,
-  template: "<select class='form-control' v-model='model' options='options' style='width: 100%'></select>",
-  props: {
-    options: {
-      type: Array,
-      required: true
-    },
-    model: {
-      required: true,
-      twoWay: true
-    },
-    searchable: {
-      type: Boolean,
-      required: false,
-      default: false
-    },
-    matchValue: {
-      type: Boolean,
-      required: false,
-      default: true
-    },
-    language: {
-      type: String,
-      required: false,
-      default: ""
-    },
-    theme: {
-      type: String,
-      required: false,
-      default: "bootstrap"
-    }
-  },
-  beforeCompile: function() {
-    this.isChanging = false;
-    this.control = null;
-  },
-  watch: {
-    "options": function(val, oldVal) {
-      this.control.trigger('change');
-    },
-    "model": function(val, oldVal) {
-      if (! this.isChanging) {
-        this.isChanging = true;
-        this.control.val(val).trigger("change");
-        this.isChanging = false;
-      }
-    }
-  },
-  ready: function() {
-    var language = this.language;
-    if (language === null || language === "") {
-      if (this.$language) {
-        language = this.$language;
-      } else {
-        language = DEFAULT_LANGUAGE;
-      }
-    }
-    var args = {
-      theme: this.theme,
-      language: this.getLanguageCode(language)
-    };
-    if (! this.searchable) {
-      args.minimumResultsForSearch = Infinity;  // hide the search box
-    } else {
-      if (this.matchValue) {
-        args.matcher = require("./value-text-matcher.js");
-      }
-    }
-    this.control = $(this.$el);
-    this.control.select2(args);
-    var me = this;
-    this.control.on("change", function(e) {
-      if (! me.isChanging) {
-        me.isChanging = true;
-        me.model = me.control.val();
-        me.$nextTick(function () {
-          me.isChanging = false;
-        });
-      }
-    });
-  },
-  methods: {
-    /**
-     * Gets the language code from the "language-country" locale code.
-     *
-     * The function will strip the language code before the first "-" of a
-     * locale code. For example, pass "en-US" will returns "en". But for some
-     * special locales, the function reserves the locale code. For example,
-     * the "zh-CN" for the simplified Chinese and the "zh-TW" for the
-     * traditional Chinese.
-     *
-     * @param locale
-     *    A locale code.
-     * @return
-     *    the language code of the locale.
-     */
-    getLanguageCode: function(locale) {
-      if (locale === null || locale.length === 0) {
-        return "en";
-      }
-      if (locale.length <= 2) {
-        return locale;
-      } else {
-        switch (locale) {
-          case "pt-BR":
-          case "zh-CN":
-          case "zh-TW":
-            return locale;
-          default:
-            // reserve only the first two letters language code
-            return locale.substr(0, 2);
-        }
-      }
-    }
-  }
-};
-
-},{"./value-text-matcher.js":29}],31:[function(require,module,exports){
 (function (process,global){
 /*!
- * Vue.js v1.0.17
+ * Vue.js v1.0.20
  * (c) 2016 Evan You
  * Released under the MIT License.
  */
@@ -7551,7 +6553,7 @@ function isPlainObject(obj) {
 var isArray = Array.isArray;
 
 /**
- * Define a non-enumerable property
+ * Define a property.
  *
  * @param {Object} obj
  * @param {String} key
@@ -7910,7 +6912,7 @@ function processFilterArg(arg) {
  *   ]
  * }
  *
- * @param {String} str
+ * @param {String} s
  * @return {Object}
  */
 
@@ -8170,6 +7172,13 @@ var config = Object.defineProperties({
    */
 
   warnExpressionErrors: true,
+
+  /**
+   * Whether to allow devtools inspection.
+   * Disabled by default in production builds.
+   */
+
+  devtools: process.env.NODE_ENV !== 'production',
 
   /**
    * Internal flag to indicate the delimiters have been
@@ -8509,6 +7518,22 @@ function off(el, event, cb) {
 }
 
 /**
+ * For IE9 compat: when both class and :class are present
+ * getAttribute('class') returns wrong value...
+ *
+ * @param {Element} el
+ * @return {String}
+ */
+
+function getClass(el) {
+  var classname = el.className;
+  if (typeof classname === 'object') {
+    classname = classname.baseVal || '';
+  }
+  return classname;
+}
+
+/**
  * In IE9, setAttribute('class') will result in empty class
  * if the element also has the :class attribute; However in
  * PhantomJS, setting `className` does not work on SVG elements...
@@ -8538,7 +7563,7 @@ function addClass(el, cls) {
   if (el.classList) {
     el.classList.add(cls);
   } else {
-    var cur = ' ' + (el.getAttribute('class') || '') + ' ';
+    var cur = ' ' + getClass(el) + ' ';
     if (cur.indexOf(' ' + cls + ' ') < 0) {
       setClass(el, (cur + cls).trim());
     }
@@ -8556,7 +7581,7 @@ function removeClass(el, cls) {
   if (el.classList) {
     el.classList.remove(cls);
   } else {
-    var cur = ' ' + (el.getAttribute('class') || '') + ' ';
+    var cur = ' ' + getClass(el) + ' ';
     var tar = ' ' + cls + ' ';
     while (cur.indexOf(tar) >= 0) {
       cur = cur.replace(tar, ' ');
@@ -8755,8 +7780,8 @@ function getOuterHTML(el) {
   }
 }
 
-var commonTagRE = /^(div|p|span|img|a|b|i|br|ul|ol|li|h1|h2|h3|h4|h5|h6|code|pre|table|th|td|tr|form|label|input|select|option|nav|article|section|header|footer)$/;
-var reservedTagRE = /^(slot|partial|component)$/;
+var commonTagRE = /^(div|p|span|img|a|b|i|br|ul|ol|li|h1|h2|h3|h4|h5|h6|code|pre|table|th|td|tr|form|label|input|select|option|nav|article|section|header|footer)$/i;
+var reservedTagRE = /^(slot|partial|component)$/i;
 
 var isUnknownElement = undefined;
 if (process.env.NODE_ENV !== 'production') {
@@ -8825,100 +7850,6 @@ function getIsBinding(el) {
       return { id: exp, dynamic: true };
     }
   }
-}
-
-/**
- * Set a prop's initial value on a vm and its data object.
- *
- * @param {Vue} vm
- * @param {Object} prop
- * @param {*} value
- */
-
-function initProp(vm, prop, value) {
-  var key = prop.path;
-  value = coerceProp(prop, value);
-  vm[key] = vm._data[key] = assertProp(prop, value) ? value : undefined;
-}
-
-/**
- * Assert whether a prop is valid.
- *
- * @param {Object} prop
- * @param {*} value
- */
-
-function assertProp(prop, value) {
-  if (!prop.options.required && ( // non-required
-  prop.raw === null || // abscent
-  value == null) // null or undefined
-  ) {
-      return true;
-    }
-  var options = prop.options;
-  var type = options.type;
-  var valid = true;
-  var expectedType;
-  if (type) {
-    if (type === String) {
-      expectedType = 'string';
-      valid = typeof value === expectedType;
-    } else if (type === Number) {
-      expectedType = 'number';
-      valid = typeof value === 'number';
-    } else if (type === Boolean) {
-      expectedType = 'boolean';
-      valid = typeof value === 'boolean';
-    } else if (type === Function) {
-      expectedType = 'function';
-      valid = typeof value === 'function';
-    } else if (type === Object) {
-      expectedType = 'object';
-      valid = isPlainObject(value);
-    } else if (type === Array) {
-      expectedType = 'array';
-      valid = isArray(value);
-    } else {
-      valid = value instanceof type;
-    }
-  }
-  if (!valid) {
-    process.env.NODE_ENV !== 'production' && warn('Invalid prop: type check failed for ' + prop.path + '="' + prop.raw + '".' + ' Expected ' + formatType(expectedType) + ', got ' + formatValue(value) + '.');
-    return false;
-  }
-  var validator = options.validator;
-  if (validator) {
-    if (!validator(value)) {
-      process.env.NODE_ENV !== 'production' && warn('Invalid prop: custom validator check failed for ' + prop.path + '="' + prop.raw + '"');
-      return false;
-    }
-  }
-  return true;
-}
-
-/**
- * Force parsing value with coerce option.
- *
- * @param {*} value
- * @param {Object} options
- * @return {*}
- */
-
-function coerceProp(prop, value) {
-  var coerce = prop.options.coerce;
-  if (!coerce) {
-    return value;
-  }
-  // coerce is a function
-  return coerce(value);
-}
-
-function formatType(val) {
-  return val ? val.charAt(0).toUpperCase() + val.slice(1) : 'custom type';
-}
-
-function formatValue(val) {
-  return Object.prototype.toString.call(val).slice(8, -1);
 }
 
 /**
@@ -9380,6 +8311,24 @@ def(arrayProto, '$remove', function $remove(item) {
 var arrayKeys = Object.getOwnPropertyNames(arrayMethods);
 
 /**
+ * By default, when a reactive property is set, the new value is
+ * also converted to become reactive. However in certain cases, e.g.
+ * v-for scope alias and props, we don't want to force conversion
+ * because the value may be a nested value under a frozen data structure.
+ *
+ * So whenever we want to set a reactive property without forcing
+ * conversion on the new value, we wrap that call inside this function.
+ */
+
+var shouldConvert = true;
+
+function withoutConversion(fn) {
+  shouldConvert = false;
+  fn();
+  shouldConvert = true;
+}
+
+/**
  * Observer class that are attached to each observed
  * object. Once attached, the observer converts target
  * object's property keys into getter/setters that
@@ -9474,7 +8423,7 @@ Observer.prototype.removeVm = function (vm) {
  * the prototype chain using __proto__
  *
  * @param {Object|Array} target
- * @param {Object} proto
+ * @param {Object} src
  */
 
 function protoAugment(target, src) {
@@ -9516,7 +8465,7 @@ function observe(value, vm) {
   var ob;
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__;
-  } else if ((isArray(value) || isPlainObject(value)) && Object.isExtensible(value) && !value._isVue) {
+  } else if (shouldConvert && (isArray(value) || isPlainObject(value)) && Object.isExtensible(value) && !value._isVue) {
     ob = new Observer(value);
   }
   if (ob && vm) {
@@ -9646,9 +8595,6 @@ var util = Object.freeze({
 	resolveAsset: resolveAsset,
 	assertAsset: assertAsset,
 	checkComponentAttr: checkComponentAttr,
-	initProp: initProp,
-	assertProp: assertProp,
-	coerceProp: coerceProp,
 	commonTagRE: commonTagRE,
 	reservedTagRE: reservedTagRE,
 	get warn () { return warn; }
@@ -9727,13 +8673,6 @@ function initMixin (Vue) {
       this.$parent.$children.push(this);
     }
 
-    // save raw constructor data before merge
-    // so that we know which properties are provided at
-    // instantiation.
-    if (process.env.NODE_ENV !== 'production') {
-      this._runtimeData = options.data;
-    }
-
     // merge options.
     options = this.$options = mergeOptions(this.constructor.options, options, this);
 
@@ -9743,6 +8682,11 @@ function initMixin (Vue) {
     // initialize data as empty object.
     // it will be filled up in _initScope().
     this._data = {};
+
+    // save raw constructor data before merge
+    // so that we know which properties are provided at
+    // instantiation.
+    this._runtimeData = options.data;
 
     // call init hook
     this._callHook('init');
@@ -10101,7 +9045,7 @@ var allowedKeywords = 'Math,Date,this,true,false,null,undefined,Infinity,NaN,' +
 var allowedKeywordsRE = new RegExp('^(' + allowedKeywords.replace(/,/g, '\\b|') + '\\b)');
 
 // keywords that don't make sense inside expressions
-var improperKeywords = 'break,case,class,catch,const,continue,debugger,default,' + 'delete,do,else,export,extends,finally,for,function,if,' + 'import,in,instanceof,let,return,super,switch,throw,try,' + 'var,while,with,yield,enum,await,implements,package,' + 'proctected,static,interface,private,public';
+var improperKeywords = 'break,case,class,catch,const,continue,debugger,default,' + 'delete,do,else,export,extends,finally,for,function,if,' + 'import,in,instanceof,let,return,super,switch,throw,try,' + 'var,while,with,yield,enum,await,implements,package,' + 'protected,static,interface,private,public';
 var improperKeywordsRE = new RegExp('^(' + improperKeywords.replace(/,/g, '\\b|') + '\\b)');
 
 var wsRE = /\s/g;
@@ -10292,6 +9236,8 @@ var expression = Object.freeze({
 // before user watchers so that when user watchers are
 // triggered, the DOM would have already been in updated
 // state.
+
+var queueIndex;
 var queue = [];
 var userQueue = [];
 var has = {};
@@ -10321,7 +9267,7 @@ function flushBatcherQueue() {
   runBatcherQueue(userQueue);
   // dev tool hook
   /* istanbul ignore if */
-  if (devtools) {
+  if (devtools && config.devtools) {
     devtools.emit('flush');
   }
   resetBatcherState();
@@ -10336,8 +9282,8 @@ function flushBatcherQueue() {
 function runBatcherQueue(queue) {
   // do not cache length because more watchers might be pushed
   // as we run existing watchers
-  for (var i = 0; i < queue.length; i++) {
-    var watcher = queue[i];
+  for (queueIndex = 0; queueIndex < queue.length; queueIndex++) {
+    var watcher = queue[queueIndex];
     var id = watcher.id;
     has[id] = null;
     watcher.run();
@@ -10366,20 +9312,20 @@ function runBatcherQueue(queue) {
 function pushWatcher(watcher) {
   var id = watcher.id;
   if (has[id] == null) {
-    // if an internal watcher is pushed, but the internal
-    // queue is already depleted, we run it immediately.
     if (internalQueueDepleted && !watcher.user) {
-      watcher.run();
-      return;
-    }
-    // push watcher into appropriate queue
-    var q = watcher.user ? userQueue : queue;
-    has[id] = q.length;
-    q.push(watcher);
-    // queue the flush
-    if (!waiting) {
-      waiting = true;
-      nextTick(flushBatcherQueue);
+      // an internal watcher triggered by a user watcher...
+      // let's run it immediately after current user watcher is done.
+      userQueue.splice(queueIndex + 1, 0, watcher);
+    } else {
+      // push watcher into appropriate queue
+      var q = watcher.user ? userQueue : queue;
+      has[id] = q.length;
+      q.push(watcher);
+      // queue the flush
+      if (!waiting) {
+        waiting = true;
+        nextTick(flushBatcherQueue);
+      }
     }
   }
 }
@@ -10392,7 +9338,7 @@ var uid$2 = 0;
  * This is used for both the $watch() api and directives.
  *
  * @param {Vue} vm
- * @param {String} expression
+ * @param {String|Function} expOrFn
  * @param {Function} cb
  * @param {Object} options
  *                 - {Array} filters
@@ -10413,13 +9359,15 @@ function Watcher(vm, expOrFn, cb, options) {
   var isFn = typeof expOrFn === 'function';
   this.vm = vm;
   vm._watchers.push(this);
-  this.expression = isFn ? expOrFn.toString() : expOrFn;
+  this.expression = expOrFn;
   this.cb = cb;
   this.id = ++uid$2; // uid for batching
   this.active = true;
   this.dirty = this.lazy; // for lazy watchers
-  this.deps = Object.create(null);
-  this.newDeps = null;
+  this.deps = [];
+  this.newDeps = [];
+  this.depIds = Object.create(null);
+  this.newDepIds = null;
   this.prevError = null; // for async error stacks
   // parse expression for getter/setter
   if (isFn) {
@@ -10435,23 +9383,6 @@ function Watcher(vm, expOrFn, cb, options) {
   // watchers during vm._digest()
   this.queued = this.shallow = false;
 }
-
-/**
- * Add a dependency to this directive.
- *
- * @param {Dep} dep
- */
-
-Watcher.prototype.addDep = function (dep) {
-  var id = dep.id;
-  if (!this.newDeps[id]) {
-    this.newDeps[id] = dep;
-    if (!this.deps[id]) {
-      this.deps[id] = dep;
-      dep.addSub(this);
-    }
-  }
-};
 
 /**
  * Evaluate the getter, and re-collect dependencies.
@@ -10528,7 +9459,25 @@ Watcher.prototype.set = function (value) {
 
 Watcher.prototype.beforeGet = function () {
   Dep.target = this;
-  this.newDeps = Object.create(null);
+  this.newDepIds = Object.create(null);
+  this.newDeps.length = 0;
+};
+
+/**
+ * Add a dependency to this directive.
+ *
+ * @param {Dep} dep
+ */
+
+Watcher.prototype.addDep = function (dep) {
+  var id = dep.id;
+  if (!this.newDepIds[id]) {
+    this.newDepIds[id] = true;
+    this.newDeps.push(dep);
+    if (!this.depIds[id]) {
+      dep.addSub(this);
+    }
+  }
 };
 
 /**
@@ -10537,15 +9486,17 @@ Watcher.prototype.beforeGet = function () {
 
 Watcher.prototype.afterGet = function () {
   Dep.target = null;
-  var ids = Object.keys(this.deps);
-  var i = ids.length;
+  var i = this.deps.length;
   while (i--) {
-    var id = ids[i];
-    if (!this.newDeps[id]) {
-      this.deps[id].removeSub(this);
+    var dep = this.deps[i];
+    if (!this.newDepIds[dep.id]) {
+      dep.removeSub(this);
     }
   }
+  this.depIds = this.newDepIds;
+  var tmp = this.deps;
   this.deps = this.newDeps;
+  this.newDeps = tmp;
 };
 
 /**
@@ -10633,10 +9584,9 @@ Watcher.prototype.evaluate = function () {
  */
 
 Watcher.prototype.depend = function () {
-  var depIds = Object.keys(this.deps);
-  var i = depIds.length;
+  var i = this.deps.length;
   while (i--) {
-    this.deps[depIds[i]].depend();
+    this.deps[i].depend();
   }
 };
 
@@ -10653,10 +9603,9 @@ Watcher.prototype.teardown = function () {
     if (!this.vm._isBeingDestroyed && !this.vm._vForRemoving) {
       this.vm._watchers.$remove(this);
     }
-    var depIds = Object.keys(this.deps);
-    var i = depIds.length;
+    var i = this.deps.length;
     while (i--) {
-      this.deps[depIds[i]].removeSub(this);
+      this.deps[i].removeSub(this);
     }
     this.active = false;
     this.vm = this.cb = this.value = null;
@@ -10724,7 +9673,7 @@ function isRealTemplate(node) {
   return isTemplate(node) && isFragment(node.content);
 }
 
-var tagRE$1 = /<([\w:]+)/;
+var tagRE$1 = /<([\w:-]+)/;
 var entityRE = /&#?\w+?;/;
 
 /**
@@ -10846,6 +9795,7 @@ var hasTextareaCloneBug = (function () {
  */
 
 function cloneNode(node) {
+  /* istanbul ignore if */
   if (!node.querySelectorAll) {
     return node.cloneNode();
   }
@@ -10990,6 +9940,7 @@ var html = {
  * @param {DocumentFragment} frag
  * @param {Vue} [host]
  * @param {Object} [scope]
+ * @param {Fragment} [parentFrag]
  */
 function Fragment(linker, vm, frag, host, scope, parentFrag) {
   this.children = [];
@@ -11155,7 +10106,7 @@ Fragment.prototype.destroy = function () {
  */
 
 function attach(child) {
-  if (!child._isAttached) {
+  if (!child._isAttached && inDoc(child.$el)) {
     child._callHook('attached');
   }
 }
@@ -11167,7 +10118,7 @@ function attach(child) {
  */
 
 function detach(child) {
-  if (child._isAttached) {
+  if (child._isAttached && !inDoc(child.$el)) {
     child._callHook('detached');
   }
 }
@@ -11237,6 +10188,7 @@ var uid$3 = 0;
 var vFor = {
 
   priority: FOR,
+  terminal: true,
 
   params: ['track-by', 'stagger', 'enter-stagger', 'leave-stagger'],
 
@@ -11346,7 +10298,9 @@ var vFor = {
         // update data for track-by, object repeat &
         // primitive values.
         if (trackByKey || convertedFromObject || primitive) {
-          frag.scope[alias] = value;
+          withoutConversion(function () {
+            frag.scope[alias] = value;
+          });
         }
       } else {
         // new isntance
@@ -11436,7 +10390,11 @@ var vFor = {
     // for two-way binding on alias
     scope.$forContext = this;
     // define scope properties
-    defineReactive(scope, alias, value);
+    // important: define the scope alias without forced conversion
+    // so that frozen data structures remain non-reactive.
+    withoutConversion(function () {
+      defineReactive(scope, alias, value);
+    });
     defineReactive(scope, '$index', index);
     if (key) {
       defineReactive(scope, '$key', key);
@@ -11812,6 +10770,7 @@ if (process.env.NODE_ENV !== 'production') {
 var vIf = {
 
   priority: IF,
+  terminal: true,
 
   bind: function bind() {
     var el = this.el;
@@ -11820,12 +10779,11 @@ var vIf = {
       var next = el.nextElementSibling;
       if (next && getAttr(next, 'v-else') !== null) {
         remove(next);
-        this.elseFactory = new FragmentFactory(next._context || this.vm, next);
+        this.elseEl = next;
       }
       // check main block
       this.anchor = createAnchor('v-if');
       replace(el, this.anchor);
-      this.factory = new FragmentFactory(this.vm, el);
     } else {
       process.env.NODE_ENV !== 'production' && warn('v-if="' + this.expression + '" cannot be ' + 'used on an instance root element.');
       this.invalid = true;
@@ -11848,6 +10806,10 @@ var vIf = {
       this.elseFrag.remove();
       this.elseFrag = null;
     }
+    // lazy init factory
+    if (!this.factory) {
+      this.factory = new FragmentFactory(this.vm, this.el);
+    }
     this.frag = this.factory.create(this._host, this._scope, this._frag);
     this.frag.before(this.anchor);
   },
@@ -11857,7 +10819,10 @@ var vIf = {
       this.frag.remove();
       this.frag = null;
     }
-    if (this.elseFactory && !this.elseFrag) {
+    if (this.elseEl && !this.elseFrag) {
+      if (!this.elseFactory) {
+        this.elseFactory = new FragmentFactory(this.elseEl._context || this.vm, this.elseEl);
+      }
       this.elseFrag = this.elseFactory.create(this._host, this._scope, this._frag);
       this.elseFrag.before(this.anchor);
     }
@@ -11946,6 +10911,10 @@ var text$2 = {
       });
       this.on('blur', function () {
         self.focused = false;
+        // do not sync value after fragment removal (#2017)
+        if (!self._frag || self._frag.inserted) {
+          self.rawListener();
+        }
       });
     }
 
@@ -12393,7 +11362,7 @@ var on$1 = {
     }
     // key filter
     var keys = Object.keys(this.modifiers).filter(function (key) {
-      return key !== 'stop' && key !== 'prevent';
+      return key !== 'stop' && key !== 'prevent' && key !== 'self';
     });
     if (keys.length) {
       handler = keyFilter(handler, keys);
@@ -12727,22 +11696,18 @@ var vClass = {
 
   handleObject: function handleObject(value) {
     this.cleanup(value);
-    var keys = this.prevKeys = Object.keys(value);
-    for (var i = 0, l = keys.length; i < l; i++) {
-      var key = keys[i];
-      if (value[key]) {
-        addClass(this.el, key);
-      } else {
-        removeClass(this.el, key);
-      }
-    }
+    this.prevKeys = Object.keys(value);
+    setObjectClasses(this.el, value);
   },
 
   handleArray: function handleArray(value) {
     this.cleanup(value);
     for (var i = 0, l = value.length; i < l; i++) {
-      if (value[i]) {
-        addClass(this.el, value[i]);
+      var val = value[i];
+      if (val && isPlainObject(val)) {
+        setObjectClasses(this.el, val);
+      } else if (val && typeof val === 'string') {
+        addClass(this.el, val);
       }
     }
     this.prevKeys = value.slice();
@@ -12753,13 +11718,29 @@ var vClass = {
       var i = this.prevKeys.length;
       while (i--) {
         var key = this.prevKeys[i];
-        if (key && (!value || !contains(value, key))) {
+        if (!key) continue;
+        if (isPlainObject(key)) {
+          var keys = Object.keys(key);
+          for (var k = 0; k < keys.length; k++) {
+            removeClass(this.el, keys[k]);
+          }
+        } else {
           removeClass(this.el, key);
         }
       }
     }
   }
 };
+
+function setObjectClasses(el, obj) {
+  var keys = Object.keys(obj);
+  for (var i = 0, l = keys.length; i < l; i++) {
+    var key = keys[i];
+    if (obj[key]) {
+      addClass(el, key);
+    }
+  }
+}
 
 function stringToObject(value) {
   var res = {};
@@ -12769,10 +11750,6 @@ function stringToObject(value) {
     res[keys[i]] = true;
   }
   return res;
-}
-
-function contains(value, key) {
-  return isArray(value) ? value.indexOf(key) > -1 : hasOwn(value, key);
 }
 
 var component = {
@@ -12871,16 +11848,19 @@ var component = {
   /**
    * Resolve the component constructor to use when creating
    * the child vm.
+   *
+   * @param {String|Function} value
+   * @param {Function} cb
    */
 
-  resolveComponent: function resolveComponent(id, cb) {
+  resolveComponent: function resolveComponent(value, cb) {
     var self = this;
     this.pendingComponentCb = cancellable(function (Component) {
-      self.ComponentName = Component.options.name || id;
+      self.ComponentName = Component.options.name || (typeof value === 'string' ? value : null);
       self.Component = Component;
       cb();
     });
-    this.vm._resolveComponent(id, this.pendingComponentCb);
+    this.vm._resolveComponent(value, this.pendingComponentCb);
   },
 
   /**
@@ -13012,13 +11992,16 @@ var component = {
 
   unbuild: function unbuild(defer) {
     if (this.waitingFor) {
-      this.waitingFor.$destroy();
+      if (!this.keepAlive) {
+        this.waitingFor.$destroy();
+      }
       this.waitingFor = null;
     }
     var child = this.childVM;
     if (!child || this.keepAlive) {
       if (child) {
         // remove ref
+        child._inactive = true;
         child._updateRef(true);
       }
       return;
@@ -13071,10 +12054,8 @@ var component = {
     var self = this;
     var current = this.childVM;
     // for devtool inspection
-    if (process.env.NODE_ENV !== 'production') {
-      if (current) current._inactive = true;
-      target._inactive = false;
-    }
+    if (current) current._inactive = true;
+    target._inactive = false;
     this.childVM = target;
     switch (self.params.transitionMode) {
       case 'in-out':
@@ -13132,6 +12113,288 @@ function callActivateHooks(hooks, vm, cb) {
   }
 }
 
+var propBindingModes = config._propBindingModes;
+var empty = {};
+
+// regexes
+var identRE$1 = /^[$_a-zA-Z]+[\w$]*$/;
+var settablePathRE = /^[A-Za-z_$][\w$]*(\.[A-Za-z_$][\w$]*|\[[^\[\]]+\])*$/;
+
+/**
+ * Compile props on a root element and return
+ * a props link function.
+ *
+ * @param {Element|DocumentFragment} el
+ * @param {Array} propOptions
+ * @return {Function} propsLinkFn
+ */
+
+function compileProps(el, propOptions) {
+  var props = [];
+  var names = Object.keys(propOptions);
+  var i = names.length;
+  var options, name, attr, value, path, parsed, prop;
+  while (i--) {
+    name = names[i];
+    options = propOptions[name] || empty;
+
+    if (process.env.NODE_ENV !== 'production' && name === '$data') {
+      warn('Do not use $data as prop.');
+      continue;
+    }
+
+    // props could contain dashes, which will be
+    // interpreted as minus calculations by the parser
+    // so we need to camelize the path here
+    path = camelize(name);
+    if (!identRE$1.test(path)) {
+      process.env.NODE_ENV !== 'production' && warn('Invalid prop key: "' + name + '". Prop keys ' + 'must be valid identifiers.');
+      continue;
+    }
+
+    prop = {
+      name: name,
+      path: path,
+      options: options,
+      mode: propBindingModes.ONE_WAY,
+      raw: null
+    };
+
+    attr = hyphenate(name);
+    // first check dynamic version
+    if ((value = getBindAttr(el, attr)) === null) {
+      if ((value = getBindAttr(el, attr + '.sync')) !== null) {
+        prop.mode = propBindingModes.TWO_WAY;
+      } else if ((value = getBindAttr(el, attr + '.once')) !== null) {
+        prop.mode = propBindingModes.ONE_TIME;
+      }
+    }
+    if (value !== null) {
+      // has dynamic binding!
+      prop.raw = value;
+      parsed = parseDirective(value);
+      value = parsed.expression;
+      prop.filters = parsed.filters;
+      // check binding type
+      if (isLiteral(value) && !parsed.filters) {
+        // for expressions containing literal numbers and
+        // booleans, there's no need to setup a prop binding,
+        // so we can optimize them as a one-time set.
+        prop.optimizedLiteral = true;
+      } else {
+        prop.dynamic = true;
+        // check non-settable path for two-way bindings
+        if (process.env.NODE_ENV !== 'production' && prop.mode === propBindingModes.TWO_WAY && !settablePathRE.test(value)) {
+          prop.mode = propBindingModes.ONE_WAY;
+          warn('Cannot bind two-way prop with non-settable ' + 'parent path: ' + value);
+        }
+      }
+      prop.parentPath = value;
+
+      // warn required two-way
+      if (process.env.NODE_ENV !== 'production' && options.twoWay && prop.mode !== propBindingModes.TWO_WAY) {
+        warn('Prop "' + name + '" expects a two-way binding type.');
+      }
+    } else if ((value = getAttr(el, attr)) !== null) {
+      // has literal binding!
+      prop.raw = value;
+    } else if (process.env.NODE_ENV !== 'production') {
+      // check possible camelCase prop usage
+      var lowerCaseName = path.toLowerCase();
+      value = /[A-Z\-]/.test(name) && (el.getAttribute(lowerCaseName) || el.getAttribute(':' + lowerCaseName) || el.getAttribute('v-bind:' + lowerCaseName) || el.getAttribute(':' + lowerCaseName + '.once') || el.getAttribute('v-bind:' + lowerCaseName + '.once') || el.getAttribute(':' + lowerCaseName + '.sync') || el.getAttribute('v-bind:' + lowerCaseName + '.sync'));
+      if (value) {
+        warn('Possible usage error for prop `' + lowerCaseName + '` - ' + 'did you mean `' + attr + '`? HTML is case-insensitive, remember to use ' + 'kebab-case for props in templates.');
+      } else if (options.required) {
+        // warn missing required
+        warn('Missing required prop: ' + name);
+      }
+    }
+    // push prop
+    props.push(prop);
+  }
+  return makePropsLinkFn(props);
+}
+
+/**
+ * Build a function that applies props to a vm.
+ *
+ * @param {Array} props
+ * @return {Function} propsLinkFn
+ */
+
+function makePropsLinkFn(props) {
+  return function propsLinkFn(vm, scope) {
+    // store resolved props info
+    vm._props = {};
+    var i = props.length;
+    var prop, path, options, value, raw;
+    while (i--) {
+      prop = props[i];
+      raw = prop.raw;
+      path = prop.path;
+      options = prop.options;
+      vm._props[path] = prop;
+      if (raw === null) {
+        // initialize absent prop
+        initProp(vm, prop, undefined);
+      } else if (prop.dynamic) {
+        // dynamic prop
+        if (prop.mode === propBindingModes.ONE_TIME) {
+          // one time binding
+          value = (scope || vm._context || vm).$get(prop.parentPath);
+          initProp(vm, prop, value);
+        } else {
+          if (vm._context) {
+            // dynamic binding
+            vm._bindDir({
+              name: 'prop',
+              def: propDef,
+              prop: prop
+            }, null, null, scope); // el, host, scope
+          } else {
+              // root instance
+              initProp(vm, prop, vm.$get(prop.parentPath));
+            }
+        }
+      } else if (prop.optimizedLiteral) {
+        // optimized literal, cast it and just set once
+        var stripped = stripQuotes(raw);
+        value = stripped === raw ? toBoolean(toNumber(raw)) : stripped;
+        initProp(vm, prop, value);
+      } else {
+        // string literal, but we need to cater for
+        // Boolean props with no value, or with same
+        // literal value (e.g. disabled="disabled")
+        // see https://github.com/vuejs/vue-loader/issues/182
+        value = options.type === Boolean && (raw === '' || raw === hyphenate(prop.name)) ? true : raw;
+        initProp(vm, prop, value);
+      }
+    }
+  };
+}
+
+/**
+ * Set a prop's initial value on a vm and its data object.
+ *
+ * @param {Vue} vm
+ * @param {Object} prop
+ * @param {*} value
+ */
+
+function initProp(vm, prop, value) {
+  var key = prop.path;
+  value = coerceProp(prop, value);
+  if (value === undefined) {
+    value = getPropDefaultValue(vm, prop.options);
+  }
+  if (assertProp(prop, value)) {
+    defineReactive(vm, key, value);
+  }
+}
+
+/**
+ * Get the default value of a prop.
+ *
+ * @param {Vue} vm
+ * @param {Object} options
+ * @return {*}
+ */
+
+function getPropDefaultValue(vm, options) {
+  // no default, return undefined
+  if (!hasOwn(options, 'default')) {
+    // absent boolean value defaults to false
+    return options.type === Boolean ? false : undefined;
+  }
+  var def = options['default'];
+  // warn against non-factory defaults for Object & Array
+  if (isObject(def)) {
+    process.env.NODE_ENV !== 'production' && warn('Object/Array as default prop values will be shared ' + 'across multiple instances. Use a factory function ' + 'to return the default value instead.');
+  }
+  // call factory function for non-Function types
+  return typeof def === 'function' && options.type !== Function ? def.call(vm) : def;
+}
+
+/**
+ * Assert whether a prop is valid.
+ *
+ * @param {Object} prop
+ * @param {*} value
+ */
+
+function assertProp(prop, value) {
+  if (!prop.options.required && ( // non-required
+  prop.raw === null || // abscent
+  value == null) // null or undefined
+  ) {
+      return true;
+    }
+  var options = prop.options;
+  var type = options.type;
+  var valid = true;
+  var expectedType;
+  if (type) {
+    if (type === String) {
+      expectedType = 'string';
+      valid = typeof value === expectedType;
+    } else if (type === Number) {
+      expectedType = 'number';
+      valid = typeof value === 'number';
+    } else if (type === Boolean) {
+      expectedType = 'boolean';
+      valid = typeof value === 'boolean';
+    } else if (type === Function) {
+      expectedType = 'function';
+      valid = typeof value === 'function';
+    } else if (type === Object) {
+      expectedType = 'object';
+      valid = isPlainObject(value);
+    } else if (type === Array) {
+      expectedType = 'array';
+      valid = isArray(value);
+    } else {
+      valid = value instanceof type;
+    }
+  }
+  if (!valid) {
+    process.env.NODE_ENV !== 'production' && warn('Invalid prop: type check failed for ' + prop.path + '="' + prop.raw + '".' + ' Expected ' + formatType(expectedType) + ', got ' + formatValue(value) + '.');
+    return false;
+  }
+  var validator = options.validator;
+  if (validator) {
+    if (!validator(value)) {
+      process.env.NODE_ENV !== 'production' && warn('Invalid prop: custom validator check failed for ' + prop.path + '="' + prop.raw + '"');
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Force parsing value with coerce option.
+ *
+ * @param {*} value
+ * @param {Object} options
+ * @return {*}
+ */
+
+function coerceProp(prop, value) {
+  var coerce = prop.options.coerce;
+  if (!coerce) {
+    return value;
+  }
+  // coerce is a function
+  return coerce(value);
+}
+
+function formatType(val) {
+  return val ? val.charAt(0).toUpperCase() + val.slice(1) : 'custom type';
+}
+
+function formatValue(val) {
+  return Object.prototype.toString.call(val).slice(8, -1);
+}
+
 var bindingModes = config._propBindingModes;
 
 var propDef = {
@@ -13144,11 +12407,18 @@ var propDef = {
     var childKey = prop.path;
     var parentKey = prop.parentPath;
     var twoWay = prop.mode === bindingModes.TWO_WAY;
+    var isSimple = isSimplePath(parentKey);
 
     var parentWatcher = this.parentWatcher = new Watcher(parent, parentKey, function (val) {
       val = coerceProp(prop, val);
       if (assertProp(prop, val)) {
-        child[childKey] = val;
+        if (isSimple) {
+          withoutConversion(function () {
+            child[childKey] = val;
+          });
+        } else {
+          child[childKey] = val;
+        }
       }
     }, {
       twoWay: twoWay,
@@ -13159,7 +12429,14 @@ var propDef = {
     });
 
     // set the child initial value.
-    initProp(child, prop, parentWatcher.value);
+    var value = parentWatcher.value;
+    if (isSimple && value !== undefined) {
+      withoutConversion(function () {
+        initProp(child, prop, value);
+      });
+    } else {
+      initProp(child, prop, value);
+    }
 
     // setup two-way binding
     if (twoWay) {
@@ -13226,6 +12503,32 @@ var TYPE_TRANSITION = 'transition';
 var TYPE_ANIMATION = 'animation';
 var transDurationProp = transitionProp + 'Duration';
 var animDurationProp = animationProp + 'Duration';
+
+/**
+ * If a just-entered element is applied the
+ * leave class while its enter transition hasn't started yet,
+ * and the transitioned property has the same value for both
+ * enter/leave, then the leave transition will be skipped and
+ * the transitionend event never fires. This function ensures
+ * its callback to be called after a transition has started
+ * by waiting for double raf.
+ *
+ * It falls back to setTimeout on devices that support CSS
+ * transitions but not raf (e.g. Android 4.2 browser) - since
+ * these environments are usually slow, we are giving it a
+ * relatively large timeout.
+ */
+
+var raf = inBrowser && window.requestAnimationFrame;
+var waitForTransitionStart = raf
+/* istanbul ignore next */
+? function (fn) {
+  raf(function () {
+    raf(fn);
+  });
+} : function (fn) {
+  setTimeout(fn, 50);
+};
 
 /**
  * A Transition object that encapsulates the state and logic
@@ -13311,19 +12614,13 @@ p$1.enter = function (op, cb) {
  */
 
 p$1.enterNextTick = function () {
-  // Important hack:
-  // in Chrome, if a just-entered element is applied the
-  // leave class while its interpolated property still has
-  // a very small value (within one frame), Chrome will
-  // skip the leave transition entirely and not firing the
-  // transtionend event. Therefore we need to protected
-  // against such cases using a one-frame timeout.
-  this.justEntered = true;
-  var self = this;
-  setTimeout(function () {
-    self.justEntered = false;
-  }, 17);
+  var _this = this;
 
+  // prevent transition skipping
+  this.justEntered = true;
+  waitForTransitionStart(function () {
+    _this.justEntered = false;
+  });
   var enterDone = this.enterDone;
   var type = this.getCssTransitionType(this.enterClass);
   if (!this.pendingJsCb) {
@@ -13600,187 +12897,6 @@ var internalDirectives = {
   transition: transition$1
 };
 
-var propBindingModes = config._propBindingModes;
-var empty = {};
-
-// regexes
-var identRE$1 = /^[$_a-zA-Z]+[\w$]*$/;
-var settablePathRE = /^[A-Za-z_$][\w$]*(\.[A-Za-z_$][\w$]*|\[[^\[\]]+\])*$/;
-
-/**
- * Compile props on a root element and return
- * a props link function.
- *
- * @param {Element|DocumentFragment} el
- * @param {Array} propOptions
- * @return {Function} propsLinkFn
- */
-
-function compileProps(el, propOptions) {
-  var props = [];
-  var names = Object.keys(propOptions);
-  var i = names.length;
-  var options, name, attr, value, path, parsed, prop;
-  while (i--) {
-    name = names[i];
-    options = propOptions[name] || empty;
-
-    if (process.env.NODE_ENV !== 'production' && name === '$data') {
-      warn('Do not use $data as prop.');
-      continue;
-    }
-
-    // props could contain dashes, which will be
-    // interpreted as minus calculations by the parser
-    // so we need to camelize the path here
-    path = camelize(name);
-    if (!identRE$1.test(path)) {
-      process.env.NODE_ENV !== 'production' && warn('Invalid prop key: "' + name + '". Prop keys ' + 'must be valid identifiers.');
-      continue;
-    }
-
-    prop = {
-      name: name,
-      path: path,
-      options: options,
-      mode: propBindingModes.ONE_WAY,
-      raw: null
-    };
-
-    attr = hyphenate(name);
-    // first check dynamic version
-    if ((value = getBindAttr(el, attr)) === null) {
-      if ((value = getBindAttr(el, attr + '.sync')) !== null) {
-        prop.mode = propBindingModes.TWO_WAY;
-      } else if ((value = getBindAttr(el, attr + '.once')) !== null) {
-        prop.mode = propBindingModes.ONE_TIME;
-      }
-    }
-    if (value !== null) {
-      // has dynamic binding!
-      prop.raw = value;
-      parsed = parseDirective(value);
-      value = parsed.expression;
-      prop.filters = parsed.filters;
-      // check binding type
-      if (isLiteral(value) && !parsed.filters) {
-        // for expressions containing literal numbers and
-        // booleans, there's no need to setup a prop binding,
-        // so we can optimize them as a one-time set.
-        prop.optimizedLiteral = true;
-      } else {
-        prop.dynamic = true;
-        // check non-settable path for two-way bindings
-        if (process.env.NODE_ENV !== 'production' && prop.mode === propBindingModes.TWO_WAY && !settablePathRE.test(value)) {
-          prop.mode = propBindingModes.ONE_WAY;
-          warn('Cannot bind two-way prop with non-settable ' + 'parent path: ' + value);
-        }
-      }
-      prop.parentPath = value;
-
-      // warn required two-way
-      if (process.env.NODE_ENV !== 'production' && options.twoWay && prop.mode !== propBindingModes.TWO_WAY) {
-        warn('Prop "' + name + '" expects a two-way binding type.');
-      }
-    } else if ((value = getAttr(el, attr)) !== null) {
-      // has literal binding!
-      prop.raw = value;
-    } else if (process.env.NODE_ENV !== 'production') {
-      // check possible camelCase prop usage
-      var lowerCaseName = path.toLowerCase();
-      value = /[A-Z\-]/.test(name) && (el.getAttribute(lowerCaseName) || el.getAttribute(':' + lowerCaseName) || el.getAttribute('v-bind:' + lowerCaseName) || el.getAttribute(':' + lowerCaseName + '.once') || el.getAttribute('v-bind:' + lowerCaseName + '.once') || el.getAttribute(':' + lowerCaseName + '.sync') || el.getAttribute('v-bind:' + lowerCaseName + '.sync'));
-      if (value) {
-        warn('Possible usage error for prop `' + lowerCaseName + '` - ' + 'did you mean `' + attr + '`? HTML is case-insensitive, remember to use ' + 'kebab-case for props in templates.');
-      } else if (options.required) {
-        // warn missing required
-        warn('Missing required prop: ' + name);
-      }
-    }
-    // push prop
-    props.push(prop);
-  }
-  return makePropsLinkFn(props);
-}
-
-/**
- * Build a function that applies props to a vm.
- *
- * @param {Array} props
- * @return {Function} propsLinkFn
- */
-
-function makePropsLinkFn(props) {
-  return function propsLinkFn(vm, scope) {
-    // store resolved props info
-    vm._props = {};
-    var i = props.length;
-    var prop, path, options, value, raw;
-    while (i--) {
-      prop = props[i];
-      raw = prop.raw;
-      path = prop.path;
-      options = prop.options;
-      vm._props[path] = prop;
-      if (raw === null) {
-        // initialize absent prop
-        initProp(vm, prop, getDefault(vm, options));
-      } else if (prop.dynamic) {
-        // dynamic prop
-        if (prop.mode === propBindingModes.ONE_TIME) {
-          // one time binding
-          value = (scope || vm._context || vm).$get(prop.parentPath);
-          initProp(vm, prop, value);
-        } else {
-          if (vm._context) {
-            // dynamic binding
-            vm._bindDir({
-              name: 'prop',
-              def: propDef,
-              prop: prop
-            }, null, null, scope); // el, host, scope
-          } else {
-              // root instance
-              initProp(vm, prop, vm.$get(prop.parentPath));
-            }
-        }
-      } else if (prop.optimizedLiteral) {
-        // optimized literal, cast it and just set once
-        var stripped = stripQuotes(raw);
-        value = stripped === raw ? toBoolean(toNumber(raw)) : stripped;
-        initProp(vm, prop, value);
-      } else {
-        // string literal, but we need to cater for
-        // Boolean props with no value
-        value = options.type === Boolean && raw === '' ? true : raw;
-        initProp(vm, prop, value);
-      }
-    }
-  };
-}
-
-/**
- * Get the default value of a prop.
- *
- * @param {Vue} vm
- * @param {Object} options
- * @return {*}
- */
-
-function getDefault(vm, options) {
-  // no default, return undefined
-  if (!hasOwn(options, 'default')) {
-    // absent boolean value defaults to false
-    return options.type === Boolean ? false : undefined;
-  }
-  var def = options['default'];
-  // warn against non-factory defaults for Object & Array
-  if (isObject(def)) {
-    process.env.NODE_ENV !== 'production' && warn('Object/Array as default prop values will be shared ' + 'across multiple instances. Use a factory function ' + 'to return the default value instead.');
-  }
-  // call factory function for non-Function types
-  return typeof def === 'function' && options.type !== Function ? def.call(vm) : def;
-}
-
 // special binding prefixes
 var bindRE = /^v-bind:|^:/;
 var onRE = /^v-on:|^@/;
@@ -13788,11 +12904,9 @@ var dirAttrRE = /^v-([^:]+)(?:$|:(.*)$)/;
 var modifierRE = /\.[^\.]+/g;
 var transitionRE = /^(v-bind:|:)?transition$/;
 
-// terminal directives
-var terminalDirectives = ['for', 'if'];
-
 // default directive priority
 var DEFAULT_PRIORITY = 1000;
+var DEFAULT_TERMINAL_PRIORITY = 2000;
 
 /**
  * Compile a template and return a reusable composite link
@@ -14065,9 +13179,10 @@ function compileElement(el, options) {
   }
   var linkFn;
   var hasAttrs = el.hasAttributes();
+  var attrs = hasAttrs && toArray(el.attributes);
   // check terminal directives (for & if)
   if (hasAttrs) {
-    linkFn = checkTerminalDirectives(el, options);
+    linkFn = checkTerminalDirectives(el, attrs, options);
   }
   // check element directives
   if (!linkFn) {
@@ -14079,7 +13194,7 @@ function compileElement(el, options) {
   }
   // normal directives
   if (!linkFn && hasAttrs) {
-    linkFn = compileDirectives(el.attributes, options);
+    linkFn = compileDirectives(attrs, options);
   }
   return linkFn;
 }
@@ -14308,11 +13423,12 @@ function checkComponent(el, options) {
  * If it finds one, return a terminal link function.
  *
  * @param {Element} el
+ * @param {Array} attrs
  * @param {Object} options
  * @return {Function} terminalLinkFn
  */
 
-function checkTerminalDirectives(el, options) {
+function checkTerminalDirectives(el, attrs, options) {
   // skip v-pre
   if (getAttr(el, 'v-pre') !== null) {
     return skip;
@@ -14324,13 +13440,28 @@ function checkTerminalDirectives(el, options) {
       return skip;
     }
   }
-  var value, dirName;
-  for (var i = 0, l = terminalDirectives.length; i < l; i++) {
-    dirName = terminalDirectives[i];
-    value = el.getAttribute('v-' + dirName);
-    if (value != null) {
-      return makeTerminalNodeLinkFn(el, dirName, value, options);
+
+  var attr, name, value, modifiers, matched, dirName, rawName, arg, def, termDef;
+  for (var i = 0, j = attrs.length; i < j; i++) {
+    attr = attrs[i];
+    modifiers = parseModifiers(attr.name);
+    name = attr.name.replace(modifierRE, '');
+    if (matched = name.match(dirAttrRE)) {
+      def = resolveAsset(options, 'directives', matched[1]);
+      if (def && def.terminal) {
+        if (!termDef || (def.priority || DEFAULT_TERMINAL_PRIORITY) > termDef.priority) {
+          termDef = def;
+          rawName = attr.name;
+          value = attr.value;
+          dirName = matched[1];
+          arg = matched[2];
+        }
+      }
     }
+  }
+
+  if (termDef) {
+    return makeTerminalNodeLinkFn(el, dirName, value, options, termDef, rawName, arg, modifiers);
   }
 }
 
@@ -14347,20 +13478,24 @@ skip.terminal = true;
  * @param {String} dirName
  * @param {String} value
  * @param {Object} options
- * @param {Object} [def]
+ * @param {Object} def
+ * @param {String} [rawName]
+ * @param {String} [arg]
+ * @param {Object} [modifiers]
  * @return {Function} terminalLinkFn
  */
 
-function makeTerminalNodeLinkFn(el, dirName, value, options, def) {
+function makeTerminalNodeLinkFn(el, dirName, value, options, def, rawName, arg, modifiers) {
   var parsed = parseDirective(value);
   var descriptor = {
     name: dirName,
+    arg: arg,
     expression: parsed.expression,
     filters: parsed.filters,
     raw: value,
-    // either an element directive, or if/for
-    // #2366 or custom terminal directive
-    def: def || resolveAsset(options, 'directives', dirName)
+    attr: rawName,
+    modifiers: modifiers,
+    def: def
   };
   // check ref for v-for and router-view
   if (dirName === 'for' || dirName === 'router-view') {
@@ -14672,7 +13807,7 @@ function mergeAttrs(from, to) {
     if (!to.hasAttribute(name) && !specialCharRE.test(name)) {
       to.setAttribute(name, value);
     } else if (name === 'class' && !parseText(value)) {
-      value.split(/\s+/).forEach(function (cls) {
+      value.trim().split(/\s+/).forEach(function (cls) {
         addClass(to, cls);
       });
     }
@@ -14690,39 +13825,28 @@ function mergeAttrs(from, to) {
  * @param {Vue} vm
  */
 
-function scanSlots(template, content, vm) {
+function resolveSlots(vm, content) {
   if (!content) {
     return;
   }
-  var contents = vm._slotContents = {};
-  var slots = template.querySelectorAll('slot');
-  if (slots.length) {
-    var hasDefault, slot, name;
-    for (var i = 0, l = slots.length; i < l; i++) {
-      slot = slots[i];
-      /* eslint-disable no-cond-assign */
-      if (name = slot.getAttribute('name')) {
-        select(slot, name);
-      } else if (process.env.NODE_ENV !== 'production' && (name = getBindAttr(slot, 'name'))) {
-        warn('<slot :name="' + name + '">: slot names cannot be dynamic.');
-      } else {
-        // default slot
-        hasDefault = true;
-      }
-      /* eslint-enable no-cond-assign */
+  var contents = vm._slotContents = Object.create(null);
+  var el, name;
+  for (var i = 0, l = content.children.length; i < l; i++) {
+    el = content.children[i];
+    /* eslint-disable no-cond-assign */
+    if (name = el.getAttribute('slot')) {
+      (contents[name] || (contents[name] = [])).push(el);
     }
-    if (hasDefault) {
-      contents['default'] = extractFragment(content.childNodes, content);
+    /* eslint-enable no-cond-assign */
+    if (process.env.NODE_ENV !== 'production' && getBindAttr(el, 'slot')) {
+      warn('The "slot" attribute must be static.');
     }
   }
-
-  function select(slot, name) {
-    // named slot
-    var selector = '[slot="' + name + '"]';
-    var nodes = content.querySelectorAll(selector);
-    if (nodes.length) {
-      contents[name] = extractFragment(nodes, content);
-    }
+  for (name in contents) {
+    contents[name] = extractFragment(contents[name], content);
+  }
+  if (content.hasChildNodes()) {
+    contents['default'] = extractFragment(content.childNodes, content);
   }
 }
 
@@ -14730,7 +13854,6 @@ function scanSlots(template, content, vm) {
  * Extract qualified content nodes from a node list.
  *
  * @param {NodeList} nodes
- * @param {Element} parent
  * @return {DocumentFragment}
  */
 
@@ -14739,13 +13862,11 @@ function extractFragment(nodes, parent) {
   nodes = toArray(nodes);
   for (var i = 0, l = nodes.length; i < l; i++) {
     var node = nodes[i];
-    if (node.parentNode === parent) {
-      if (isTemplate(node) && !node.hasAttribute('v-if') && !node.hasAttribute('v-for')) {
-        parent.removeChild(node);
-        node = parseTemplate(node);
-      }
-      frag.appendChild(node);
+    if (isTemplate(node) && !node.hasAttribute('v-if') && !node.hasAttribute('v-for')) {
+      parent.removeChild(node);
+      node = parseTemplate(node);
     }
+    frag.appendChild(node);
   }
   return frag;
 }
@@ -14756,9 +13877,8 @@ var compiler = Object.freeze({
 	compile: compile,
 	compileAndLinkProps: compileAndLinkProps,
 	compileRoot: compileRoot,
-	terminalDirectives: terminalDirectives,
 	transclude: transclude,
-	scanSlots: scanSlots
+	resolveSlots: resolveSlots
 });
 
 function stateMixin (Vue) {
@@ -14818,33 +13938,29 @@ function stateMixin (Vue) {
    */
 
   Vue.prototype._initData = function () {
-    var propsData = this._data;
-    var optionsDataFn = this.$options.data;
-    var optionsData = optionsDataFn && optionsDataFn();
-    var runtimeData;
-    if (process.env.NODE_ENV !== 'production') {
-      runtimeData = (typeof this._runtimeData === 'function' ? this._runtimeData() : this._runtimeData) || {};
-      this._runtimeData = null;
+    var dataFn = this.$options.data;
+    var data = this._data = dataFn ? dataFn() : {};
+    if (!isPlainObject(data)) {
+      data = {};
+      process.env.NODE_ENV !== 'production' && warn('data functions should return an object.');
     }
-    if (optionsData) {
-      this._data = optionsData;
-      for (var prop in propsData) {
-        if (process.env.NODE_ENV !== 'production' && hasOwn(optionsData, prop) && !hasOwn(runtimeData, prop)) {
-          warn('Data field "' + prop + '" is already defined ' + 'as a prop. Use prop default value instead.');
-        }
-        if (this._props[prop].raw !== null || !hasOwn(optionsData, prop)) {
-          set(optionsData, prop, propsData[prop]);
-        }
-      }
-    }
-    var data = this._data;
+    var props = this._props;
+    var runtimeData = this._runtimeData ? typeof this._runtimeData === 'function' ? this._runtimeData() : this._runtimeData : null;
     // proxy data on instance
     var keys = Object.keys(data);
     var i, key;
     i = keys.length;
     while (i--) {
       key = keys[i];
-      this._proxy(key);
+      // there are two scenarios where we can proxy a data key:
+      // 1. it's not already defined as a prop
+      // 2. it's provided via a instantiation option AND there are no
+      //    template prop present
+      if (!props || !hasOwn(props, key) || runtimeData && hasOwn(runtimeData, key) && props[key].raw === null) {
+        this._proxy(key);
+      } else if (process.env.NODE_ENV !== 'production') {
+        warn('Data field "' + key + '" is already defined ' + 'as a prop. Use prop default value instead.');
+      }
     }
     // observe data
     observe(data, this);
@@ -15180,18 +14296,21 @@ function noop() {}
  * It registers a watcher with the expression and calls
  * the DOM update function when a change is triggered.
  *
- * @param {String} name
- * @param {Node} el
- * @param {Vue} vm
  * @param {Object} descriptor
  *                 - {String} name
  *                 - {Object} def
  *                 - {String} expression
  *                 - {Array<Object>} [filters]
+ *                 - {Object} [modifiers]
  *                 - {Boolean} literal
  *                 - {String} attr
+ *                 - {String} arg
  *                 - {String} raw
- * @param {Object} def - directive definition object
+ *                 - {String} [ref]
+ *                 - {Array<Object>} [interp]
+ *                 - {Boolean} [hasOneTime]
+ * @param {Vue} vm
+ * @param {Node} el
  * @param {Vue} [host] - transclusion host component
  * @param {Object} [scope] - v-for scope
  * @param {Fragment} [frag] - owner fragment
@@ -15227,8 +14346,6 @@ function Directive(descriptor, vm, el, host, scope, frag) {
  * Initialize the directive, mixin definition properties,
  * setup the watcher, call definition bind() and update()
  * if present.
- *
- * @param {Object} def
  */
 
 Directive.prototype._bind = function () {
@@ -15309,7 +14426,7 @@ Directive.prototype._setupParams = function () {
   var i = params.length;
   var key, val, mappedKey;
   while (i--) {
-    key = params[i];
+    key = hyphenate(params[i]);
     mappedKey = camelize(key);
     val = getBindAttr(this.el, key);
     if (val != null) {
@@ -15522,9 +14639,8 @@ function lifecycleMixin (Vue) {
     var contextOptions = this._context && this._context.$options;
     var rootLinker = compileRoot(el, options, contextOptions);
 
-    // scan for slot distribution before compiling the content
-    // so that it's decoupeld from slot/directive compilation order
-    scanSlots(el, options._content, this);
+    // resolve slot distribution
+    resolveSlots(this, options._content);
 
     // compile and link the rest
     var contentLinkFn;
@@ -15588,10 +14704,8 @@ function lifecycleMixin (Vue) {
   /**
    * Create and bind a directive to an element.
    *
-   * @param {String} name - directive name
+   * @param {Object} descriptor - parsed directive descriptor
    * @param {Node} node   - target node
-   * @param {Object} desc - parsed directive descriptor
-   * @param {Object} def  - directive definition object
    * @param {Vue} [host] - transclusion host component
    * @param {Object} [scope] - v-for scope
    * @param {Fragment} [frag] - owner fragment
@@ -15734,7 +14848,7 @@ function miscMixin (Vue) {
   Vue.prototype._applyFilters = function (value, oldValue, filters, write) {
     var filter, fn, args, arg, offset, i, l, j, k;
     for (i = 0, l = filters.length; i < l; i++) {
-      filter = filters[i];
+      filter = filters[write ? l - i - 1 : i];
       fn = resolveAsset(this.$options, 'filters', filter.name);
       if (process.env.NODE_ENV !== 'production') {
         assertAsset(fn, 'filter', filter.name);
@@ -15762,14 +14876,19 @@ function miscMixin (Vue) {
    * resolves asynchronously and caches the resolved
    * constructor on the factory.
    *
-   * @param {String} id
+   * @param {String|Function} value
    * @param {Function} cb
    */
 
-  Vue.prototype._resolveComponent = function (id, cb) {
-    var factory = resolveAsset(this.$options, 'components', id);
-    if (process.env.NODE_ENV !== 'production') {
-      assertAsset(factory, 'component', id);
+  Vue.prototype._resolveComponent = function (value, cb) {
+    var factory;
+    if (typeof value === 'function') {
+      factory = value;
+    } else {
+      factory = resolveAsset(this.$options, 'components', value);
+      if (process.env.NODE_ENV !== 'production') {
+        assertAsset(factory, 'component', value);
+      }
     }
     if (!factory) {
       return;
@@ -15796,7 +14915,7 @@ function miscMixin (Vue) {
             cbs[i](res);
           }
         }, function reject(reason) {
-          process.env.NODE_ENV !== 'production' && warn('Failed to resolve async component: ' + id + '. ' + (reason ? '\nReason: ' + reason : ''));
+          process.env.NODE_ENV !== 'production' && warn('Failed to resolve async component' + (typeof value === 'string' ? ': ' + value : '') + '. ' + (reason ? '\nReason: ' + reason : ''));
         });
       }
     } else {
@@ -15956,8 +15075,14 @@ function dataAPI (Vue) {
     }
     // include computed fields
     if (!path) {
-      for (var key in this.$options.computed) {
+      var key;
+      for (key in this.$options.computed) {
         data[key] = clean(this[key]);
+      }
+      if (this._props) {
+        for (key in this._props) {
+          data[key] = clean(this[key]);
+        }
       }
     }
     console.log(data);
@@ -16396,6 +15521,9 @@ function lifecycleAPI (Vue) {
   /**
    * Teardown the instance, simply delegate to the internal
    * _destroy.
+   *
+   * @param {Boolean} remove
+   * @param {Boolean} deferCleanup
    */
 
   Vue.prototype.$destroy = function (remove, deferCleanup) {
@@ -16408,6 +15536,8 @@ function lifecycleAPI (Vue) {
    *
    * @param {Element|DocumentFragment} el
    * @param {Vue} [host]
+   * @param {Object} [scope]
+   * @param {Fragment} [frag]
    * @return {Function}
    */
 
@@ -16590,12 +15720,12 @@ function filterBy(arr, search, delimiter) {
     if (j) {
       while (j--) {
         key = keys[j];
-        if (key === '$key' && contains$1(item.$key, search) || contains$1(getPath(val, key), search)) {
+        if (key === '$key' && contains(item.$key, search) || contains(getPath(val, key), search)) {
           res.push(item);
           break;
         }
       }
-    } else if (contains$1(item, search)) {
+    } else if (contains(item, search)) {
       res.push(item);
     }
   }
@@ -16634,20 +15764,20 @@ function orderBy(arr, sortKey, reverse) {
  * @param {String} search
  */
 
-function contains$1(val, search) {
+function contains(val, search) {
   var i;
   if (isPlainObject(val)) {
     var keys = Object.keys(val);
     i = keys.length;
     while (i--) {
-      if (contains$1(val[keys[i]], search)) {
+      if (contains(val[keys[i]], search)) {
         return true;
       }
     }
   } else if (isArray(val)) {
     i = val.length;
     while (i--) {
-      if (contains$1(val[i], search)) {
+      if (contains(val[i], search)) {
         return true;
       }
     }
@@ -16944,20 +16074,22 @@ function installGlobalAPI (Vue) {
 
 installGlobalAPI(Vue);
 
-Vue.version = '1.0.17';
+Vue.version = '1.0.20';
 
 // devtools global hook
 /* istanbul ignore next */
-if (devtools) {
-  devtools.emit('init', Vue);
-} else if (process.env.NODE_ENV !== 'production' && inBrowser && /Chrome\/\d+/.test(window.navigator.userAgent)) {
-  console.log('Download the Vue Devtools for a better development experience:\n' + 'https://github.com/vuejs/vue-devtools');
+if (config.devtools) {
+  if (devtools) {
+    devtools.emit('init', Vue);
+  } else if (process.env.NODE_ENV !== 'production' && inBrowser && /Chrome\/\d+/.test(window.navigator.userAgent)) {
+    console.log('Download the Vue Devtools for a better development experience:\n' + 'https://github.com/vuejs/vue-devtools');
+  }
 }
 
 module.exports = Vue;
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"_process":1}],32:[function(require,module,exports){
+},{"_process":1}],30:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 exports.insert = function (css) {
@@ -16977,7 +16109,7 @@ exports.insert = function (css) {
   return elem
 }
 
-},{}],33:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -16996,7 +16128,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./Scheduler":34,"./env":46,"./makePromise":48}],34:[function(require,module,exports){
+},{"./Scheduler":32,"./env":44,"./makePromise":46}],32:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17078,7 +16210,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],35:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17106,7 +16238,7 @@ define(function() {
 	return TimeoutError;
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
-},{}],36:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17163,7 +16295,7 @@ define(function() {
 
 
 
-},{}],37:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17454,7 +16586,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../apply":36,"../state":49}],38:[function(require,module,exports){
+},{"../apply":34,"../state":47}],36:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17616,7 +16748,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],39:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17645,7 +16777,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],40:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17667,7 +16799,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../state":49}],41:[function(require,module,exports){
+},{"../state":47}],39:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17734,7 +16866,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],42:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17760,7 +16892,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],43:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17840,7 +16972,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../TimeoutError":35,"../env":46}],44:[function(require,module,exports){
+},{"../TimeoutError":33,"../env":44}],42:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17928,7 +17060,7 @@ define(function(require) {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(require); }));
 
-},{"../env":46,"../format":47}],45:[function(require,module,exports){
+},{"../env":44,"../format":45}],43:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -17968,7 +17100,7 @@ define(function() {
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
 
-},{}],46:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -18046,7 +17178,7 @@ define(function(require) {
 
 }).call(this,require('_process'))
 
-},{"_process":1}],47:[function(require,module,exports){
+},{"_process":1}],45:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -18104,7 +17236,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],48:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 (function (process){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
@@ -19036,7 +18168,7 @@ define(function() {
 
 }).call(this,require('_process'))
 
-},{"_process":1}],49:[function(require,module,exports){
+},{"_process":1}],47:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -19073,7 +18205,7 @@ define(function() {
 });
 }(typeof define === 'function' && define.amd ? define : function(factory) { module.exports = factory(); }));
 
-},{}],50:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2014 original author or authors */
 
 /**
@@ -19303,7 +18435,7 @@ define(function (require) {
 });
 })(typeof define === 'function' && define.amd ? define : function (factory) { module.exports = factory(require); });
 
-},{"./lib/Promise":33,"./lib/TimeoutError":35,"./lib/apply":36,"./lib/decorators/array":37,"./lib/decorators/flow":38,"./lib/decorators/fold":39,"./lib/decorators/inspect":40,"./lib/decorators/iterate":41,"./lib/decorators/progress":42,"./lib/decorators/timed":43,"./lib/decorators/unhandledRejection":44,"./lib/decorators/with":45}],51:[function(require,module,exports){
+},{"./lib/Promise":31,"./lib/TimeoutError":33,"./lib/apply":34,"./lib/decorators/array":35,"./lib/decorators/flow":36,"./lib/decorators/fold":37,"./lib/decorators/inspect":38,"./lib/decorators/iterate":39,"./lib/decorators/progress":40,"./lib/decorators/timed":41,"./lib/decorators/unhandledRejection":42,"./lib/decorators/with":43}],49:[function(require,module,exports){
 'use strict';
 
 var _routes = require('./routes');
@@ -19348,8 +18480,6 @@ Vue.component('nav-component', require('./compiled/nav.vue'));
 Vue.component('footer-component', require('./compiled/footer.vue'));
 Vue.component('login-component', require('./compiled/login.vue'));
 Vue.component('maintemplate-component', require('./compiled/maintemplate.vue'));
-
-Vue.component('vue-select', require('vue-select2'));
 
 //Services
 //window.timetracker = require('./services/timetracker');
@@ -19427,7 +18557,7 @@ var App = Vue.extend(require('./compiled/app.vue'));
 router.start(App, '#app');
 window.router = router;
 
-},{"./compiled/app.vue":52,"./compiled/footer.vue":53,"./compiled/header.vue":54,"./compiled/login.vue":55,"./compiled/maintemplate.vue":56,"./compiled/nav.vue":57,"./compiled/sidebar.vue":79,"./compiled/sidebarright.vue":80,"./config":82,"./interceptors/jwtAuth":85,"./routes":86,"rest":3,"rest/interceptor":7,"rest/interceptor/defaultRequest":8,"rest/interceptor/errorCode":9,"rest/interceptor/mime":10,"rest/interceptor/pathPrefix":11,"vue":31,"vue-router":28,"vue-select2":30}],52:[function(require,module,exports){
+},{"./compiled/app.vue":50,"./compiled/footer.vue":51,"./compiled/header.vue":52,"./compiled/login.vue":53,"./compiled/maintemplate.vue":54,"./compiled/nav.vue":55,"./compiled/sidebar.vue":77,"./compiled/sidebarright.vue":78,"./config":80,"./interceptors/jwtAuth":83,"./routes":84,"rest":3,"rest/interceptor":7,"rest/interceptor/defaultRequest":8,"rest/interceptor/errorCode":9,"rest/interceptor/mime":10,"rest/interceptor/pathPrefix":11,"vue":29,"vue-router":28}],50:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19494,14 +18624,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/app.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/app.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],53:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],51:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19521,14 +18651,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/footer.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/footer.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],54:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],52:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19544,14 +18674,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/header.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/header.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],55:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],53:[function(require,module,exports){
 "use strict";
 
 module.exports = {};
@@ -19561,14 +18691,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/login.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/login.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],56:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],54:[function(require,module,exports){
 "use strict";
 
 module.exports = {};
@@ -19578,14 +18708,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/maintemplate.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/maintemplate.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],57:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],55:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19601,21 +18731,21 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/nav.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/nav.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],58:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],56:[function(require,module,exports){
 var __vueify_style__ = require("vueify-insert-css").insert("\n.title {\n    color: #999;\n    font-weight: 100;\n    font-family: 'Lato', Helvetica, sans-serif;\n    font-size: 60px;\n    margin-bottom: 40px;\n    text-align: center;\n    margin-top: 20%;\n}\n.title a {\n    display: block;\n    margin-top: 20px;\n}\n.title a:hover {\n    text-decoration: none;\n}")
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"container-fluid\">\n\t<div class=\"row\">\n\t\t<div class=\"col-md-3\"></div>\n\t\t<div class=\"col-md-6 title\">\n\t\t\tSorry, we couldn't find what you were looking for :-(<br>\n\t\t\t<a href=\"/\">Go back to the homepage</a>\n\t\t</div>\n\t\t<div class=\"col-md-3\"></div>\n\t</div>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/404.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/404.vue"
   module.hot.dispose(function () {
     require("vueify-insert-css").cache["\n.title {\n    color: #999;\n    font-weight: 100;\n    font-family: 'Lato', Helvetica, sans-serif;\n    font-size: 60px;\n    margin-bottom: 40px;\n    text-align: center;\n    margin-top: 20%;\n}\n.title a {\n    display: block;\n    margin-top: 20px;\n}\n.title a:hover {\n    text-decoration: none;\n}"] = false
     document.head.removeChild(__vueify_style__)
@@ -19626,20 +18756,20 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27,"vueify-insert-css":32}],59:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27,"vueify-insert-css":30}],57:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"wrapper\">\n    <router-view class=\"animated\" stagger=\"2000\" transition=\"zoomInLoad\"></router-view>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/auth.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],60:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],58:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19695,14 +18825,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/login.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/auth/login.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],61:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],59:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19723,27 +18853,27 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/logout.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/auth/logout.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],62:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],60:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-heading\">\n\tYour profile\n</div>\n<div class=\"panel-body\">\n\t<!-- <button class=\"btn btn-primary\" v-on=\"click: fetch\">Fetch</button> -->\n\t<table class=\"table table-bordered\" v-if=\"$root.user\">\n\t\t<tbody><tr>\n\t\t\t<th>User ID</th>\n\t\t\t<th>Name</th>\n\t\t\t<th>Email</th>\n\t\t</tr>\n\t\t<tr>\n\t\t\t<td>{{ $root.user.id }}</td>\n\t\t\t<td>{{ $root.user.name }}</td>\n\t\t\t<td>{{ $root.user.email }}</td>\n\t\t</tr>\n\t</tbody></table>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/profile.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/auth/profile.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],63:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],61:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19793,27 +18923,27 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/auth/register.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/auth/register.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],64:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],62:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav-component></nav-component>\n<div class=\"app-screen\">\n\t<!-- Tabs -->\n\t<div class=\"col-md-3\">\n\t\t<div class=\"panel panel-default panel-flush\">\n\t\t\t<div class=\"panel-heading\">\n\t\t\t\tDogs!\n\t\t\t</div>\n\t\t\t<div class=\"panel-body\">\n\t\t\t\t<div class=\"app-tabs\">\n\t\t\t\t\t<ul class=\"nav app-tabs-stacked\">\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a v-link=\"{ path: '/dogs' }\">\n\t\t\t\t\t\t\t\t<i class=\"fa fa-btn fa-fw fa-list\"></i>&nbsp;Dog list\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\n\t\t\t\t\t\t<li>\n\t\t\t\t\t\t\t<a v-link=\"{ path: '/dogs/create' }\">\n\t\t\t\t\t\t\t\t<i class=\"fa fa-btn fa-fw fa-heart\"></i>&nbsp;Create one\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</li>\n\t\t\t\t\t</ul>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<!-- Tab Panes -->\n\t<div class=\"col-md-9\">\n\t\t<div class=\"tab-content\">\n\t\t\t<div class=\"\">\n\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t<router-view></router-view>\n\t\t\t\t</div>\n\t\t\t</div><!-- End tab panel -->\n\t\t</div><!-- End tab content -->\n\t</div><!-- End tab panes col-md-9 -->\n</div><!-- End container -->\n<footer-component></footer-component>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/dogs.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],65:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],63:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19853,14 +18983,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs/create.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/dogs/create.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],66:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],64:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19915,14 +19045,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs/index.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/dogs/index.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],67:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],65:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -19986,53 +19116,53 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/dogs/show.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/dogs/show.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],68:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],66:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-heading\">\n\tAbout us\n</div>\n<div class=\"panel-body\">\n\tThis is a sample webpage that authenticates against a Laravel API and gets the obligatory dogs. A new page here\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/home/about.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/home/about.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],69:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],67:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-heading\">\n\tHomepage default\n</div>\n<div class=\"panel-body\">\n\tSelect an action to your left. This page serves as a demo for the 'default' route in a Vue subRoute.\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/home/home.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/home/home.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],70:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],68:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"panel-heading\">\n\tWelcome\n</div>\n<div class=\"panel-body\">\n\tHere goes the welcome page\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/home/welcome.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/home/welcome.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],71:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],69:[function(require,module,exports){
 "use strict";
 
 module.exports = {};
@@ -20042,14 +19172,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/pm.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],72:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],70:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -20104,14 +19234,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/clients.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/pm/clients.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],73:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],71:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -20154,14 +19284,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/clients/create.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/pm/clients/create.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],74:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],72:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -20222,27 +19352,27 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/clients/show.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/pm/clients/show.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],75:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],73:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div>\n<div class=\"panel-heading\">\n    \tDashboard\n    </div>\n    <div class=\"panel-body\">\n    \tWelcome to ArkPM\n    </div>\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/dashboard.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/pm/dashboard.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],76:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],74:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -20359,14 +19489,14 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/tracking/create.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/pm/tracking/create.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],77:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],75:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -20488,27 +19618,27 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/pm/tracking/index.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/pm/tracking/index.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],78:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],76:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<nav-component></nav-component>\n\n<div class=\"container app-screen\">\n\t<div class=\"row\">\n\t\t<div class=\"tab-content\">\n\t\t\t<div class=\"tab-pane\">\n\t\t\t\t<div class=\"panel panel-default\">\n\t\t\t\t\t<div class=\"panel-heading\">\n\t\t\t\t\t\tTerms of service\n\t\t\t\t\t</div>\n\t\t\t\t\t<!-- Profile Selection notice panel -->\n\t\t\t\t\t<div class=\"panel-body\">\n<pre>The MIT License (MIT)\n\nCopyright (c) 2015 Yourname\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n</pre>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div><!-- End tab panel -->\n\t\t</div><!-- End tab content -->\n\t</div><!-- End tab panes col-md-9 -->\n</div><!-- End container -->\n\n<footer-component></footer-component>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/pages/terms.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/pages/terms.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],79:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],77:[function(require,module,exports){
 "use strict";
 
 module.exports = {};
@@ -20518,27 +19648,27 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/sidebar.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/sidebar.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],80:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],78:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- Control Sidebar -->\n    <aside class=\"control-sidebar control-sidebar-dark\">\n      <!-- Create the tabs -->\n      <ul class=\"nav nav-tabs nav-justified control-sidebar-tabs\">\n      <li class=\"active\"><a href=\"#control-sidebar-home-tab\" data-toggle=\"tab\"><i class=\"fa fa-home\"></i></a></li>\n      <li><a href=\"#control-sidebar-settings-tab\" data-toggle=\"tab\"><i class=\"fa fa-gears\"></i></a></li>\n      </ul>\n      <!-- Tab panes -->\n      <div class=\"tab-content\">\n      <!-- Home tab content -->\n      <div class=\"tab-pane active\" id=\"control-sidebar-home-tab\">\n        <h3 class=\"control-sidebar-heading\">Recent Activity</h3>\n        <ul class=\"control-sidebar-menu\">\n          <li>\n            <a href=\"javascript::;\">\n              <i class=\"menu-icon fa fa-birthday-cake bg-red\"></i>\n              <div class=\"menu-info\">\n                <h4 class=\"control-sidebar-subheading\">Langdon's Birthday</h4>\n                <p>Will be 23 on April 24th</p>\n              </div>\n            </a>\n          </li>\n        </ul><!-- /.control-sidebar-menu -->\n\n        <h3 class=\"control-sidebar-heading\">Tasks Progress</h3>\n        <ul class=\"control-sidebar-menu\">\n          <li>\n            <a href=\"javascript::;\">\n              <h4 class=\"control-sidebar-subheading\">\n                Custom Template Design\n                <span class=\"label label-danger pull-right\">70%</span>\n              </h4>\n              <div class=\"progress progress-xxs\">\n                <div class=\"progress-bar progress-bar-danger\" style=\"width: 70%\"></div>\n              </div>\n            </a>\n          </li>\n        </ul><!-- /.control-sidebar-menu -->\n\n      </div><!-- /.tab-pane -->\n      <!-- Stats tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-stats-tab\">Stats Tab Content</div><!-- /.tab-pane -->\n      <!-- Settings tab content -->\n      <div class=\"tab-pane\" id=\"control-sidebar-settings-tab\">\n        <form method=\"post\">\n          <h3 class=\"control-sidebar-heading\">General Settings</h3>\n          <div class=\"form-group\">\n            <label class=\"control-sidebar-subheading\">\n              Report panel usage\n              <input type=\"checkbox\" class=\"pull-right\" checked=\"\">\n            </label>\n            <p>\n              Some information about this general settings option\n            </p>\n          </div><!-- /.form-group -->\n        </form>\n      </div><!-- /.tab-pane -->\n      </div>\n    </aside><!-- /.control-sidebar -->\n    <!-- Add the sidebar's background. This div must be placed\n     immediately after the control sidebar -->\n    <div class=\"control-sidebar-bg\" style=\"position: fixed; height: auto;\"></div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/arkpm/combined/resources/assets/js/compiled/sidebarright.vue"
+  var id = "/var/www/arkpm/resources/assets/js/compiled/sidebarright.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":31,"vue-hot-reload-api":27}],81:[function(require,module,exports){
+},{"vue":29,"vue-hot-reload-api":27}],79:[function(require,module,exports){
 'use strict';
 
 var config = {
@@ -20562,7 +19692,7 @@ var config = {
 
 module.exports = config;
 
-},{}],82:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -20578,7 +19708,7 @@ module.exports = config[env];
 
 }).call(this,require('_process'))
 
-},{"./development.config":81,"./production.config":83,"./staging.config":84,"_process":1}],83:[function(require,module,exports){
+},{"./development.config":79,"./production.config":81,"./staging.config":82,"_process":1}],81:[function(require,module,exports){
 'use strict';
 
 var config = {
@@ -20602,7 +19732,7 @@ var config = {
 
 module.exports = config;
 
-},{}],84:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 'use strict';
 
 var config = {
@@ -20625,7 +19755,7 @@ var config = {
 };
 module.exports = config;
 
-},{}],85:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 'use strict';
 
 (function (define) {
@@ -20680,7 +19810,7 @@ module.exports = config;
 // Boilerplate for AMD and Node
 );
 
-},{"rest/interceptor":7}],86:[function(require,module,exports){
+},{"rest/interceptor":7}],84:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -20794,7 +19924,7 @@ module.exports = {
   }
 };
 
-},{"./compiled/pages/404.vue":58,"./compiled/pages/auth.vue":59,"./compiled/pages/auth/login.vue":60,"./compiled/pages/auth/logout.vue":61,"./compiled/pages/auth/profile.vue":62,"./compiled/pages/auth/register.vue":63,"./compiled/pages/dogs.vue":64,"./compiled/pages/dogs/create.vue":65,"./compiled/pages/dogs/index.vue":66,"./compiled/pages/dogs/show.vue":67,"./compiled/pages/home/about.vue":68,"./compiled/pages/home/home.vue":69,"./compiled/pages/home/welcome.vue":70,"./compiled/pages/pm.vue":71,"./compiled/pages/pm/clients.vue":72,"./compiled/pages/pm/clients/create.vue":73,"./compiled/pages/pm/clients/show.vue":74,"./compiled/pages/pm/dashboard.vue":75,"./compiled/pages/pm/tracking/create.vue":76,"./compiled/pages/pm/tracking/index.vue":77,"./compiled/pages/terms.vue":78}]},{},[51])
+},{"./compiled/pages/404.vue":56,"./compiled/pages/auth.vue":57,"./compiled/pages/auth/login.vue":58,"./compiled/pages/auth/logout.vue":59,"./compiled/pages/auth/profile.vue":60,"./compiled/pages/auth/register.vue":61,"./compiled/pages/dogs.vue":62,"./compiled/pages/dogs/create.vue":63,"./compiled/pages/dogs/index.vue":64,"./compiled/pages/dogs/show.vue":65,"./compiled/pages/home/about.vue":66,"./compiled/pages/home/home.vue":67,"./compiled/pages/home/welcome.vue":68,"./compiled/pages/pm.vue":69,"./compiled/pages/pm/clients.vue":70,"./compiled/pages/pm/clients/create.vue":71,"./compiled/pages/pm/clients/show.vue":72,"./compiled/pages/pm/dashboard.vue":73,"./compiled/pages/pm/tracking/create.vue":74,"./compiled/pages/pm/tracking/index.vue":75,"./compiled/pages/terms.vue":76}]},{},[49])
 
 
 //# sourceMappingURL=transit.js.map

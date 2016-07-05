@@ -43,7 +43,6 @@ Vue.component('footer-component', require('./compiled/footer.vue'))
 Vue.component('login-component', require('./compiled/login.vue'))
 Vue.component('maintemplate-component', require('./compiled/maintemplate.vue'))
 
-Vue.component('vue-select', require('vue-select2'))
 
 
 //Services
