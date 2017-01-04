@@ -113,7 +113,38 @@ module.exports = {
         //}
       },
       'duration': function(val, oldval) {
-        //this.timelog.minutes = val
+
+        var totalMinutes = 0;
+        var newduration = val.toLowerCase();
+
+        //split by H to see if there is a hour in there.
+        var parts = newduration.split('h');
+        console.log(parts.length)
+        if(parts.length == 1) {
+          var minutes = parts[0].replace(/\D/g,'');
+          totalMinutes = minutes;
+        }
+
+        if(parts.length == 2) {
+
+          var hours = parts[0];
+          hours = hours.replace(/\D/g,'');
+          totalMinutes = hours *60;
+
+          var minutes = parts[1];
+          
+          minutes = minutes.replace(/\D/g,'');
+          if(minutes == "") {
+              minutes = 0;
+          }
+          console.log("minutes: " + minutes);
+          totalMinutes = parseInt(totalMinutes) + parseInt(minutes);
+
+        }
+
+
+        this.timelog.minutes = totalMinutes
+        console.log("Total minutes = " + totalMinutes );
       }
     },
     route: {
